@@ -1,23 +1,69 @@
-const webpack = require('webpack');
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const url = 'localhost:8095';
-const prefix = process.env.ASSETS_PREFIX || `http://${url}`;
-const config = require('carbon-factory/webpack.config')({
-  entryPoint: './demo/main.js',
-  outputPath: './deploy/assets',
-  port: 8095,
-  publicPath: `${prefix}/assets/`,
-  serverBase: './deploy',
-  singlePageApp: true
-});
+const production = process.env.NODE_ENV === 'production';
 
-// we need this while we still support the demo site which loads in carbon-state-management
-config.plugins.push(
-  new webpack.NormalModuleReplacementPlugin(
-    /carbon-react\/lib\/utils\/logger/,
-    path.resolve('./src/utils/logger/logger.js')
-  )
-);
-
-module.exports = config;
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'ui.bundle.js',
+    path: path.resolve(__dirname, 'lib')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|js|tsx|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'usage',
+                  targets: {
+                    browsers: 'IE 11'
+                  },
+                  corejs: 3
+                }
+              ],
+              '@babel/preset-react',
+              '@babel/preset-typescript'
+            ],
+            plugins: [
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-proposal-object-rest-spread',
+              '@babel/plugin-syntax-dynamic-import'
+            ]
+          }
+        }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '/fonts/[name].[ext]',
+            outputPath: 'fonts/'
+          }
+        }]
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: [{
+          loader: production ? MiniCssExtractPlugin.loader : 'style-loader'
+        }, {
+          loader: 'css-loader'
+        }, {
+          loader: 'sass-loader',
+          options: {
+            includePaths: [
+              path.resolve(process.cwd(), './src/style-config')
+            ]
+          }
+        }]
+      }
+    ]
+  }
+};
