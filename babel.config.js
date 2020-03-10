@@ -1,3 +1,4 @@
+console.log('babel config');
 module.exports = {
   presets: [
     [

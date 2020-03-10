@@ -1,14 +1,23 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Entries = require('./src/index.js');
 
-const production = process.env.NODE_ENV === 'production';
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+// const production = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: './src/index.js',
+  entry: Entries,
   output: {
-    filename: 'ui.bundle.js',
-    path: path.resolve(__dirname, 'lib')
+    filename: '[name].js',
+    // chunkFilename: '[name].js',
+    path: path.resolve(__dirname, 'lib'),
+    libraryTarget: 'umd2'
   },
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all'
+  //   }
+  // },
   module: {
     rules: [
       {
@@ -32,6 +41,7 @@ module.exports = {
               '@babel/preset-typescript'
             ],
             plugins: [
+              '@babel/plugin-proposal-function-bind',
               '@babel/plugin-proposal-class-properties',
               '@babel/plugin-proposal-object-rest-spread',
               '@babel/plugin-syntax-dynamic-import'
@@ -52,7 +62,7 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: [{
-          loader: production ? MiniCssExtractPlugin.loader : 'style-loader'
+          loader: 'style-loader'
         }, {
           loader: 'css-loader'
         }, {
