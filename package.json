@@ -88,6 +88,7 @@
     "babel-jest": "25.2.6",
     "babel-loader": "8.1.0",
     "babel-standalone": "~6.17.0",
+    "carbon-factory": "^11.0.1",
     "carbon-state-management": "^1.0.0",
     "commitizen": "^4.0.4",
     "conventional-changelog-conventionalcommits": "^4.2.3",
