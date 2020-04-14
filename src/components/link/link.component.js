@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router';
 import Icon from '../icon';
 import Event from '../../utils/helpers/events';
 import LinkStyle from './link.style';
@@ -93,8 +92,8 @@ class Link extends React.Component {
   createLinkBasedOnType = () => {
     let type = 'a';
 
-    if (this.props.to) {
-      type = RouterLink;
+    if (this.props.to && this.props.routerLink) {
+      type = this.props.routerLink;
     } else if (this.props.onClick) {
       type = 'button';
     }
@@ -152,7 +151,9 @@ Link.propTypes = {
   /** Positions the tooltip with the link. */
   tooltipPosition: PropTypes.oneOf(OptionsHelper.positions),
   /** Aligns the tooltip. */
-  tooltipAlign: PropTypes.oneOf(OptionsHelper.alignAroundEdges)
+  tooltipAlign: PropTypes.oneOf(OptionsHelper.alignAroundEdges),
+  /** A routing component to render when the to prop is set */
+  routerLink: PropTypes.func
 };
 
 Link.defaultProps = {
