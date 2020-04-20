@@ -941,16 +941,6 @@ describe('ActionPopover', () => {
       expect(button.exists()).toBeTruthy();
       expect(button.props().tabIndex).toEqual(-1);
       expect(button.props()['data-element']).toEqual('action-popover-menu-button');
-
-      assertStyleMatch({
-        paddingLeft: '8px',
-        paddingRight: '8px',
-        width: '100%'
-      }, button);
-
-      assertStyleMatch({
-        outlineWidth: '2px'
-      }, button, { modifier: '&:focus' });
     });
   });
 });

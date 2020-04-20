@@ -214,15 +214,24 @@ export const StylesOverriden = () => (
         <TableCell>
           <ActionPopover
             rightAlignMenu
-            renderButton={ ({ styleOverride, tabIndex, ...rest }) => (
+            renderButton={ ({ tabIndex, 'data-element': dataElement }) => (
               <Button
                 buttonType='tertiary'
                 iconType='dropdown'
                 iconPosition='after'
                 size='small'
                 tabIndex={ tabIndex }
-                styleOverride={ styleOverride }
-                date-element={ rest['data-element'] }
+                styleOverride={
+                  {
+                    root: {
+                      '&:focus': { outlineWidth: '2px' },
+                      paddingLeft: '8px',
+                      paddingRight: '8px',
+                      width: '100%'
+                    }
+                  }
+                }
+                date-element={ dataElement }
               >
                 More
               </Button>

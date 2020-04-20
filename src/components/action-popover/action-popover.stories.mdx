@@ -181,8 +181,25 @@ ActionPopoverMenu. See the prop tables below for the properties surfaced to any 
           <TableCell>John</TableCell>
           <TableCell>Doe</TableCell>
           <TableCell>
-            <ActionPopover renderButton={(props) => (
-                <Button buttonType='tertiary' iconType='dropdown' iconPosition='after' { ...props }>More</Button>
+            <ActionPopover 
+              renderButton={(props) => (
+                <Button
+                  buttonType='tertiary'
+                  iconType='dropdown'
+                  iconPosition='after'
+                  styleOverride={ 
+                    { root: {
+                        '&:focus': { outlineWidth: '2px' },
+                        paddingLeft: '8px',
+                        paddingRight: '8px',
+                        width: '100%'
+                      }
+                    }
+                  }
+                  { ...props }
+                >
+                  More
+                </Button>
               )}>
               <ActionPopoverItem
                 icon='email'
@@ -536,20 +553,25 @@ a &quot;Manage&quot; option.
           <TableCell>
             <ActionPopover
               rightAlignMenu
-              renderButton={ ({ styleOverride, tabIndex, ...rest }) => (
+              renderButton={(props) => (
                 <Button
                   buttonType='tertiary'
                   iconType='dropdown'
                   iconPosition='after'
-                  size='small'
-                  tabIndex={ tabIndex }
-                  styleOverride={ styleOverride }
-                  date-element={ rest['data-element'] }
+                  styleOverride={ 
+                    { root: {
+                        '&:focus': { outlineWidth: '2px' },
+                        paddingLeft: '8px',
+                        paddingRight: '8px',
+                        width: '100%'
+                      }
+                    }
+                  }
+                  { ...props }
                 >
                   More
                 </Button>
-              ) }
-            >
+              )}>
               <ActionPopoverItem onClick={ () => {} }>Auto Entry</ActionPopoverItem>
               <ActionPopoverItem onClick={ () => {} }>Corporation Tax</ActionPopoverItem>
               <ActionPopoverItem onClick={ () => {} }>Final Accounts</ActionPopoverItem>
