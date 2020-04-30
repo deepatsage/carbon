@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { action } from '@storybook/addon-actions';
+import styled from 'styled-components';
 import Drawer from './drawer.component';
 import {
-  FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, Sort, FlatTableBody
+  FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, Sort, FlatTableBody, FlatTableCell
 } from '../flat-table';
 import Search from '../../__experimental__/components/search';
 import Button from '../button';
@@ -15,12 +16,48 @@ export const SideviewNavigation = () => {
   ];
 
   const bodyDataItems = [
-    { user: 'Alfred Riscow', roles: ['Finance Manager', 'Payslips Admin', 'Relationship Manager'] },
-    { user: 'Ben Wayne', roles: ['Full Access', 'User Admin'] },
-    { user: 'Craig Hindlewood', roles: ['Sales Invoice Clerk', 'Purchase Invoice Clerk', 'Sales', 'Invoice Clerk'] },
-    { user: 'David Jones', roles: ['Sales Invoice Clerk'] },
-    { user: 'Edward Nestle', roles: ['Finance Clerk'] },
-    { user: 'Frank Smith', roles: ['Purchase Invoice Cler'] }
+    {
+      user: {
+        name: 'Robert Brass',
+        contact: 'robert@brass.com'
+      },
+      roles: ['Finance Manager', 'Payslips Admin', 'Relationship Manager']
+    },
+    {
+      user: {
+        name: 'Stephen Allen',
+        contact: 'stephen@allen.com'
+      },
+      roles: ['Full Access', 'User Admin']
+    },
+    {
+      user: {
+        name: 'Julie Andrews',
+        contact: 'julie@andrews.com'
+      },
+      roles: ['Sales Invoice Clerk', 'Purchase Invoice Clerk', 'Sales', 'Invoice Clerk']
+    },
+    {
+      user: {
+        name: 'Andrew Antoniou',
+        contact: 'andrew@antoniou.com'
+      },
+      roles: ['Sales Invoice Clerk']
+    },
+    {
+      user: {
+        name: 'Penny Bignell',
+        contact: 'penny@bignell.com'
+      },
+      roles: ['Finance Clerk']
+    },
+    {
+      user: {
+        name: 'Christine Bingham',
+        contact: 'christine@bingham.com'
+      },
+      roles: ['Purchase Invoice Cler']
+    }
   ];
 
   const [isExpanded, setIsExpanded] = useState(true);
@@ -29,9 +66,13 @@ export const SideviewNavigation = () => {
     setIsExpanded(!isExpanded);
     action('expansionToggled');
   }, [isExpanded]);
-  const handleSearchOnChange = (e) => {
-    setSearchValue(e.target.value);
-  };
+  const NavigationContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    margin-bottom: 50px;
+  `;
+
   return (
     <Drawer
       expandedWidth='50%'
@@ -40,15 +81,17 @@ export const SideviewNavigation = () => {
       onChange={ onChangeHandler }
       sidebar={ (
         <div>
-          <Search value={ searchValue } onChange={ handleSearchOnChange } />
-          <Button>Add User</Button>
-          <FlatTable>
+          <NavigationContainer>
+            <Search value='' />
+            <Button buttonType='primary'>Add User</Button>
+          </NavigationContainer>
+          <FlatTable colorTheme='transparent-white'>
             <FlatTableHead>
               <FlatTableRow>
                 {
-                  headDataItems.map((dataItem) => {
+                  headDataItems.map((dataItem, index) => {
                     return (
-                      <FlatTableHeader key={ dataItem.name }>
+                      <FlatTableHeader align={ index === 2 ? 'right' : 'left' } key={ dataItem.name }>
                         <Sort>
                           {dataItem.name}
                         </Sort>
@@ -58,9 +101,27 @@ export const SideviewNavigation = () => {
                 }
               </FlatTableRow>
             </FlatTableHead>
-            {/* <FlatTableBody>
-              {renderSortedData(sortValue)}
-            </FlatTableBody> */}
+            <FlatTableBody>
+              {bodyDataItems.map(dataItem => (
+                <FlatTableRow key={ dataItem.user }>
+                  <FlatTableCell>
+                    <div>
+                      {dataItem.user.name}
+                    </div>
+                    <div>
+                      {dataItem.user.contact}
+                    </div>
+                  </FlatTableCell>
+                  <FlatTableCell>{dataItem.roles.map(role => (
+                    <div>
+                      {`${role}, `}
+                    </div>
+                  ))}
+                  </FlatTableCell>
+                  <FlatTableCell />
+                </FlatTableRow>
+              ))}
+            </FlatTableBody>
           </FlatTable>
         </div>
       ) }
