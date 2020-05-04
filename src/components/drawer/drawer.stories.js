@@ -7,6 +7,10 @@ import {
 } from '../flat-table';
 import Search from '../../__experimental__/components/search';
 import Button from '../button';
+import PopoverContainer from '../popover-container';
+import Icon from '../icon';
+import { StyledButton } from './drawer.style';
+import DialogFullScreen from '../dialog-full-screen';
 
 export const SideviewNavigation = () => {
   const headDataItems = [
@@ -62,72 +66,108 @@ export const SideviewNavigation = () => {
 
   const [isExpanded, setIsExpanded] = useState(true);
   const [searchValue, setSearchValue] = useState('');
+  const [isFilterOpen, setFilterOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleDialogOpen = () => {
+    setIsDialogOpen(true);
+  };
+  const handleOpenFilterClick = () => {
+    setFilterOpen(!isFilterOpen);
+  };
   const onChangeHandler = useCallback(() => {
     setIsExpanded(!isExpanded);
     action('expansionToggled');
   }, [isExpanded]);
   const NavigationContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 0 24px;
     margin-bottom: 50px;
   `;
 
   return (
-    <Drawer
-      expandedWidth='50%'
-      animationDuration='0.5s'
-      expanded={ isExpanded }
-      onChange={ onChangeHandler }
-      sidebar={ (
-        <div>
-          <NavigationContainer>
-            <Search value='' />
-            <Button buttonType='primary'>Add User</Button>
-          </NavigationContainer>
-          <FlatTable colorTheme='transparent-white'>
-            <FlatTableHead>
-              <FlatTableRow>
-                {
-                  headDataItems.map((dataItem, index) => {
+    <>
+      <Drawer
+        expandedWidth='50%'
+        animationDuration='0.5s'
+        expanded={ isExpanded }
+        onChange={ onChangeHandler }
+        sidebar={ (
+          <div>
+            <NavigationContainer>
+              <Search value='' placeholder='Search' />
+              <PopoverContainer
+                title='Filter'
+                renderOpenComponent={
+                  () => {
                     return (
-                      <FlatTableHeader align={ index === 2 ? 'right' : 'left' } key={ dataItem.name }>
-                        <Sort>
-                          {dataItem.name}
-                        </Sort>
-                      </FlatTableHeader>
+                      <Button
+                        buttonType={ isFilterOpen ? 'secondary' : 'tertiary' }
+                        onClick={ handleOpenFilterClick }
+                        iconType={ isFilterOpen ? 'close' : 'filter_new' }
+                        iconPosition='after'
+                      >
+                        Filter
+
+                      </Button>
                     );
-                  })
+                  }
                 }
-              </FlatTableRow>
-            </FlatTableHead>
-            <FlatTableBody>
-              {bodyDataItems.map(dataItem => (
-                <FlatTableRow key={ dataItem.user }>
-                  <FlatTableCell>
-                    <div>
-                      {dataItem.user.name}
-                    </div>
-                    <div>
-                      {dataItem.user.contact}
-                    </div>
-                  </FlatTableCell>
-                  <FlatTableCell>{dataItem.roles.map(role => (
-                    <div>
-                      {`${role}, `}
-                    </div>
-                  ))}
-                  </FlatTableCell>
-                  <FlatTableCell />
+                renderCloseComponent={ () => {} }
+                open={ isFilterOpen }
+              >This is example component of Popover Container
+              </PopoverContainer>
+              <Button
+                onClick={ handleDialogOpen } style={ { marginLeft: 'auto' } }
+                buttonType='primary'
+              >Add User
+              </Button>
+            </NavigationContainer>
+            <FlatTable colorTheme='transparent-white'>
+              <FlatTableHead>
+                <FlatTableRow>
+                  {
+                    headDataItems.map((dataItem, index) => {
+                      return (
+                        <FlatTableHeader align={ index === 2 ? 'right' : 'left' } key={ dataItem.name }>
+                          <Sort>
+                            {dataItem.name}
+                          </Sort>
+                        </FlatTableHeader>
+                      );
+                    })
+                  }
                 </FlatTableRow>
-              ))}
-            </FlatTableBody>
-          </FlatTable>
-        </div>
-      ) }
-    >
-      content body content body content body content body content body content body content body
-    </Drawer>
+              </FlatTableHead>
+              <FlatTableBody>
+                {bodyDataItems.map(dataItem => (
+                  <FlatTableRow key={ dataItem.user }>
+                    <FlatTableCell>
+                      <div>
+                        {dataItem.user.name}
+                      </div>
+                      <div>
+                        {dataItem.user.contact}
+                      </div>
+                    </FlatTableCell>
+                    <FlatTableCell>{dataItem.roles.map(role => (
+                      <div>
+                        {`${role}, `}
+                      </div>
+                    ))}
+                    </FlatTableCell>
+                    <FlatTableCell />
+                  </FlatTableRow>
+                ))}
+              </FlatTableBody>
+            </FlatTable>
+          </div>
+        ) }
+      >
+        content body content body content body content body content body content body content body
+      </Drawer>
+      <DialogFullScreen onCancel={ () => setIsDialogOpen(false) } open={ isDialogOpen }>Content of DialogFullScreen</DialogFullScreen>
+    </>
   );
 };
 
