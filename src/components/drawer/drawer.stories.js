@@ -3,13 +3,12 @@ import { action } from '@storybook/addon-actions';
 import styled from 'styled-components';
 import Drawer from './drawer.component';
 import {
-  FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, Sort, FlatTableBody, FlatTableCell
+  FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, FlatTableBody, FlatTableCell
 } from '../flat-table';
 import Search from '../../__experimental__/components/search';
 import Button from '../button';
 import PopoverContainer from '../popover-container';
 import Icon from '../icon';
-import { StyledButton } from './drawer.style';
 import DialogFullScreen from '../dialog-full-screen';
 
 export const SideviewNavigation = () => {
@@ -88,6 +87,7 @@ export const SideviewNavigation = () => {
     justify-content: flex-start;
     padding: 0 24px;
     margin-bottom: 50px;
+    align-items: center;
   `;
 
   return (
@@ -107,7 +107,7 @@ export const SideviewNavigation = () => {
                   () => {
                     return (
                       <Button
-                        buttonType={ isFilterOpen ? 'secondary' : 'tertiary' }
+                        buttonType={ isFilterOpen ? 'primary' : 'tertiary' }
                         onClick={ handleOpenFilterClick }
                         iconType={ isFilterOpen ? 'close' : 'filter_new' }
                         iconPosition='after'
@@ -131,17 +131,15 @@ export const SideviewNavigation = () => {
             <FlatTable colorTheme='transparent-white'>
               <FlatTableHead>
                 <FlatTableRow>
-                  {
-                    headDataItems.map((dataItem, index) => {
-                      return (
-                        <FlatTableHeader
-                          key={ dataItem.name } align={ index === 2 ? 'right' : 'left' }
-                        >
-                          {dataItem.name}
-                        </FlatTableHeader>
-                      );
-                    })
-                  }
+                  {headDataItems.map((dataItem, index) => {
+                    return (
+                      <FlatTableHeader
+                        key={ dataItem.name } align={ index === 2 ? 'right' : 'left' }
+                      >
+                        {dataItem.name}
+                      </FlatTableHeader>
+                    );
+                  })}
                 </FlatTableRow>
               </FlatTableHead>
               <FlatTableBody>
@@ -173,7 +171,12 @@ export const SideviewNavigation = () => {
       >
         content body content body content body content body content body content body content body
       </Drawer>
-      <DialogFullScreen onCancel={ () => setIsDialogOpen(false) } open={ isDialogOpen }>Content of DialogFullScreen</DialogFullScreen>
+      <DialogFullScreen
+        onCancel={ () => setIsDialogOpen(false) }
+        open={ isDialogOpen }
+      >
+        Content of DialogFullScreen
+      </DialogFullScreen>
     </>
   );
 };
