@@ -1,3 +1,23 @@
+## [19.0.0](https://github.com/Sage/carbon/compare/v18.1.1...v19.0.0) (2020-05-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **pager:** Pager interface changed to controlled. Implementation now offers callback functions onNext, onPrevious, onFirst, onLast, onPagination.
+
+### Bug Fixes
+
+* **pager:** new pager component ([4d7311c](https://github.com/Sage/carbon/commit/4d7311c22fe10691e02cf967515b81459c85838d))
+* **table:** updated default value of page size for pagination ([40579fe](https://github.com/Sage/carbon/commit/40579fed0c0c74d8d53848dc770bf9e50f6d202d))
+
+### [18.1.1](https://github.com/Sage/carbon/compare/v18.1.0...v18.1.1) (2020-05-04)
+
+
+### Bug Fixes
+
+* **checkbox:** css styling fix for label ([062b9cc](https://github.com/Sage/carbon/commit/062b9cc83d9b904b29b22dbbcd9fe537fb8066d8))
+* **switch:** css styling fix for label ([16b88e9](https://github.com/Sage/carbon/commit/16b88e9521ed807dee02d34528296e6fd4850de2))
+
 ## [18.1.0](https://github.com/Sage/carbon/compare/v18.0.0...v18.1.0) (2020-05-04)
 
 
