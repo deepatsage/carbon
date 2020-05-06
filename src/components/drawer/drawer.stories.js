@@ -25,47 +25,52 @@ export const SideviewNavigation = () => {
         name: 'Robert Brass',
         contact: 'robert@brass.com'
       },
-      roles: ['Finance Manager', 'Payslips Admin', 'Relationship Manager']
+      roles: ['Finance Manager', 'Payslips Admin', 'Relationship Manager'],
+      status: 'approved'
     },
     {
       user: {
         name: 'Stephen Allen',
         contact: 'stephen@allen.com'
       },
-      roles: ['Full Access', 'User Admin']
+      roles: ['Full Access', 'User Admin'],
+      status: 'approved'
     },
     {
       user: {
         name: 'Julie Andrews',
         contact: 'julie@andrews.com'
       },
-      roles: ['Sales Invoice Clerk', 'Purchase Invoice Clerk', 'Sales', 'Invoice Clerk']
+      roles: ['Sales Invoice Clerk', 'Purchase Invoice Clerk', 'Sales', 'Invoice Clerk'],
+      status: 'approved'
     },
     {
       user: {
         name: 'Andrew Antoniou',
         contact: 'andrew@antoniou.com'
       },
-      roles: ['Sales Invoice Clerk']
+      roles: ['Sales Invoice Clerk'],
+      status: 'approved'
     },
     {
       user: {
         name: 'Penny Bignell',
         contact: 'penny@bignell.com'
       },
-      roles: ['Finance Clerk']
+      roles: ['Finance Clerk'],
+      status: 'approved'
     },
     {
       user: {
         name: 'Christine Bingham',
         contact: 'christine@bingham.com'
       },
-      roles: ['Purchase Invoice Cler']
+      roles: ['Purchase Invoice Cler'],
+      status: 'alert'
     }
   ];
 
   const [isExpanded, setIsExpanded] = useState(true);
-  const [searchValue, setSearchValue] = useState('');
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const handleDialogOpen = () => {
@@ -106,9 +111,9 @@ export const SideviewNavigation = () => {
                         onClick={ handleOpenFilterClick }
                         iconType={ isFilterOpen ? 'close' : 'filter_new' }
                         iconPosition='after'
+                        size='small'
                       >
                         Filter
-
                       </Button>
                     );
                   }
@@ -119,7 +124,7 @@ export const SideviewNavigation = () => {
               </PopoverContainer>
               <Button
                 onClick={ handleDialogOpen } style={ { marginLeft: 'auto' } }
-                buttonType='primary'
+                buttonType='primary' size='small'
               >Add User
               </Button>
             </NavigationContainer>
@@ -129,10 +134,10 @@ export const SideviewNavigation = () => {
                   {
                     headDataItems.map((dataItem, index) => {
                       return (
-                        <FlatTableHeader align={ index === 2 ? 'right' : 'left' } key={ dataItem.name }>
-                          <Sort>
-                            {dataItem.name}
-                          </Sort>
+                        <FlatTableHeader
+                          key={ dataItem.name } align={ index === 2 ? 'right' : 'left' }
+                        >
+                          {dataItem.name}
                         </FlatTableHeader>
                       );
                     })
@@ -141,7 +146,7 @@ export const SideviewNavigation = () => {
               </FlatTableHead>
               <FlatTableBody>
                 {bodyDataItems.map(dataItem => (
-                  <FlatTableRow key={ dataItem.user }>
+                  <FlatTableRow key={ dataItem.user.name }>
                     <FlatTableCell>
                       <div>
                         {dataItem.user.name}
@@ -156,7 +161,9 @@ export const SideviewNavigation = () => {
                       </div>
                     ))}
                     </FlatTableCell>
-                    <FlatTableCell />
+                    <FlatTableCell align='right'>
+                      <Icon type={ dataItem.status === 'approved' ? 'tick' : 'alert' } />
+                    </FlatTableCell>
                   </FlatTableRow>
                 ))}
               </FlatTableBody>
