@@ -3,75 +3,63 @@ import { action } from '@storybook/addon-actions';
 import styled from 'styled-components';
 import Drawer from './drawer.component';
 import {
-  FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, FlatTableBody, FlatTableCell
+  FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, FlatTableBody, FlatTableCell, Sort
 } from '../flat-table';
 import Search from '../../__experimental__/components/search';
 import Button from '../button';
 import PopoverContainer from '../popover-container';
-import Icon from '../icon';
 import DialogFullScreen from '../dialog-full-screen';
 
 export const SideviewNavigation = () => {
-  const headDataItems = [
-    { name: 'User', isActive: false },
-    { name: 'Roles', isActive: false },
-    { name: 'Status', isActive: false }
-  ];
-
   const bodyDataItems = [
     {
       user: {
         name: 'Robert Brass',
         contact: 'robert@brass.com'
       },
-      roles: ['Finance Manager', 'Payslips Admin', 'Relationship Manager'],
-      status: 'approved'
+      roles: ['Finance Manager', 'Payslips Admin', 'Relationship Manager']
     },
     {
       user: {
         name: 'Stephen Allen',
         contact: 'stephen@allen.com'
       },
-      roles: ['Full Access', 'User Admin'],
-      status: 'approved'
+      roles: ['Full Access', 'User Admin']
     },
     {
       user: {
         name: 'Julie Andrews',
         contact: 'julie@andrews.com'
       },
-      roles: ['Sales Invoice Clerk', 'Purchase Invoice Clerk', 'Sales', 'Invoice Clerk'],
-      status: 'approved'
+      roles: ['Sales Invoice Clerk', 'Purchase Invoice Clerk', 'Sales', 'Invoice Clerk']
     },
     {
       user: {
         name: 'Andrew Antoniou',
         contact: 'andrew@antoniou.com'
       },
-      roles: ['Sales Invoice Clerk'],
-      status: 'approved'
+      roles: ['Sales Invoice Clerk']
     },
     {
       user: {
         name: 'Penny Bignell',
         contact: 'penny@bignell.com'
       },
-      roles: ['Finance Clerk'],
-      status: 'approved'
+      roles: ['Finance Clerk']
     },
     {
       user: {
         name: 'Christine Bingham',
         contact: 'christine@bingham.com'
       },
-      roles: ['Purchase Invoice Cler'],
-      status: 'alert'
+      roles: ['Purchase Invoice Cler']
     }
   ];
 
   const [isExpanded, setIsExpanded] = useState(true);
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [sortType, setSortType] = useState('desc');
   const handleDialogOpen = () => {
     setIsDialogOpen(true);
   };
@@ -89,7 +77,61 @@ export const SideviewNavigation = () => {
     margin-bottom: 50px;
     align-items: center;
   `;
+  const createBodyData = (type) => {
+    const data = bodyDataItems;
+    const sortedData = data.sort((a, b) => {
+      if (type === 'asc') {
+        if (a.user.name < b.user.name) {
+          return -1;
+        }
 
+        if (a.user.name > b.user.name) {
+          return 1;
+        }
+
+        return 0;
+      }
+
+      if (type === 'desc') {
+        if (a.user.name > b.user.name) {
+          return -1;
+        }
+        if (a.user.name > b.user.name) {
+          return 1;
+        }
+
+        return 0;
+      }
+
+      return sortedData;
+    });
+
+    return sortedData.map(dataItem => (
+      <FlatTableRow key={ dataItem.user.name }>
+        <FlatTableCell>
+          <div>
+            {dataItem.user.name}
+          </div>
+          <div>
+            {dataItem.user.contact}
+          </div>
+        </FlatTableCell>
+        <FlatTableCell>{dataItem.roles.map(role => (
+          <div>
+            {`${role}, `}
+          </div>
+        ))}
+        </FlatTableCell>
+      </FlatTableRow>
+    ));
+  };
+  const handleSortChange = () => {
+    if (sortType === 'asc') {
+      return setSortType('desc');
+    }
+
+    return setSortType('asc');
+  };
   return (
     <>
       <Drawer
@@ -111,7 +153,6 @@ export const SideviewNavigation = () => {
                         onClick={ handleOpenFilterClick }
                         iconType={ isFilterOpen ? 'close' : 'filter_new' }
                         iconPosition='after'
-                        size='small'
                       >
                         Filter
                       </Button>
@@ -124,46 +165,23 @@ export const SideviewNavigation = () => {
               </PopoverContainer>
               <Button
                 onClick={ handleDialogOpen } style={ { marginLeft: 'auto' } }
-                buttonType='primary' size='small'
+                buttonType='primary'
               >Add User
               </Button>
             </NavigationContainer>
             <FlatTable colorTheme='transparent-white'>
               <FlatTableHead>
                 <FlatTableRow>
-                  {headDataItems.map((dataItem, index) => {
-                    return (
-                      <FlatTableHeader
-                        key={ dataItem.name } align={ index === 2 ? 'right' : 'left' }
-                      >
-                        {dataItem.name}
-                      </FlatTableHeader>
-                    );
-                  })}
+                  <FlatTableHeader key='user'>
+                    <Sort sortType={ sortType } onClick={ handleSortChange }>User</Sort>
+                  </FlatTableHeader>
+                  <FlatTableHeader key='roles'>
+                    Roles
+                  </FlatTableHeader>
                 </FlatTableRow>
               </FlatTableHead>
               <FlatTableBody>
-                {bodyDataItems.map(dataItem => (
-                  <FlatTableRow key={ dataItem.user.name }>
-                    <FlatTableCell>
-                      <div>
-                        {dataItem.user.name}
-                      </div>
-                      <div>
-                        {dataItem.user.contact}
-                      </div>
-                    </FlatTableCell>
-                    <FlatTableCell>{dataItem.roles.map(role => (
-                      <div>
-                        {`${role}, `}
-                      </div>
-                    ))}
-                    </FlatTableCell>
-                    <FlatTableCell align='right'>
-                      <Icon type={ dataItem.status === 'approved' ? 'tick' : 'alert' } />
-                    </FlatTableCell>
-                  </FlatTableRow>
-                ))}
+                {createBodyData(sortType)}
               </FlatTableBody>
             </FlatTable>
           </div>
