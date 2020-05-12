@@ -1,3 +1,51 @@
+### [20.1.1](https://github.com/Sage/carbon/compare/v20.1.0...v20.1.1) (2020-05-11)
+
+
+### Bug Fixes
+
+* **drawer:** add unit test ([65c4b44](https://github.com/Sage/carbon/commit/65c4b4492db92a86600c506819a1f636a8906fc5))
+* **drawer:** improve stories ([885c933](https://github.com/Sage/carbon/commit/885c933ae70cd52c9d22deedd80fb46de137e965))
+* **drawer:** make content overflow ([6c3414b](https://github.com/Sage/carbon/commit/6c3414b536d192f1b556bdb8f77a51d6e8e4c9de))
+* **drawer:** story update ([b1c2bb8](https://github.com/Sage/carbon/commit/b1c2bb85c8048ef603858c6e67d4e0813ed95342))
+* **drawer:** update data attribute and spec ([3b1ca57](https://github.com/Sage/carbon/commit/3b1ca57d897ca707238e04b8ee85f99f04c47134))
+* **drawer:** update snapshot ([a5746e0](https://github.com/Sage/carbon/commit/a5746e05c543ae4207235e868a9c339d8cb4a076))
+* **drawer:** update style ([eae6c55](https://github.com/Sage/carbon/commit/eae6c558c113db31b4de0cc14ff7280aa66492b2))
+
+## [20.1.0](https://github.com/Sage/carbon/compare/v20.0.1...v20.1.0) (2020-05-11)
+
+
+### Features
+
+* **flat-table:** add colspan and rowspan props ([c968e01](https://github.com/Sage/carbon/commit/c968e01eace657a4571d95d5e633eda7dde1cfa0))
+
+### [20.0.1](https://github.com/Sage/carbon/compare/v20.0.0...v20.0.1) (2020-05-07)
+
+
+### Bug Fixes
+
+* **inline-input:** fix responsive width ([f8b9df8](https://github.com/Sage/carbon/commit/f8b9df8a328a3e9b6b7859a5459a6e661f8b8b1d)), closes [#2748](https://github.com/Sage/carbon/issues/2748)
+
+## [20.0.0](https://github.com/Sage/carbon/compare/v19.0.1...v20.0.0) (2020-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* styled-components is now a peer dependency.
+
+To upgrade you should install styled-components@^4.4.1 in your project.
+
+### Miscellaneous Chores
+
+* make styled-component a peer dependency ([50a75a3](https://github.com/Sage/carbon/commit/50a75a3f7287a94e0e16a970a613136ffa527aa2))
+
+### [19.0.1](https://github.com/Sage/carbon/compare/v19.0.0...v19.0.1) (2020-05-06)
+
+
+### Bug Fixes
+
+* **colors:** make used colors in Carbon DLS compliant ([d04e114](https://github.com/Sage/carbon/commit/d04e114e887a8dad65fe8544d65d4dfa37c24248))
+* **popover-container:** fix displaying under other components ([3db3fed](https://github.com/Sage/carbon/commit/3db3fed6214762350a42e292a1ddc6098b16c54f))
+
 ## [19.0.0](https://github.com/Sage/carbon/compare/v18.1.1...v19.0.0) (2020-05-05)
 
 
