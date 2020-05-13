@@ -56,7 +56,7 @@ const Drawer = ({
         setIsClosing(false);
       }, timeout);
     }
-  }, [duration, isExpanded, setIsOpening, setIsClosing]);
+  }, [duration, isExpanded]);
 
   const toggleDrawer = useCallback((ev) => {
     if (!isControlled) setIsExpandedInternal(!isExpanded);
@@ -68,18 +68,16 @@ const Drawer = ({
     toggling();
   }, [toggling, isControlled, isExpanded, onChange]);
 
-  const openingClass = isOpening ? 'opening' : '';
-  const closingClass = isClosing ? 'closing' : '';
   const guid = useRef(createGuid());
   const sidebarId = `DrawerSidebar_${guid.current}`;
 
   const classes = useCallback(() => {
     return classNames(
       isExpanded ? 'open' : 'closed',
-      openingClass,
-      closingClass
+      isOpening ? 'opening' : '',
+      isClosing ? 'closing' : ''
     );
-  }, [isExpanded, openingClass, closingClass]);
+  }, [isExpanded, isOpening, isClosing]);
 
   return (
     <StyledDrawerWrapper

@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import styled from 'styled-components';
 import Drawer from './drawer.component';
+import { StyledDrawerSidebar, StyledDrawerChildren, StyledDrawerContent } from './drawer.style';
 import {
   FlatTable, FlatTableHead, FlatTableRow, FlatTableHeader, FlatTableBody, FlatTableCell, Sort
 } from '../flat-table';
@@ -125,6 +126,9 @@ export const SideviewNavigation = () => {
       </FlatTableRow>
     ));
   };
+  const StyledWrapper = styled('div')`
+    background: red;
+  `;
   const handleSortChange = () => {
     if (sortType === 'asc') {
       return setSortType('desc');
@@ -133,15 +137,16 @@ export const SideviewNavigation = () => {
     return setSortType('asc');
   };
   return (
-    <>
+    <StyledWrapper>
       <Drawer
         expandedWidth='50%'
-        animationDuration='0.5s'
+        animationDuration='1500ms'
         expanded={ isExpanded }
         onChange={ onChangeHandler }
         sidebar={ (
           <div>
-            <NavigationContainer>
+            dupa
+            {/* <NavigationContainer>
               <Search value='' placeholder='Search' />
               <PopoverContainer
                 title='Filter'
@@ -183,7 +188,7 @@ export const SideviewNavigation = () => {
               <FlatTableBody>
                 {createBodyData(sortType)}
               </FlatTableBody>
-            </FlatTable>
+            </FlatTable> */}
           </div>
         ) }
       >
@@ -195,7 +200,7 @@ export const SideviewNavigation = () => {
       >
         Content of DialogFullScreen
       </DialogFullScreen>
-    </>
+    </StyledWrapper>
   );
 };
 
