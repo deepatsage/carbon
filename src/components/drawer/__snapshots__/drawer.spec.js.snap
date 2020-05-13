@@ -6,7 +6,7 @@ exports[`Drawer uncontrolled matches snapshot 1`] = `
 >
   <styled.div
     animationDuration="0.5s"
-    className=""
+    className="closed"
     expandedWidth="20%"
     theme={
       Object {

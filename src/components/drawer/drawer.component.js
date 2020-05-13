@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import createGuid from '../../utils/helpers/guid';
 import Icon from '../icon';
 
@@ -21,19 +22,64 @@ const Drawer = ({
   animationDuration,
   ...props
 }) => {
+  const drawerSidebarContentRef = useRef();
   const isControlled = expanded !== undefined;
   const [isExpandedInternal, setIsExpandedInternal] = useState(defaultExpanded || false);
-  const [isFirstOpen, setFirstOpen] = useState(true);
+  const [isOpening, setIsOpening] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const isExpanded = isControlled ? expanded : isExpandedInternal;
+
+  const duration = useCallback(() => {
+    if (typeof animationDuration === 'string' && animationDuration.indexOf('ms') !== -1) {
+      const animationTime = animationDuration.substring(0, animationDuration.length - 2);
+      return animationTime;
+    }
+
+    if (typeof animationDuration === 'string' && animationDuration.indexOf('.') !== -1) {
+      const animationTime = animationDuration.substring(0, animationDuration.length - 1);
+      return parseFloat(animationTime) * 1000;
+    }
+
+    return animationDuration;
+  }, [animationDuration]);
+
+  const toggling = useCallback(() => {
+    const timeout = duration();
+    if (!isExpanded) {
+      setIsOpening(true);
+      setTimeout(() => {
+        setIsOpening(false);
+      }, timeout);
+    } else {
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsClosing(false);
+      }, timeout);
+    }
+  }, [duration, isExpanded, setIsOpening, setIsClosing]);
+
   const toggleDrawer = useCallback((ev) => {
     if (!isControlled) setIsExpandedInternal(!isExpanded);
     if (onChange) onChange(ev, !isExpanded);
-    setFirstOpen(false);
-  }, [isControlled, isExpanded, onChange]);
+    if (isExpanded) {
+      drawerSidebarContentRef.current.scrollTop = 0;
+    }
 
-  const closedClass = isFirstOpen ? '' : 'closed';
+    toggling();
+  }, [toggling, isControlled, isExpanded, onChange]);
+
+  const openingClass = isOpening ? 'opening' : '';
+  const closingClass = isClosing ? 'closing' : '';
   const guid = useRef(createGuid());
   const sidebarId = `DrawerSidebar_${guid.current}`;
+
+  const classes = useCallback(() => {
+    return classNames(
+      isExpanded ? 'open' : 'closed',
+      openingClass,
+      closingClass
+    );
+  }, [isExpanded, openingClass, closingClass]);
 
   return (
     <StyledDrawerWrapper
@@ -43,7 +89,8 @@ const Drawer = ({
       <StyledDrawerContent
         expandedWidth={ expandedWidth }
         animationDuration={ animationDuration }
-        className={ isExpanded ? 'open' : closedClass }
+        className={ classes() }
+        ref={ drawerSidebarContentRef }
       >
         <StyledButton
           aria-label='toggle sidebar'

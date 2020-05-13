@@ -26,7 +26,13 @@ const sidebarHidden = () => keyframes`
 `;
 
 const drawerOpen = expandedWidth => keyframes`
-  0% {width: 40px;}
+  0% {
+    width: 40px;
+    overflow-y: hidden;
+  }
+  30% {
+    overflow-y: hidden;
+  }
   100% {width: ${expandedWidth};}
 `;
 
@@ -59,25 +65,37 @@ const StyledDrawerContent = styled.div`
   &.open {
     min-width: 52px;
     width: ${({ expandedWidth }) => expandedWidth};
+
+    ${StyledDrawerSidebar} {
+      display: block;
+      opacity: 1;
+    }
+  }
+
+  &.opening {
     animation: ${({ animationDuration, expandedWidth }) => css`
       ${drawerOpen(expandedWidth)} ${animationDuration}
     `} ease-in-out;
 
     ${StyledDrawerSidebar} {
-      display: block;
-      opacity: 1;
       animation: ${sidebarVisible} ${({ animationDuration }) => animationDuration} ease-in-out;
     }
   }
 
   &.closed {
+    overflow-y: hidden;
+    ${StyledDrawerSidebar} {
+      display: block;
+      opacity: 0;
+    }
+  }
+
+  &.closing {
     animation: ${({ animationDuration, expandedWidth }) => css`
       ${drawerClose(expandedWidth)} ${animationDuration}
     `} ease-in-out;
 
     ${StyledDrawerSidebar} {
-      display: block;
-      opacity: 0;
       animation: ${sidebarHidden} ${({ animationDuration }) => animationDuration} ease-in-out;
     }
   }
@@ -96,6 +114,11 @@ const StyledButton = styled.button`
   &:focus {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
   }
+
+  &:hover {
+    cursor: pointer;
+  }
+
   animation: ${buttonClose} ${({ animationDuration }) => animationDuration} ease-in-out;
 
   ${({ isExpanded }) => isExpanded && css`

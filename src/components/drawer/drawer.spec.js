@@ -1,4 +1,5 @@
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import { mount, shallow } from 'enzyme';
 import Drawer from './drawer.component';
 import { assertStyleMatch } from '../../__spec_helper__/test-utils';
@@ -38,6 +39,7 @@ describe('Drawer', () => {
 
   beforeEach(() => {
     wrapper = render(defaultProps);
+    jest.useFakeTimers();
   });
 
   describe('uncontrolled', () => {
@@ -93,6 +95,31 @@ describe('Drawer', () => {
       wrapper.find(StyledButton).simulate('click');
       expect(wrapper.find(StyledDrawerContent).childAt(0).hasClass('closed')).toBeTruthy();
     });
+
+    it('sets class `open` on drawer that opened', () => {
+      act(() => {
+        wrapper.find(StyledButton).simulate('click');
+        jest.runAllTimers();
+      });
+      wrapper.update();
+      expect(wrapper.find(StyledDrawerContent).childAt(0).hasClass('open')).toBeTruthy();
+    });
+
+    it('sets class `closed` on drawer that closed', () => {
+      act(() => {
+        wrapper.find(StyledButton).simulate('click');
+        jest.runAllTimers();
+      });
+      wrapper.update();
+      expect(wrapper.find(StyledDrawerContent).childAt(0).hasClass('open')).toBeTruthy();
+
+      act(() => {
+        wrapper.find(StyledButton).simulate('click');
+        jest.runAllTimers();
+      });
+      wrapper.update();
+      expect(wrapper.find(StyledDrawerContent).childAt(0).hasClass('closed')).toBeTruthy();
+    });
   });
 
   describe('controlled', () => {
@@ -124,6 +151,39 @@ describe('Drawer', () => {
         width: '40%'
       }, wrapper.find(StyledDrawerContent).childAt(0), { modifier: '&.open' });
       expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it('drawer opening sets timeout class', () => {
+      wrapper = render({ expanded: false, animationDuration: '500ms' });
+      wrapper.find(StyledButton).simulate('click');
+      expect(wrapper.find(StyledDrawerContent).childAt(0).hasClass('opening')).toBeTruthy();
+    });
+
+    it('sets `closing` class on drawer when close icon was clicked', () => {
+      wrapper = render({ expanded: true, animationDuration: '0.5s' });
+      wrapper.find(StyledButton).simulate('click');
+      expect(wrapper.find(StyledDrawerContent).childAt(0).hasClass('closing')).toBeTruthy();
+    });
+
+    it('sets animation speed to two seconds when string `numeric` value is given as a string', () => {
+      const animationDuration = '2000';
+      wrapper = render({ expanded: true, animationDuration });
+      wrapper.find(StyledButton).simulate('click');
+      expect(wrapper.find(StyledDrawerContent).childAt(0).prop('animationDuration')).toBe(animationDuration);
+    });
+
+    it('sets animation speed to two seconds when string `ms` value is given as a string', () => {
+      const animationDuration = '2000ms';
+      wrapper = render({ expanded: true, animationDuration });
+      wrapper.find(StyledButton).simulate('click');
+      expect(wrapper.find(StyledDrawerContent).childAt(0).prop('animationDuration')).toBe(animationDuration);
+    });
+
+    it('sets animation speed to two seconds when string `seconds` value is given as a string', () => {
+      const animationDuration = '0.5s';
+      wrapper = render({ expanded: true, animationDuration });
+      wrapper.find(StyledButton).simulate('click');
+      expect(wrapper.find(StyledDrawerContent).childAt(0).prop('animationDuration')).toBe(animationDuration);
     });
   });
 });
