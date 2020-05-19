@@ -2,6 +2,10 @@ import styled, { css } from 'styled-components';
 import { baseTheme } from '../../style/themes';
 import Icon from '../icon';
 
+const StyledIcon = styled(Icon)`
+  margin-left: auto;
+`;
+
 const StyledDraggableItem = styled.div`
   display: flex;
   align-items: center;
@@ -10,19 +14,27 @@ const StyledDraggableItem = styled.div`
   cursor: move;
   cursor: grab;
 
+  * {
+     cursor: move;
+     cursor: grab;
+  }
+
   opacity: ${({ isDragging }) => (isDragging ? '0.5' : '1')};
 
   ${({ isDragging }) => isDragging && css`
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
+
+    ${StyledIcon}, * {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
     `
 }
 `;
 
-const StyledIcon = styled(Icon)`
-  margin-left: auto;
-`;
 
 StyledDraggableItem.defaultProps = {
   theme: baseTheme

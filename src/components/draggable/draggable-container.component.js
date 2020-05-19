@@ -1,9 +1,33 @@
 import React, { useState } from 'react';
-import { DndProvider, useDrop } from 'react-dnd';
+import { DndProvider, useDrop, useDragLayer } from 'react-dnd';
 import TouchBackend from 'react-dnd-touch-backend';
 import PropTypes from 'prop-types';
 import DraggableItem from './draggable-item.component';
 import { StyledIcon } from './draggable-item.style';
+
+const layerStyles = {
+  position: 'fixed',
+  pointerEvents: 'none',
+  zIndex: 100,
+  left: 0,
+  top: 0,
+  width: '100%',
+  height: '100%'
+};
+
+function getItemStyles(initialOffset, currentOffset) {
+  if (!initialOffset || !currentOffset) {
+    return {
+      display: 'none'
+    };
+  }
+  const { x, y } = currentOffset;
+  const transform = `translate(${x}px, ${y}px)`;
+  return {
+    transform,
+    WebkitTransform: transform
+  };
+}
 
 const DropTarget = ({ children, getOrder }) => {
   const [, drop] = useDrop({
@@ -18,6 +42,31 @@ const DropTarget = ({ children, getOrder }) => {
 
 const DraggableContainer = ({ children, getOrder }) => {
   const [draggableItems, setDraggableItems] = useState(React.Children.toArray(children));
+
+  const CustomDragLayer = () => {
+    const {
+      initialOffset,
+      currentOffset,
+      isDragging,
+      item
+    } = useDragLayer(monitor => ({
+      item: monitor.getItem(),
+      itemType: monitor.getItemType(),
+      initialOffset: monitor.getInitialSourceClientOffset(),
+      currentOffset: monitor.getSourceClientOffset(),
+      isDragging: monitor.isDragging()
+    }));
+    if (!isDragging) {
+      return null;
+    }
+    return (
+      <div style={ layerStyles }>
+        <div style={ getItemStyles(initialOffset, currentOffset) }>
+          {draggableItems[item.id - 1].props.children}
+        </div>
+      </div>
+    );
+  };
 
   const findItem = (id) => {
     const draggableItem = draggableItems.filter((item) => {
@@ -52,6 +101,7 @@ const DraggableContainer = ({ children, getOrder }) => {
   return (
     <DndProvider backend={ TouchBackend({ enableMouseEvents: true }) }>
       <DropTarget getOrder={ getItemsId }>
+        <CustomDragLayer style={ layerStyles } />
         {draggableItems.map(item => (
           React.cloneElement(
             item,
