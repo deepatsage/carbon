@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { baseTheme } from '../../style/themes';
 import Icon from '../icon';
 
@@ -8,8 +8,16 @@ const StyledDraggableItem = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.draggableItem.border};
   padding: 8px 0;
   cursor: move;
+  cursor: grab;
 
-  opacity: ${({ isDragging }) => (isDragging ? '0' : '1')};
+  opacity: ${({ isDragging }) => (isDragging ? '0.5' : '1')};
+
+  ${({ isDragging }) => isDragging && css`
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    `
+}
 `;
 
 const StyledIcon = styled(Icon)`

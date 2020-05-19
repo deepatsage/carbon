@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DndProvider, useDrop } from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend';
 import PropTypes from 'prop-types';
 import DraggableItem from './draggable-item.component';
 import { StyledIcon } from './draggable-item.style';
@@ -50,7 +50,7 @@ const DraggableContainer = ({ children, getOrder }) => {
   };
 
   return (
-    <DndProvider backend={ Backend }>
+    <DndProvider backend={ TouchBackend({ enableMouseEvents: true }) }>
       <DropTarget getOrder={ getItemsId }>
         {draggableItems.map(item => (
           React.cloneElement(
