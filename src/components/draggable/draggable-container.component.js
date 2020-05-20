@@ -3,7 +3,7 @@ import { DndProvider, useDrop, useDragLayer } from 'react-dnd';
 import TouchBackend from 'react-dnd-touch-backend';
 import PropTypes from 'prop-types';
 import DraggableItem from './draggable-item.component';
-import { StyledIcon } from './draggable-item.style';
+import { StyledIcon, StyledDraggableItem } from './draggable-item.style';
 
 const layerStyles = {
   position: 'fixed',
@@ -62,7 +62,9 @@ const DraggableContainer = ({ children, getOrder }) => {
     return (
       <div style={ layerStyles }>
         <div style={ getItemStyles(initialOffset, currentOffset) }>
-          {draggableItems[item.id - 1].props.children}
+          <StyledDraggableItem>
+            {item.children}
+          </StyledDraggableItem>
         </div>
       </div>
     );

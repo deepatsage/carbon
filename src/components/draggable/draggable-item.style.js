@@ -19,7 +19,7 @@ const StyledDraggableItem = styled.div`
      cursor: grab;
   }
 
-  opacity: ${({ isDragging }) => (isDragging ? '0.5' : '1')};
+  opacity: ${({ isDragging }) => (isDragging ? '0' : '1')};
 
   ${({ isDragging }) => isDragging && css`
     cursor: grabbing;
