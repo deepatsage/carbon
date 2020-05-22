@@ -12,5 +12,4 @@ export const draggableItem = text => cy.get(DRAGGABLE_ITEM)
 export const draggableItemByPosition = index => cy.get(DRAGGABLE_ITEM)
   .parent()
   .find(`div:nth-child(${index})`)
-  .find('label')
-  .eq(index === 1 ? 1 : 0);
+  .find('label');
