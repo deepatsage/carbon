@@ -45,10 +45,15 @@ function makeStory(name, themeSelector, component) {
 
 const defaultTextbox = () => {
   return (
-    <Textbox
-      placeholder={ text('placeholder') }
-      { ...getCommonTextboxProps() }
-    />
+    <>
+      <div style={ { fontSize: '72px', fontWeight: '400' } }>FOO</div>
+      <div style={ { fontSize: '72px', fontWeight: '700' } }>FOO</div>
+      <div style={ { fontSize: '72px', fontWeight: '900' } }>FOO</div>
+      <Textbox
+        placeholder={ text('placeholder') }
+        { ...getCommonTextboxProps() }
+      />
+    </>
   );
 };
 
