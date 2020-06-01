@@ -14,11 +14,6 @@ const StyledDraggableItem = styled.div`
   cursor: move;
   cursor: grab;
 
-  * {
-     cursor: move;
-     cursor: grab;
-  }
-
   opacity: ${({ isDragging }) => (isDragging ? '0' : '1')};
 
   ${({ isDragging }) => isDragging && css`
@@ -26,7 +21,7 @@ const StyledDraggableItem = styled.div`
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
 
-    ${StyledIcon}, * {
+    ${StyledIcon}{
       cursor: grabbing;
       cursor: -moz-grabbing;
       cursor: -webkit-grabbing;
@@ -34,7 +29,6 @@ const StyledDraggableItem = styled.div`
     `
 }
 `;
-
 
 StyledDraggableItem.defaultProps = {
   theme: baseTheme

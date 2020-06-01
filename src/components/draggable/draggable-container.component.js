@@ -59,6 +59,7 @@ const DraggableContainer = ({ children, getOrder }) => {
     if (!isDragging) {
       return null;
     }
+
     return (
       <div style={ layerStyles }>
         <div style={ getItemStyles(initialOffset, currentOffset) }>
