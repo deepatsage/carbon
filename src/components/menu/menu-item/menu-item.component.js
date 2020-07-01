@@ -112,7 +112,7 @@ MenuItem.propTypes = {
   /** The target to use for the menu item. */
   target: PropTypes.string,
   /** menu theme provided by <Menu /> */
-  menuType: PropTypes.oneOf(['primary', 'secondary'])
+  menuType: PropTypes.oneOf(['light', 'dark'])
 };
 
 MenuItem.defaultProps = {

@@ -17,7 +17,7 @@ SubmenuBlock.propTypes = {
   /** Children elements */
   children: PropTypes.node.isRequired,
   /** menu theme provided by <Menu /> */
-  menuType: PropTypes.oneOf(['primary', 'secondary'])
+  menuType: PropTypes.oneOf(['light', 'dark'])
 
 };
 

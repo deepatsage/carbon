@@ -4,7 +4,7 @@ import { baseTheme } from '../../../style/themes';
 
 const StyledMenuItemWrapper = styled.div`
   ${({
-    menuType, theme, selected, hasSubmenu, divide
+    menuType, theme, selected, hasSubmenu
   }) => css`
     display: inline-block;
     font-size: 13px;
@@ -13,6 +13,7 @@ const StyledMenuItemWrapper = styled.div`
     padding: 0px 16px;
     position: relative;
     cursor: pointer;
+    background-color: ${theme.menu.light.background};
 
     .carbon-portrait {
       top: -1px;
@@ -22,50 +23,39 @@ const StyledMenuItemWrapper = styled.div`
       z-index: 1;
     }
 
-    ${menuType === 'primary' && css`
-      background-color: ${theme.colors.white};
-      color: ${theme.colors.slate}; 
-
-      a, a:hover, a:focus, button, button:hover, button:focus{
-        font-weight: 700;
-        color: ${theme.colors.slate};
-        text-decoration: none;
-        background-color: transparent;
+    :hover{
+      background: ${theme.colors.primary};
+      a, button {
+        color: #fff;
       }
+    }
 
-      [data-component='icon'] {
-        color: ${theme.colors.slate};
-      }
+    a, button{
+      color: #000;
+      text-decoration: none;  
+      font-weight: 700;
+    }
 
-      &:after {
-        transition: all 200ms;
-        content: "";
-        position: absolute;
-        height: 0;
-        background-color: transparent;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
+    a:hover, a:focus, button:hover, button:focus{
+      color: #fff;
+      background: transparent;
+    }
 
-      &:hover:after {
-        background-color: ${theme.colors.primary}; 
-        height: 3px;
-        left: 0;
-        right: 0;
-      }
+    ${hasSubmenu && css`
+      :hover &, :hover {
+        background-color: ${theme.colors.white};
 
-      ${selected && css`
-        &:after{
-          left: 10px;
-          right: 10px;
-          background-color: #00DC00; 
-          height: 3px;
+        a, button, [data-component="icon"] {
+          color: #000;
         }
-      `}
+      }
     `}
 
-    ${menuType === 'secondary' && css`
+    ${selected && css`
+      background-color: ${theme.menu.light.selected};
+    `}
+
+    ${menuType === 'dark' && css`
       background-color: ${theme.colors.slate};
       color: ${theme.colors.white};
 
@@ -79,9 +69,15 @@ const StyledMenuItemWrapper = styled.div`
         color: ${theme.colors.white};
       }
 
-      :hover &, :hover {
-        background-color: ${theme.colors.primary}; 
-      }
+      ${hasSubmenu && css`
+        :hover &, :hover {
+          background-color: ${theme.menu.dark.submenuBackground};
+
+          a, button, [data-component="icon"] {
+            color: #fff;
+          }
+        }
+      `}
     `}
 
     ${hasSubmenu && css`
@@ -103,7 +99,7 @@ const StyledMenuItemWrapper = styled.div`
         content: "";
         width: 0;
         height: 0;
-        border-top: 5px solid ${menuType === 'secondary' ? theme.colors.white : theme.colors.slate};
+        border-top: 5px solid ${menuType === 'dark' ? theme.colors.white : theme.colors.slate};
         border-right: 4px solid transparent;
         border-bottom: 4px solid transparent;
         border-left: 4px solid transparent;
@@ -121,7 +117,7 @@ const StyledMenuItemWrapper = styled.div`
         display: none;
       }
 
-      ${menuType === 'primary' && css`
+      ${menuType === 'light' && css`
         background-color: ${theme.colors.white};
 
         .carbon-menu-item--has-link:hover{
@@ -152,7 +148,7 @@ const StyledMenuItemWrapper = styled.div`
         `}
       `}
 
-      ${menuType === 'secondary' && css`
+      ${menuType === 'dark' && css`
         .carbon-menu-item--has-link:hover{
           background-color: ${theme.colors.primary};
           text-decoration: none;
@@ -169,28 +165,21 @@ const StyledMenuItemWrapper = styled.div`
         line-height: 40px;
         white-space: nowrap;
         cursor: pointer;
-
-        ${menuType === 'secondary' && css`
-          background-color: #00283A; 
-          padding: 0 16px;
-          height: 40px;
-          line-height: 40px;
-        `}
       }
     }
 
     ${StyledSubmenuBlock}{
-      padding:  0 !important;
+      padding: 0 !important;
 
-      ${menuType === 'secondary' && css`
-          background-color: #002333; 
+      ${menuType === 'dark' && css`
+          background-color: ${theme.menu.dark.submenuBackground}; 
       `}
 
       ${StyledMenuItemWrapper}.carbon-link__anchor,
       ${StyledMenuItemWrapper} {
 
-        ${menuType === 'secondary' && css`
-          background-color: #002333; 
+        ${menuType === 'dark' && css`
+          background-color: transparent; 
         `}
 
         &:last-child {
@@ -198,25 +187,6 @@ const StyledMenuItemWrapper = styled.div`
         }
       }
     }
-
-    ${divide && !hasSubmenu && css`
-      &:before {
-        content: "";
-        height: 1px;
-        left: 15px;
-        right: 15px;
-        top: 0;
-        position: absolute;
-
-        ${menuType === 'primary' && css`
-          background-color: #CCD6DB; /** $slate-tint-80 */
-        `}
-
-        ${menuType === 'secondary' && css`
-          background-color: #335C6D; /** $slate-tint-20 */
-        `}
-      }
-    `}
   `}
 `;
 

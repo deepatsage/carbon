@@ -40,8 +40,8 @@ const StyledSubmenu = styled.ul`
       }
     }
 
-    ${({ menuType }) => menuType === 'secondary' && css`
-      background-color: #002333;
+    ${({ menuType, theme }) => menuType === 'dark' && css`
+      background-color: ${theme.menu.dark.submenuBackground};
 
       [data-component='icon'] {
         margin: 0 8px 0 0;
@@ -61,11 +61,11 @@ const StyledSubmenu = styled.ul`
     > *:not(${StyledSubmenuItem}) {
       padding: 8px 15px 10px;
 
-      ${({ menuType, theme }) => menuType === 'primary' && css`
+      ${({ menuType, theme }) => menuType === 'light' && css`
         background-color: ${theme.colors.white};
       `}
 
-      ${({ menuType }) => menuType === 'secondary' && css`
+      ${({ menuType }) => menuType === 'dark' && css`
         background-color: #1B1D21 ;
       `}
     }

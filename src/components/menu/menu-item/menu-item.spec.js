@@ -59,10 +59,10 @@ describe('MenuItem', () => {
       expect(wrapper.find(MenuItem).at(1).props().submenuDirection).toBe('right');
     });
 
-    describe('`menuType=primary`', () => {
+    describe('`menuType="light"`', () => {
       it('should render correct styles', () => {
         wrapper = mount(
-          <MenuItem menuType='primary'>
+          <MenuItem menuType='light'>
             Item one
           </MenuItem>
         );
@@ -75,7 +75,7 @@ describe('MenuItem', () => {
 
       it('should render correct styles if is `selected`', () => {
         wrapper = mount(
-          <MenuItem menuType='primary' selected>
+          <MenuItem menuType='light' selected>
             Item one
           </MenuItem>
         );
@@ -90,7 +90,7 @@ describe('MenuItem', () => {
 
       it('should render correct styles if has `divide` prop', () => {
         wrapper = mount(
-          <MenuItem menuType='primary' divide>
+          <MenuItem menuType='light' divide>
             Item one
           </MenuItem>
         );
@@ -107,7 +107,7 @@ describe('MenuItem', () => {
 
       it('should render correct styles if `hasSubmenu`', () => {
         wrapper = mount(
-          <MenuItem menuType='primary' submenu='submenu'>
+          <MenuItem menuType='light' submenu='submenu'>
             <MenuItem>
               Item one
             </MenuItem>
@@ -125,10 +125,10 @@ describe('MenuItem', () => {
       });
     });
 
-    describe('`menuType="secondary`', () => {
+    describe('`menuType="dark"`', () => {
       it('should render correct styles', () => {
         wrapper = mount(
-          <MenuItem menuType='secondary'>
+          <MenuItem menuType='dark'>
             Item one
           </MenuItem>
         );
@@ -141,7 +141,7 @@ describe('MenuItem', () => {
 
       it('should render correct styles if `hasSubmenu`', () => {
         wrapper = mount(
-          <MenuItem menuType='secondary' submenu='submenu'>
+          <MenuItem menuType='dark' submenu='submenu'>
             <MenuItem>
               Item one
             </MenuItem>
@@ -161,7 +161,7 @@ describe('MenuItem', () => {
 
       it('should render correct styles if has `divide` prop', () => {
         wrapper = mount(
-          <MenuItem menuType='secondary' divide>
+          <MenuItem menuType='dark' divide>
             Item one
           </MenuItem>
         );

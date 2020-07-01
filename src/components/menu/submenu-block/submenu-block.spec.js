@@ -25,9 +25,9 @@ describe('SubmenuBlock', () => {
     expect(wrapper.prop('data-component')).toBe('submenu-block');
   });
 
-  it('should render correct styles if `menuType="primary"`', () => {
+  it('should render correct styles if `menuType="light"`', () => {
     wrapper = mount(
-      <StyledSubmenu menuType='primary'>
+      <StyledSubmenu menuType='light'>
         <MenuItem>Item Submenu One</MenuItem>
       </StyledSubmenu>
     );
@@ -39,7 +39,7 @@ describe('SubmenuBlock', () => {
 
   it('should render correct styles if `menuType="secondary"`', () => {
     wrapper = mount(
-      <StyledSubmenu menuType='secondary'>
+      <StyledSubmenu menuType='dark'>
         <MenuItem>Item Submenu One</MenuItem>
       </StyledSubmenu>
     );
