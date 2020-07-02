@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { baseTheme } from '../../../style/themes';
 
 const StyledDivider = styled.div`
   ${({ menuType, theme }) => css`
@@ -7,5 +8,9 @@ const StyledDivider = styled.div`
     background: ${menuType !== 'dark' ? theme.menu.light.divider : theme.menu.dark.divider};
   `}
 `;
+
+StyledDivider.defaultProps = {
+  theme: baseTheme
+};
 
 export default StyledDivider;
