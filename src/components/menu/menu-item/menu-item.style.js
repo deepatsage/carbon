@@ -15,16 +15,13 @@ const StyledMenuItemWrapper = styled.div`
     cursor: pointer;
     background-color: ${theme.menu.light.background};
 
-    .carbon-portrait {
-      top: -1px;
-    }
-
     &:focus {
       z-index: 1;
     }
 
     :hover{
       background: ${theme.colors.primary};
+
       a, button {
         color: #fff;
       }
@@ -36,7 +33,7 @@ const StyledMenuItemWrapper = styled.div`
       font-weight: 700;
     }
 
-    a:hover, a:focus, button:hover, button:focus{
+    a:hover, button:hover{
       color: #fff;
       background: transparent;
     }
@@ -57,7 +54,11 @@ const StyledMenuItemWrapper = styled.div`
 
     ${menuType === 'dark' && css`
       background-color: ${theme.colors.slate};
-      color: ${theme.colors.white};
+
+
+      ${selected && css`
+        background-color: ${theme.menu.dark.selected};
+      `}
 
       a, a:hover, a:focus, button, button:hover, button:focus {
         text-decoration: none;
@@ -99,7 +100,7 @@ const StyledMenuItemWrapper = styled.div`
         content: "";
         width: 0;
         height: 0;
-        border-top: 5px solid ${menuType === 'dark' ? theme.colors.white : theme.colors.slate};
+        border-top: 5px solid ${menuType !== 'dark' ? theme.colors.slate : theme.colors.white};
         border-right: 4px solid transparent;
         border-bottom: 4px solid transparent;
         border-left: 4px solid transparent;
@@ -117,35 +118,33 @@ const StyledMenuItemWrapper = styled.div`
         display: none;
       }
 
-      ${menuType === 'light' && css`
-        background-color: ${theme.colors.white};
+      background-color: ${theme.colors.white};
 
-        .carbon-menu-item--has-link:hover{
-          background: ${theme.colors.primary};
-          cursor: pointer;
+      .carbon-menu-item--has-link:hover{
+        background: ${theme.colors.primary};
+        cursor: pointer;
+        color: white;
+        text-decoration: none;
+
+        [data-component='icon'] {
           color: white;
+        }
+      }
+
+      ${StyledMenuItemWrapper} {
+        &:hover,
+        &:hover a,
+        a &:hover {
+          color: ${theme.colors.white};
+        }
+        
+        a {
           text-decoration: none;
-
-          [data-component='icon'] {
-            color: white;
-          }
         }
+      }
 
-        ${StyledMenuItemWrapper} {
-          &:hover,
-          &:hover a,
-          a &:hover {
-            color: ${theme.colors.white};
-          }
-          
-          a {
-            text-decoration: none;
-          }
-        }
-
-        ${selected && css`
-          color: #38C72A;
-        `}
+      ${selected && css`
+        color: #38C72A;
       `}
 
       ${menuType === 'dark' && css`
@@ -168,25 +167,15 @@ const StyledMenuItemWrapper = styled.div`
       }
     }
 
-    ${StyledSubmenuBlock}{
-      padding: 0 !important;
-
-      ${menuType === 'dark' && css`
-          background-color: ${theme.menu.dark.submenuBackground}; 
-      `}
-
-      ${StyledMenuItemWrapper}.carbon-link__anchor,
-      ${StyledMenuItemWrapper} {
-
-        ${menuType === 'dark' && css`
+    ${menuType === 'dark' && css`
+      ${StyledSubmenuBlock}{
+        background-color: ${theme.menu.dark.submenuBackground}; 
+        
+        ${StyledMenuItemWrapper}{
           background-color: transparent; 
-        `}
-
-        &:last-child {
-          border-radius: 0;
         }
       }
-    }
+    `}
   `}
 `;
 

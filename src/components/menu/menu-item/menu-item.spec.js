@@ -68,12 +68,11 @@ describe('MenuItem', () => {
         );
 
         assertStyleMatch({
-          backgroundColor: baseTheme.colors.white,
-          color: baseTheme.colors.slate
+          backgroundColor: baseTheme.menu.light.background
         }, wrapper);
       });
 
-      it('should render correct styles if is `selected`', () => {
+      it('should render correct styles if is `selected` in a `light` scheme', () => {
         wrapper = mount(
           <MenuItem menuType='light' selected>
             Item one
@@ -81,28 +80,20 @@ describe('MenuItem', () => {
         );
 
         assertStyleMatch({
-          left: '10px',
-          right: '10px',
-          backgroundColor: '#00DC00',
-          height: '3px'
-        }, wrapper, { modifier: '&:after' });
+          backgroundColor: baseTheme.menu.light.selected
+        }, wrapper);
       });
 
-      it('should render correct styles if has `divide` prop', () => {
+      it('should render correct styles if is `selected` in a `light` scheme', () => {
         wrapper = mount(
-          <MenuItem menuType='light' divide>
+          <MenuItem menuType='dark' selected>
             Item one
           </MenuItem>
         );
 
         assertStyleMatch({
-          height: '1px',
-          left: '15px',
-          right: '15px',
-          top: '0',
-          position: 'absolute',
-          backgroundColor: '#CCD6DB'
-        }, wrapper, { modifier: '&:before' });
+          backgroundColor: baseTheme.menu.dark.selected
+        }, wrapper);
       });
 
       it('should render correct styles if `hasSubmenu`', () => {
@@ -134,8 +125,7 @@ describe('MenuItem', () => {
         );
 
         assertStyleMatch({
-          backgroundColor: baseTheme.colors.slate,
-          color: baseTheme.colors.white
+          backgroundColor: baseTheme.colors.slate
         }, wrapper);
       });
 
@@ -156,24 +146,6 @@ describe('MenuItem', () => {
           borderBottom: '4px solid transparent',
           borderLeft: '4px solid transparent'
         }, wrapper, { modifier: ':before' });
-      });
-
-
-      it('should render correct styles if has `divide` prop', () => {
-        wrapper = mount(
-          <MenuItem menuType='dark' divide>
-            Item one
-          </MenuItem>
-        );
-
-        assertStyleMatch({
-          height: '1px',
-          left: '15px',
-          right: '15px',
-          top: '0',
-          position: 'absolute',
-          backgroundColor: '#335C6D'
-        }, wrapper, { modifier: '&:before' });
       });
     });
   });
