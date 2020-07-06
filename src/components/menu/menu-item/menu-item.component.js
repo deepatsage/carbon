@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Link from '../../link';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import StyledMenuItemWrapper from './menu-item.style';
 import { StyledSubmenu, StyledSubmenuItem, StyledSubmenuTitle } from '../submenu-block/submenu.style';
 import OptionHelper from '../../../utils/helpers/options-helper';
-
+import Icon from '../../icon';
 
 const MenuItem = ({
   submenu,
@@ -19,21 +20,46 @@ const MenuItem = ({
   icon,
   divide,
   selected,
-  routerLink
+  routerLink, onArrowKey, ...props
 }) => {
+  const ref = useRef();
+  const [isOpen, setisOpen] = useState(false);
+
+  const onEnterKey = (e) => {
+    e.preventDefault();
+
+    if (e.keyCode === 13) {
+      console.log('poszlo');
+      setisOpen(!isOpen);
+    }
+  };
+
+  useEffect(() => {
+    if (ref && props.isFocused) {
+      ref.current.focus();
+    }
+  });
+
+  const onKeyDown = (e) => {
+    onArrowKey(e);
+
+    if (submenu) {
+      onEnterKey(e);
+    }
+  };
+
   const content = () => {
     if (!submenu) return children;
-
     return (
       <>
         <StyledSubmenuTitle>
-          <MenuItem
+          <StyledMenuItemWrapper
             href={ href }
             to={ to }
             menuType={ menuType }
           >
             { submenu }
-          </MenuItem>
+          </StyledMenuItemWrapper>
         </StyledSubmenuTitle>
         <StyledSubmenu submenuDirection={ submenuDirection }>
           {
@@ -74,10 +100,15 @@ const MenuItem = ({
 
   return (
     <StyledMenuItemWrapper
-      as={ submenu ? 'div' : Link }
+      as={ submenu ? 'div' : 'a' }
       data-component='menu-item'
       { ...elementProps }
+      tabIndex={ props.tabIndex }
+      ref={ ref }
+      onKeyDown={ onKeyDown }
+      isOpen={ isOpen }
     >
+      {icon && <Icon type={ icon } />}
       {content()}
     </StyledMenuItemWrapper>
   );

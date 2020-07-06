@@ -1,50 +1,42 @@
 import styled, { css } from 'styled-components';
 import { StyledSubmenu, StyledSubmenuTitle, StyledSubmenuBlock } from '../submenu-block/submenu.style';
 import { baseTheme } from '../../../style/themes';
+import StyledIcon from '../../icon/icon.style';
 
-const StyledMenuItemWrapper = styled.div`
+const StyledMenuItemWrapper = styled.a`
   ${({
-    menuType, theme, selected, hasSubmenu
+    menuType, theme, selected, hasSubmenu, isOpen
   }) => css`
     display: inline-block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     height: 40px;
     padding: 0px 16px;
     position: relative;
     cursor: pointer;
     background-color: ${theme.menu.light.background};
+    text-decoration: none;
+    color: #000;
+
 
     &:focus {
       z-index: 1;
+      outline: 2px solid gold;
     }
 
     :hover{
       background: ${theme.colors.primary};
-
-      a, button {
-        color: #fff;
-      }
-    }
-
-    a, button{
-      color: #000;
-      text-decoration: none;  
-      font-weight: 700;
-    }
-
-    a:hover, button:hover{
       color: #fff;
-      background: transparent;
     }
 
     ${hasSubmenu && css`
       :hover &, :hover {
         background-color: ${theme.colors.white};
+        color: #000;
 
-        a, button, [data-component="icon"] {
+        [data-component="icon"] 
           color: #000;
-        }
+        }       
       }
     `}
 
@@ -54,17 +46,11 @@ const StyledMenuItemWrapper = styled.div`
 
     ${menuType === 'dark' && css`
       background-color: ${theme.colors.slate};
-
+      color: #fff;
 
       ${selected && css`
         background-color: ${theme.menu.dark.selected};
       `}
-
-      a, a:hover, a:focus, button, button:hover, button:focus {
-        text-decoration: none;
-        color: ${theme.colors.white};
-        background-color: transparent;
-      }
 
       [data-component='icon'] {
         color: ${theme.colors.white};
@@ -73,8 +59,9 @@ const StyledMenuItemWrapper = styled.div`
       ${hasSubmenu && css`
         :hover &, :hover {
           background-color: ${theme.menu.dark.submenuBackground};
+          color: #fff;
 
-          a, button, [data-component="icon"] {
+          [data-component="icon"] {
             color: #fff;
           }
         }
@@ -110,7 +97,15 @@ const StyledMenuItemWrapper = styled.div`
         ${StyledSubmenu}{
           display: block;
         }
+
+        
       }
+
+      ${isOpen && css`
+        ${StyledSubmenu}{
+            display: block;
+          }
+      `}
     `}
 
     ${StyledSubmenu}{
@@ -159,11 +154,18 @@ const StyledMenuItemWrapper = styled.div`
       `}
 
       ${StyledMenuItemWrapper}{
-        display: block;
+        display: flex;
+        align-items: center;
         height: 40px;
         line-height: 40px;
         white-space: nowrap;
         cursor: pointer;
+
+        ${StyledIcon}{
+          width: 16px;
+          height: 16px;
+          margin-right: 5px;
+        }
       }
     }
 
