@@ -37,7 +37,17 @@ const StyledMenuItemWrapper = styled.a`
         [data-component="icon"] 
           color: #000;
         }       
-      }
+
+        ${isOpen && css`
+          & &{
+            background-color: ${theme.colors.white};
+            color: #000;
+
+            [data-component="icon"] 
+              color: #000;
+            }
+          } 
+        `}
     `}
 
     ${selected && css`
@@ -97,8 +107,6 @@ const StyledMenuItemWrapper = styled.a`
         ${StyledSubmenu}{
           display: block;
         }
-
-        
       }
 
       ${isOpen && css`

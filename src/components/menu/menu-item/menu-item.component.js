@@ -29,7 +29,6 @@ const MenuItem = ({
     e.preventDefault();
 
     if (e.keyCode === 13) {
-      console.log('poszlo');
       setisOpen(!isOpen);
     }
   };
@@ -65,11 +64,14 @@ const MenuItem = ({
           {
             React.Children.map(
               children,
-              child => (
-                <StyledSubmenuItem>
-                  {React.cloneElement(child, { menuType })}
-                </StyledSubmenuItem>
-              )
+              (child, index) => {
+                console.log(child);
+                return (
+                  <StyledSubmenuItem>
+                    {React.cloneElement(child, { menuType, tabIndex: 0 })}
+                  </StyledSubmenuItem>
+                );
+              }
             )
           }
         </StyledSubmenu>
