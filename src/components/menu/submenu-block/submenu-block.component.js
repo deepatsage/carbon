@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyledSubmenuBlock } from './submenu.style';
 
-const SubmenuBlock = (props) => {
+const SubmenuBlock = React.forwardRef((props, ref) => {
   return (
     <StyledSubmenuBlock data-component='submenu-block'>
       {React.Children.map(
@@ -11,7 +11,7 @@ const SubmenuBlock = (props) => {
       )}
     </StyledSubmenuBlock>
   );
-};
+});
 
 SubmenuBlock.propTypes = {
   /** Children elements */

@@ -6,123 +6,120 @@ import LinkStyle from './link.style';
 import OptionsHelper from '../../utils/helpers/options-helper';
 import tagComponent from '../../utils/helpers/tags';
 
-class Link extends React.Component {
-  static safeProps = ['onClick'];
-
-  onKeyDown = (ev) => {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(ev);
+const Link = React.forwardRef((props, ref) => {
+  const onKeyDown = (ev) => {
+    if (props.onKeyDown) {
+      props.onKeyDown(ev);
     }
 
     // return early if there is no onClick or there is a href prop
     // or the event is not an enter key
-    if (this.props.href || (!Event.isEnterKey(ev) && !Event.isSpaceKey(ev))) {
+    if (props.href || (!Event.isEnterKey(ev) && !Event.isSpaceKey(ev))) {
       return;
     }
 
-    if (this.props.onClick) {
-      this.props.onClick(ev);
-    }
-  }
-
-  renderLinkIcon = (currentAlignment = 'left') => {
-    const hasProperAlignment = this.props.icon && (this.props.iconAlign === currentAlignment);
-
-    return hasProperAlignment ? this.icon : null;
-  }
-
-  get icon() {
-    return (
-      <Icon
-        type={ this.props.icon }
-        tooltipMessage={ this.props.tooltipMessage }
-        tooltipAlign={ this.props.tooltipAlign }
-        tooltipPosition={ this.props.tooltipPosition }
-        bgTheme='none'
-        iconColor='business-color'
-        disabled={ this.props.disabled }
-      />
-    );
-  }
-
-  get tabIndex() {
-    return this.props.tabbable && !this.props.disabled ? '0' : '-1';
-  }
-
-  get componentProps() {
-    const props = {
-      onKeyDown: this.onKeyDown,
-      onMouseDown: this.props.onMouseDown,
-      disabled: this.props.disabled,
-      onClick: this.handleClick,
-      tabIndex: this.tabIndex,
-      target: this.props.target
-    };
-
-    if (this.props.to) {
-      props.to = this.props.to;
-    } else {
-      props.href = this.props.href;
-    }
-
-    return props;
-  }
-
-  handleClick = (ev) => {
-    if (this.props.disabled) {
-      ev.preventDefault();
-    } else if (this.props.onClick) {
-      this.props.onClick(ev);
+    if (props.onClick) {
+      props.onClick(ev);
     }
   };
+
+  const icon = () => {
+    return (
+      <Icon
+        type={ props.icon }
+        tooltipMessage={ props.tooltipMessage }
+        tooltipAlign={ props.tooltipAlign }
+        tooltipPosition={ props.tooltipPosition }
+        bgTheme='none'
+        iconColor='business-color'
+        disabled={ props.disabled }
+      />
+    );
+  };
+
+  const renderLinkIcon = (currentAlignment = 'left') => {
+    const hasProperAlignment = props.icon && (props.iconAlign === currentAlignment);
+
+    return hasProperAlignment ? icon() : null;
+  };
+
+  const tabIndex = () => {
+    return props.tabbable && !props.disabled ? '0' : '-1';
+  };
+
+  const handleClick = (ev) => {
+    if (props.disabled) {
+      ev.preventDefault();
+    } else if (props.onClick) {
+      props.onClick(ev);
+    }
+  };
+
+  const componentProps = () => {
+    const propsTemp = {
+      onKeyDown,
+      onMouseDown: props.onMouseDown,
+      disabled: props.disabled,
+      onClick: handleClick,
+      tabIndex,
+      target: props.target
+    };
+
+    if (props.to) {
+      propsTemp.to = props.to;
+    } else {
+      propsTemp.href = props.href;
+    }
+
+    return propsTemp;
+  };
+
 
   /**
    * className `@carbon-link__content` is related to `ShowEditPod` component
    * */
 
-  linkContent = () => (
+  const linkContent = () => (
     <>
-      { this.renderLinkIcon() }
+      { renderLinkIcon() }
 
-      <span className='carbon-link__content'>{this.props.children}</span>
+      <span className='carbon-link__content'>{props.children}</span>
 
-      { this.renderLinkIcon('right') }
+      { renderLinkIcon('right') }
     </>
-  )
+  );
 
-  createLinkBasedOnType = () => {
+  const createLinkBasedOnType = () => {
     let type = 'a';
 
-    if (this.props.to && this.props.routerLink) {
-      type = this.props.routerLink;
-    } else if (this.props.onClick) {
+    if (props.to && props.routerLink) {
+      type = props.routerLink;
+    } else if (props.onClick) {
       type = 'button';
     }
 
     return React.createElement(
       type,
-      { ...this.componentProps },
-      this.linkContent()
+      { ...componentProps() },
+      linkContent()
     );
-  }
+  };
 
-  render() {
-    const {
-      disabled, className, iconAlign
-    } = this.props;
-
-    return (
-      <LinkStyle
-        disabled={ disabled }
-        className={ className }
-        iconAlign={ iconAlign }
-        { ...tagComponent('link', this.props) }
-      >
-        {this.createLinkBasedOnType()}
-      </LinkStyle>
-    );
-  }
-}
+  const {
+    disabled, className, iconAlign
+  } = props;
+  return (
+    <LinkStyle
+      ref={ ref }
+      disabled={ disabled }
+      className={ className }
+      iconAlign={ iconAlign }
+      { ...tagComponent('link', props) }
+    >
+      {createLinkBasedOnType()}
+    </LinkStyle>
+  );
+});
 
 Link.propTypes = {
   /** Child content to render in the link. */
@@ -158,6 +155,8 @@ Link.propTypes = {
   /** Target property in which link should open ie: _blank, _self, _parent, _top */
   target: PropTypes.string
 };
+
+Link.safeProps = ['onClick'];
 
 Link.defaultProps = {
   iconAlign: 'left',

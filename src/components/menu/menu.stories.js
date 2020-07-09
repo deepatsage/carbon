@@ -31,10 +31,10 @@ export const basic = () => {
           Item One
         </MenuItem>
         <MenuItem submenu='Item Two'>
-          <SubmenuBlock>
-            <MenuItem href='#'>Sub Menu Item One</MenuItem>
-            <MenuItem href='#'>Sub Menu Item Two</MenuItem>
-          </SubmenuBlock>
+
+          <MenuItem href='#'>Sub Menu Item One</MenuItem>
+          <MenuItem href='#'>Sub Menu Item Two</MenuItem>
+
         </MenuItem>
         <MenuItem submenu='Item Three'>
           <MenuItem href='#'>Sub Menu Item One</MenuItem>

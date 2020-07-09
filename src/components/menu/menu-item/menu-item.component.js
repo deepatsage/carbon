@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Link from '../../link';
 import StyledMenuItemWrapper from './menu-item.style';
 import { StyledSubmenu, StyledSubmenuItem, StyledSubmenuTitle } from '../submenu-block/submenu.style';
 import OptionHelper from '../../../utils/helpers/options-helper';
 import Icon from '../../icon';
 
-const MenuItem = ({
+const MenuItem = React.forwardRef(({
   submenu,
   children,
   href,
@@ -21,10 +22,10 @@ const MenuItem = ({
   divide,
   selected,
   routerLink, onArrowKey, ...props
-}) => {
-  const ref = useRef();
+}, ref) => {
+  const componentRef = useRef();
+  const firstSubmenuItem = useRef();
   const [isOpen, setisOpen] = useState(false);
-
   const onEnterKey = (e) => {
     e.preventDefault();
 
@@ -33,17 +34,19 @@ const MenuItem = ({
     }
   };
 
-  useEffect(() => {
-    if (ref && props.isFocused) {
-      ref.current.focus();
-    }
-  });
+  // useEffect(() => {
+  //   if (componentRef && props.isFocused && !props.isSubmenuItem) {
+  //     console.log(componentRef);
+  //     componentRef.current.focus();
+  //   }
+  // });
 
   const onKeyDown = (e) => {
     onArrowKey(e);
 
     if (submenu) {
       onEnterKey(e);
+      console.log(firstSubmenuItem);
     }
   };
 
@@ -65,10 +68,9 @@ const MenuItem = ({
             React.Children.map(
               children,
               (child, index) => {
-                console.log(child);
                 return (
                   <StyledSubmenuItem>
-                    {React.cloneElement(child, { menuType, tabIndex: 0 })}
+                    {React.cloneElement(child, { menuType, isSubmenuItem: true })}
                   </StyledSubmenuItem>
                 );
               }
@@ -102,19 +104,20 @@ const MenuItem = ({
 
   return (
     <StyledMenuItemWrapper
-      as={ submenu ? 'div' : 'a' }
+      as={ submenu ? 'div' : Link }
       data-component='menu-item'
       { ...elementProps }
       tabIndex={ props.tabIndex }
       ref={ ref }
       onKeyDown={ onKeyDown }
       isOpen={ isOpen }
+      onFocus={ () => console.log('test') }
     >
       {icon && <Icon type={ icon } />}
       {content()}
     </StyledMenuItemWrapper>
   );
-};
+});
 
 MenuItem.propTypes = {
   /** Children elements */
