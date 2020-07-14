@@ -56,12 +56,12 @@ exports[` 1`] = `
               <span>
                 bun
                  
-                <Styled(Link)
+                <Styled(Component)
                   data-element="more-info"
                   onClick={[Function]}
                 >
                   More Information
-                </Styled(Link)>
+                </Styled(Component)>
               </span>
             </styled.div>
             <Styled(Icon)

@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {
+  useRef, useState, useEffect
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import StyledMenuItemWrapper from './menu-item.style';
 import { StyledSubmenu, StyledSubmenuItem, StyledSubmenuTitle } from '../submenu-block/submenu.style';
 import OptionHelper from '../../../utils/helpers/options-helper';
 import Link from '../../link';
+import Events from '../../../utils/helpers/events';
 
-const MenuItem = ({
+const MenuItem = React.forwardRef(({
   submenu,
   children,
   href,
@@ -14,13 +17,126 @@ const MenuItem = ({
   menuType,
   onClick,
   target,
-  submenuDirection,
+  submenuDirection = 'right',
   icon,
   selected,
-  routerLink
-}) => {
+  routerLink,
+  isFirstElement,
+  handleKeyDown
+}, ref) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [openByArrowUp, setOpenByArrowUp] = useState(false);
+  const submenuItemsRefs = submenu && useRef(React.Children.map(children, child => child.ref || React.createRef()));
+  const ifRef = () => !submenu && { ref };
+  let actualIndex;
+  const setFocusToSubmenuElement = (event, index) => {
+    if (event) {
+      event.preventDefault();
+    }
+
+    const findIndex = () => {
+      if (submenuItemsRefs.current[index] && submenuItemsRefs.current[index].current.tagName === 'DIV') {
+        if (Events.isDownKey(event)) {
+          return index + 1;
+        }
+        return index - 1;
+      }
+      return index;
+    };
+    const tempIndex = findIndex();
+    let newIndex = tempIndex;
+    actualIndex = tempIndex;
+
+    if (index === submenuItemsRefs.current.length) {
+      newIndex = 0;
+    } else if (index === -1) {
+      newIndex = submenuItemsRefs.current.length - 1;
+    }
+
+    submenuItemsRefs.current[newIndex].current.focus();
+  };
+
+  useEffect(() => {
+    if (submenu && isOpen) {
+      if (!openByArrowUp) {
+        submenuItemsRefs.current[0].current.focus();
+      } else {
+        submenuItemsRefs.current[submenuItemsRefs.current.length - 1].current.focus();
+      }
+    }
+  }, [isOpen, openByArrowUp, submenu, submenuItemsRefs]);
+
+  const onCloseSubmenu = () => {
+    setIsOpen(false);
+    setOpenByArrowUp(false);
+  };
+
+  const onKeyDownSubmenu = (ev, index) => {
+    if (!isOpen) {
+      if (Events.isEnterKey(ev) || Events.isSpaceKey(ev) || Events.isDownKey(ev)) {
+        setIsOpen(true);
+      }
+      if (Events.isUpKey(ev)) {
+        setOpenByArrowUp(true);
+        setIsOpen(true);
+      }
+    }
+
+    if (isOpen) {
+      if (Events.isDownKey(ev)) {
+        setFocusToSubmenuElement(ev, index + 1);
+      }
+      if (Events.isUpKey(ev)) {
+        setFocusToSubmenuElement(ev, index - 1);
+      }
+      if (
+        Events.isLeftKey(ev)
+        || Events.isRightKey(ev)
+        || (Events.isShiftKey(ev) && Events.isTabKey(ev))
+        || Events.isTabKey(ev)
+      ) {
+        onCloseSubmenu();
+      }
+      if (Events.isHomeKey(ev)) {
+        submenuItemsRefs.current[0].current.focus();
+      }
+      if (Events.isEndKey(ev)) {
+        submenuItemsRefs.current[submenuItemsRefs.current.length - 1].current.focus();
+      }
+      if (Events.isEscKey(ev)) {
+        onCloseSubmenu();
+        ref.current.focus();
+      }
+      if (Events.isAlphabetKey(ev)) {
+        // A-Za-z: focus the next item on the list that starts with the pressed key
+        // selection should wrap to the start of the list
+        ev.stopPropagation();
+        let firstMatch;
+        let nextMatch;
+
+        React.Children.forEach(children, ({ props }, i) => {
+          if (props.children && props.children.toString().toLowerCase().startsWith(ev.key.toLowerCase())) {
+            if (firstMatch === undefined) {
+              firstMatch = i;
+            }
+            if (i > actualIndex && nextMatch === undefined) {
+              nextMatch = i;
+            }
+          }
+        });
+
+        if (nextMatch !== undefined) {
+          setFocusToSubmenuElement(undefined, nextMatch);
+        } else if (firstMatch !== undefined) {
+          setFocusToSubmenuElement(undefined, firstMatch);
+        }
+      }
+    }
+  };
+
   const content = () => {
     if (!submenu) return children;
+
     return (
       <>
         <StyledSubmenuTitle>
@@ -28,6 +144,9 @@ const MenuItem = ({
             href={ href }
             to={ to }
             menuType={ menuType }
+            ref={ ref }
+            tabIndex={ -1 }
+            onKeyDown={ onKeyDownSubmenu }
           >
             { submenu }
           </StyledMenuItemWrapper>
@@ -36,9 +155,16 @@ const MenuItem = ({
           {
             React.Children.map(
               children,
-              child => (
+              (child, index) => (
                 <StyledSubmenuItem>
-                  {React.cloneElement(child, { menuType })}
+                  {React.cloneElement(
+                    child,
+                    {
+                      menuType,
+                      ref: submenuItemsRefs.current[index],
+                      handleKeyDown: ev => onKeyDownSubmenu(ev, index)
+                    }
+                  )}
                 </StyledSubmenuItem>
               )
             )
@@ -61,7 +187,8 @@ const MenuItem = ({
     icon,
     hasSubmenu: Boolean(submenu),
     selected,
-    menuType
+    menuType,
+    tabbable: !!isFirstElement
   };
 
   if (!submenu) {
@@ -70,14 +197,17 @@ const MenuItem = ({
 
   return (
     <StyledMenuItemWrapper
+      { ...ifRef() }
+      onKeyDown={ ev => handleKeyDown(ev, isOpen) }
       as={ submenu ? 'div' : Link }
       data-component='menu-item'
       { ...elementProps }
+      isOpen={ isOpen }
     >
       {content()}
     </StyledMenuItemWrapper>
   );
-};
+});
 
 MenuItem.propTypes = {
   /** Children elements */
@@ -111,11 +241,17 @@ MenuItem.propTypes = {
    * @ignore
    *
   */
-  menuType: PropTypes.oneOf(['light', 'dark'])
-};
-
-MenuItem.defaultProps = {
-  submenuDirection: 'right'
+  menuType: PropTypes.oneOf(['light', 'dark']),
+  /**
+   * @private
+   * @ignore
+  */
+  isFirstElement: PropTypes.bool,
+  /**
+   * @private
+   * @ignore
+  */
+  handleKeyDown: PropTypes.func
 };
 
 export default MenuItem;

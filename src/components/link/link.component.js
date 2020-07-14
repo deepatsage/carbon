@@ -56,7 +56,8 @@ class Link extends React.Component {
       disabled: this.props.disabled,
       onClick: this.handleClick,
       tabIndex: this.tabIndex,
-      target: this.props.target
+      target: this.props.target,
+      ref: this.props.innerRef
     };
 
     if (this.props.to) {
@@ -156,7 +157,9 @@ Link.propTypes = {
   /** A routing component to render when the to prop is set */
   routerLink: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   /** Target property in which link should open ie: _blank, _self, _parent, _top */
-  target: PropTypes.string
+  target: PropTypes.string,
+  /** Ref to be forwarded */
+  innerRef: PropTypes.object
 };
 
 Link.defaultProps = {
@@ -164,4 +167,4 @@ Link.defaultProps = {
   tabbable: true
 };
 
-export default Link;
+export default React.forwardRef((props, ref) => (<Link innerRef={ ref } { ...props } />));
