@@ -24,6 +24,8 @@ const Textbox = ({
   iconOnClick,
   styleOverride,
   validationOnLabel,
+  labelWidth,
+  inputWidth,
   ...props
 }) => {
   if (!deprecatedWarnTriggered) {
@@ -37,12 +39,14 @@ const Textbox = ({
       isOptional={ isOptional }
       { ...props }
       useValidationIcon={ validationOnLabel }
+      labelWidth={ labelWidth }
       styleOverride={ styleOverride }
     >
       <InputPresentation
         type='text'
         { ...removeParentProps(props) }
         styleOverride={ styleOverride.input }
+        inputWidth={ inputWidth || (100 - labelWidth) }
       >
         { leftChildren }
         <Input
@@ -156,7 +160,6 @@ Textbox.propTypes = {
 
 Textbox.defaultProps = {
   labelWidth: 30,
-  inputWidth: 70,
   size: 'medium',
   styleOverride: {},
   validationOnLabel: false
