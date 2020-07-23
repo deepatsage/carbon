@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 
 import ElementResize from '../../utils/helpers/element-resize';
-import OptionsHelper from '../../utils/helpers/options-helper';
 
 import FormSummary from './form-summary.component';
 import {
@@ -142,7 +141,7 @@ Form.propTypes = {
   warningCount: PropTypes.number,
 
   /** Multipler for vertical spacing between fields, times theme.spacing */
-  fieldSpacingMultiplier: PropTypes.oneOf(OptionsHelper.formSpacingMultiplier)
+  fieldSpacingMultiplier: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 7])
 };
 
 export default Form;
