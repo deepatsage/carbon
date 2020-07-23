@@ -26,7 +26,7 @@ const FormField = ({
   labelHelp,
   labelHelpIcon,
   labelInline,
-  labelSpacing = 16,
+  labelSpacing = 2,
   labelWidth,
   name,
   id,
@@ -128,8 +128,8 @@ FormField.propTypes = {
   labelHelp: PropTypes.node,
   labelHelpIcon: PropTypes.string,
   labelInline: PropTypes.bool,
-  /** Space between label and field (label padding right) in px */
-  labelSpacing: PropTypes.oneOf([8, 16]),
+  /** Multiplier for space between label and field (label padding right) */
+  labelSpacing: PropTypes.oneOf([1, 2]),
   labelWidth: PropTypes.number,
   readOnly: PropTypes.bool,
   reverse: PropTypes.bool,
