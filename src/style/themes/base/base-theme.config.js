@@ -68,6 +68,10 @@ export default (palette) => {
       lightTheme: palette.slateTint(70)
     },
 
+    divider: {
+      border: palette.slateTint(80)
+    },
+
     editor: {
       border: palette.slateTint(40),
       counter: 'rgba(0,0,0,0.55)',

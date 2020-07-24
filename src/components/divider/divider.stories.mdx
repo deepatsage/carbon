@@ -1,0 +1,84 @@
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { useState } from 'react';
+
+import Divider from '.';
+import Form from '../form';
+import Textbox from '../../__experimental__/components/textbox';
+import Button from '../button';
+
+<Meta
+  title="Divider"
+  parameters={{ info: { disable: true }}}
+/>
+
+# Divider
+Provides a dividing line to make the above and below components feel distinctly separate from one another.
+
+## Quick Start
+
+To use Divider, import the `Divider` and set the left margin to align it with other components.
+
+```jsx
+import Divider from "carbon-react/lib/components/divider";
+
+const MyComponent = () => (
+  <Divider />
+);
+```
+
+## Visuals
+
+### Default
+By default the divider is 100% width and has a bottom margin of 24px.
+
+<Preview>
+  <Story name="default">
+    <Divider />
+  </Story>
+</Preview>
+
+### With different vertical spacing 
+The `marginBottom` and `marginTop` props set the vertical spacing. These props are mulitipliers and are therefore multiplied by the base theme spacing which is `8px`. The default for both is `3` and therefore `24px`.
+
+<Preview>
+  <Story name="different spacing">
+    <Divider marginTop={7} marginBottom={7} />
+  </Story>
+</Preview>
+
+### Inside a form
+
+<Preview>
+  <Story name="Inside a form">
+    <Form
+      onSubmit={ () => console.log('submit')}
+      leftSideButtons={ <Button onClick={ () => console.log('cancel') }>Cancel</Button> }
+      saveButton={ <Button buttonType='primary' type="submit">Save</Button> }
+      stickyFooter
+    >
+      <Textbox label="Textbox" />
+      <Textbox label="Textbox" marginBottom={7} />
+      <Divider marginBottom={7} />
+      <Textbox label="Textbox" />
+    </Form>
+  </Story> 
+</Preview>
+
+### Inside a form with inline labels
+
+<Preview>
+  <Story name="Inside a form with inline labels">
+    <Form
+      onSubmit={ () => console.log('submit')}
+      leftSideButtons={ <Button onClick={ () => console.log('cancel') }>Cancel</Button> }
+      saveButton={ <Button buttonType='primary' type="submit">Save</Button> }
+      stickyFooter
+    >
+      <Textbox label="Textbox" labelInline labelWidth={10} />
+      <Textbox label="Textbox" labelInline labelWidth={10} marginBottom={7} />
+      <Divider marginBottom={7} marginLeft='10%' />
+      <Textbox label="Textbox" labelInline labelWidth={10} />
+    </Form>
+  </Story> 
+</Preview>
