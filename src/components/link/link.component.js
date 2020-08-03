@@ -158,7 +158,11 @@ Link.propTypes = {
   routerLink: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   /** Target property in which link should open ie: _blank, _self, _parent, _top */
   target: PropTypes.string,
-  /** Ref to be forwarded */
+  /** Ref to be forwarded
+   *
+   * @ignore
+   * @private
+  */
   innerRef: PropTypes.object
 };
 

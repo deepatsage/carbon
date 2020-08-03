@@ -1,5 +1,5 @@
 import React, {
-  useRef, useState, useEffect
+  useRef, useState, useEffect, useCallback
 } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -25,11 +25,11 @@ const MenuItem = React.forwardRef(({
   handleKeyDown
 }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [openByArrowUp, setOpenByArrowUp] = useState(false);
+  const [didOpenByArrowUp, setOpenByArrowUp] = useState(false);
   const submenuItemsRefs = submenu && useRef(React.Children.map(children, child => child.ref || React.createRef()));
   const ifRef = () => !submenu && { ref };
-  let actualIndex;
-  const setFocusToSubmenuElement = (event, index) => {
+  const actualFocusedItemIndex = useRef();
+  const setFocusToSubmenuElement = useCallback((event, index) => {
     if (event) {
       event.preventDefault();
     }
@@ -43,35 +43,37 @@ const MenuItem = React.forwardRef(({
       }
       return index;
     };
-    const tempIndex = findIndex();
-    let newIndex = tempIndex;
-    actualIndex = tempIndex;
 
-    if (index === submenuItemsRefs.current.length) {
-      newIndex = 0;
-    } else if (index === -1) {
-      newIndex = submenuItemsRefs.current.length - 1;
+    actualFocusedItemIndex.current = findIndex();
+
+    const isFocusOnLastMenuItem = index === submenuItemsRefs.current.length;
+    const isFocusOnFirstMenuItem = index === -1;
+    if (isFocusOnLastMenuItem) {
+      actualFocusedItemIndex.current = 0;
+    } else if (isFocusOnFirstMenuItem) {
+      actualFocusedItemIndex.current = submenuItemsRefs.current.length - 1;
     }
 
-    submenuItemsRefs.current[newIndex].current.focus();
-  };
+    submenuItemsRefs.current[actualFocusedItemIndex.current].current.focus();
+  }, [submenuItemsRefs]);
 
   useEffect(() => {
     if (submenu && isOpen) {
-      if (!openByArrowUp) {
+      if (!didOpenByArrowUp) {
         submenuItemsRefs.current[0].current.focus();
       } else {
         submenuItemsRefs.current[submenuItemsRefs.current.length - 1].current.focus();
       }
     }
-  }, [isOpen, openByArrowUp, submenu, submenuItemsRefs]);
+  }, [isOpen, didOpenByArrowUp, submenu, submenuItemsRefs]);
 
   const onCloseSubmenu = () => {
     setIsOpen(false);
     setOpenByArrowUp(false);
   };
 
-  const onKeyDownSubmenu = (ev, index) => {
+  const onKeyDownSubmenu = useCallback((ev, index) => {
+    ev.preventDefault();
     if (!isOpen) {
       if (Events.isEnterKey(ev) || Events.isSpaceKey(ev) || Events.isDownKey(ev)) {
         setIsOpen(true);
@@ -92,7 +94,6 @@ const MenuItem = React.forwardRef(({
       if (
         Events.isLeftKey(ev)
         || Events.isRightKey(ev)
-        || (Events.isShiftKey(ev) && Events.isTabKey(ev))
         || Events.isTabKey(ev)
       ) {
         onCloseSubmenu();
@@ -119,7 +120,7 @@ const MenuItem = React.forwardRef(({
             if (firstMatch === undefined) {
               firstMatch = i;
             }
-            if (i > actualIndex && nextMatch === undefined) {
+            if (i > actualFocusedItemIndex.current && nextMatch === undefined) {
               nextMatch = i;
             }
           }
@@ -132,7 +133,7 @@ const MenuItem = React.forwardRef(({
         }
       }
     }
-  };
+  }, [actualFocusedItemIndex, children, isOpen, ref, setFocusToSubmenuElement, submenuItemsRefs]);
 
   const content = () => {
     if (!submenu) return children;
@@ -188,7 +189,7 @@ const MenuItem = React.forwardRef(({
     hasSubmenu: Boolean(submenu),
     selected,
     menuType,
-    tabbable: !!isFirstElement
+    tabbable: isFirstElement
   };
 
   if (!submenu) {

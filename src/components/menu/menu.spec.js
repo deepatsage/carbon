@@ -232,7 +232,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
       });
@@ -241,7 +241,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
       });
@@ -250,7 +250,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowUp });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowUp });
         });
         expect(submenuItemThird).toBeFocused();
       });
@@ -259,7 +259,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         wrapper.update();
         expect(submenuItemFirst).toBeFocused();
@@ -274,7 +274,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         wrapper.update();
         expect(submenuItemFirst).toBeFocused();
@@ -294,7 +294,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         wrapper.update();
         expect(submenuItemFirst).toBeFocused();
@@ -309,7 +309,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowUp });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowUp });
         });
         wrapper.update();
         expect(submenuItemThird).toBeFocused();
@@ -325,7 +325,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         wrapper.update();
         expect(submenuItemFirst).toBeFocused();
@@ -340,7 +340,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
         wrapper.update();
@@ -358,7 +358,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
         wrapper.update();
@@ -384,7 +384,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
         wrapper.update();
@@ -402,7 +402,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
         wrapper.update();
@@ -424,7 +424,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowUp });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowUp });
         });
         expect(submenuItemThird).toBeFocused();
         wrapper.update();
@@ -440,7 +440,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
 
         expect(submenuItemFirst).toBeFocused();
@@ -460,7 +460,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowUp });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowUp });
         });
         expect(submenuItemThird).toBeFocused();
         wrapper.update();
@@ -476,7 +476,7 @@ describe('Menu', () => {
         menuItemThird.getDOMNode().focus();
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
         expect(submenuItemFirst).toBeFocused();
         wrapper.update();
@@ -493,7 +493,7 @@ describe('Menu', () => {
 
         expect(menuItemThird).toBeFocused();
         act(() => {
-          styledMenuItemThird.props().onKeyDown({ which: KEYS.arrowDown });
+          styledMenuItemThird.props().onKeyDown({ preventDefault: () => {}, which: KEYS.arrowDown });
         });
 
         expect(submenuItemFirst).toBeFocused();
@@ -504,7 +504,9 @@ describe('Menu', () => {
 
         act(() => {
           wrapper.find(StyledSubmenu).find(StyledMenuItemWrapper).at(0).props()
-            .onKeyDown({ shiftKey: true, which: KEYS.tab, key: 'TAB' });
+            .onKeyDown({
+              preventDefault: () => {}, shiftKey: true, which: KEYS.tab, key: 'TAB'
+            });
         });
 
         wrapper.update();

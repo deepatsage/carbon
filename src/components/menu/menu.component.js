@@ -1,28 +1,30 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { StyledMenuWrapper, StyledMenuItemsWrapper, StyledMenuItem } from './menu.style';
 import Events from '../../utils/helpers/events';
 
 const Menu = ({ menuType = 'light', children }) => {
   const menuItemsRefs = useRef(React.Children.map(children, child => child.ref || React.createRef()));
-  let actualIndex;
-  const setFocusToElement = (event, index) => {
+  let actualFocusedItemIndex;
+  const setFocusToElement = useCallback((event, index) => {
     if (event) {
       event.preventDefault();
     }
 
-    let newIndex = index;
-    actualIndex = index;
-    if (index === menuItemsRefs.current.length) {
-      newIndex = 0;
-    } else if (index === -1) {
-      newIndex = menuItemsRefs.current.length - 1;
+    actualFocusedItemIndex = index;
+    const isFocusedOnLastMenuItem = index === menuItemsRefs.current.length;
+    const isFocusedOnFirstMenuItem = index === -1;
+    if (isFocusedOnLastMenuItem) {
+      actualFocusedItemIndex = 0;
+    } else if (isFocusedOnFirstMenuItem) {
+      actualFocusedItemIndex = menuItemsRefs.current.length - 1;
     }
 
-    menuItemsRefs.current[newIndex].current.focus();
-  };
+    menuItemsRefs.current[actualFocusedItemIndex].current.focus();
+  }, []);
 
-  const handleKeyDown = (event, index, isOpen) => {
+  const handleKeyDown = useCallback((event, index, isOpen) => {
+    event.preventDefault();
     if (Events.isRightKey(event)) {
       setFocusToElement(event, index + 1);
     }
@@ -54,7 +56,7 @@ const Menu = ({ menuType = 'light', children }) => {
             if (firstMatch === undefined) {
               firstMatch = i;
             }
-            if (i > actualIndex && nextMatch === undefined) {
+            if (i > actualFocusedItemIndex && nextMatch === undefined) {
               nextMatch = i;
             }
           }
@@ -67,7 +69,7 @@ const Menu = ({ menuType = 'light', children }) => {
         }
       }
     }
-  };
+  }, [actualFocusedItemIndex, children, setFocusToElement]);
 
   return (
     <StyledMenuWrapper
