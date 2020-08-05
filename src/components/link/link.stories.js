@@ -23,9 +23,9 @@ function makeStory(name, themeSelector, disableChromatic = false) {
     const iconAlign = select(
       'iconAlign',
       OptionsHelper.alignBinary,
-      Link.defaultProps.iconAlign
+      'left'
     );
-    const tabbable = boolean('tabbable', Link.defaultProps.tabbable);
+    const tabbable = boolean('tabbable', true);
     const to = text('to', '');
     const tooltipMessage = icon ? text('tooltipMessage', '') : undefined;
     const tooltipPosition = tooltipMessage ? select(

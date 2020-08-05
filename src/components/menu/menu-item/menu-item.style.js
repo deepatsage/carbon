@@ -17,7 +17,8 @@ const StyledMenuItemWrapper = styled.a`
     background-color: ${theme.menu.light.background};
 
     && a:focus{
-      outline: 2px solid gold;
+      outline: none;
+      box-shadow:inset 0 0 0 2px gold;
       background: ${theme.colors.primary};
       color: ${theme.colors.white};
       z-index: 1;
@@ -59,7 +60,7 @@ const StyledMenuItemWrapper = styled.a`
     ${LinkStyle} a:focus, 
     ${LinkStyle} button:focus{
       color: ${theme.colors.white};
-      outline: 2px solid gold;
+      box-shadow: inset 0 0 0 2px gold;
       background: ${theme.colors.primary};
       z-index: 1;
       position: relative;
