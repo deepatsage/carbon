@@ -29,6 +29,7 @@ const MenuItem = React.forwardRef(({
   const submenuItemsRefs = submenu && useRef(React.Children.map(children, child => child.ref || React.createRef()));
   const ifRef = () => !submenu && { ref };
   const actualFocusedItemIndex = useRef();
+  const submenuWrapperRef = useRef();
   const setFocusToSubmenuElement = useCallback((event, index) => {
     if (event) {
       event.preventDefault();
@@ -57,7 +58,17 @@ const MenuItem = React.forwardRef(({
     submenuItemsRefs.current[actualFocusedItemIndex.current].current.focus();
   }, [submenuItemsRefs]);
 
+  const detectClickOutside = useCallback((e) => {
+    if (!Events.composedPath(e).includes(submenuWrapperRef.current)) {
+      setIsOpen(false);
+      document.removeEventListener('click', detectClickOutside);
+    }
+  }, []);
+
   useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('click', detectClickOutside);
+    }
     if (submenu && isOpen) {
       if (!didOpenByArrowUp) {
         submenuItemsRefs.current[0].current.focus();
@@ -65,7 +76,7 @@ const MenuItem = React.forwardRef(({
         submenuItemsRefs.current[submenuItemsRefs.current.length - 1].current.focus();
       }
     }
-  }, [isOpen, didOpenByArrowUp, submenu, submenuItemsRefs]);
+  }, [isOpen, didOpenByArrowUp, submenu, submenuItemsRefs, detectClickOutside]);
 
   const onCloseSubmenu = () => {
     setIsOpen(false);
@@ -139,7 +150,7 @@ const MenuItem = React.forwardRef(({
     if (!submenu) return children;
 
     return (
-      <>
+      <div ref={ submenuWrapperRef }>
         <StyledSubmenuTitle>
           <StyledMenuItemWrapper
             href={ href }
@@ -171,7 +182,7 @@ const MenuItem = React.forwardRef(({
             )
           }
         </StyledSubmenu>
-      </>
+      </div>
     );
   };
 
