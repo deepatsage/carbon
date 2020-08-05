@@ -204,7 +204,6 @@ const MenuItem = React.forwardRef(({
       data-component='menu-item'
       { ...elementProps }
       isOpen={ isOpen }
-      onMouseLeave={ onCloseSubmenu }
     >
       {content()}
     </StyledMenuItemWrapper>

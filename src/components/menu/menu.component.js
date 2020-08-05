@@ -5,22 +5,22 @@ import Events from '../../utils/helpers/events';
 
 const Menu = ({ menuType = 'light', children }) => {
   const menuItemsRefs = useRef(React.Children.map(children, child => child.ref || React.createRef()));
-  let actualFocusedItemIndex;
+  const actualFocusedItemIndex = useRef();
   const setFocusToElement = useCallback((event, index) => {
     if (event) {
       event.preventDefault();
     }
 
-    actualFocusedItemIndex = index;
+    actualFocusedItemIndex.current = index;
     const isFocusedOnLastMenuItem = index === menuItemsRefs.current.length;
     const isFocusedOnFirstMenuItem = index === -1;
     if (isFocusedOnLastMenuItem) {
-      actualFocusedItemIndex = 0;
+      actualFocusedItemIndex.current = 0;
     } else if (isFocusedOnFirstMenuItem) {
-      actualFocusedItemIndex = menuItemsRefs.current.length - 1;
+      actualFocusedItemIndex.current = menuItemsRefs.current.length - 1;
     }
 
-    menuItemsRefs.current[actualFocusedItemIndex].current.focus();
+    menuItemsRefs.current[actualFocusedItemIndex.current].current.focus();
   }, []);
 
   const handleKeyDown = useCallback((event, index, isOpen) => {
@@ -56,7 +56,7 @@ const Menu = ({ menuType = 'light', children }) => {
             if (firstMatch === undefined) {
               firstMatch = i;
             }
-            if (i > actualFocusedItemIndex && nextMatch === undefined) {
+            if (i > actualFocusedItemIndex.current && nextMatch === undefined) {
               nextMatch = i;
             }
           }
