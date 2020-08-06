@@ -22,10 +22,13 @@ const MenuItem = React.forwardRef(({
   selected,
   routerLink,
   isFirstElement,
-  handleKeyDown
+  handleKeyDown,
+  isOpen,
+  setIsOpenSubmenu,
+  menuItemIndex
 }, ref) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [didOpenByArrowUp, setOpenByArrowUp] = useState(false);
+  const [didOpenByMouseEnter, setOpenByMouseEnter] = useState(false);
   const submenuItemsRefs = submenu && useRef(React.Children.map(children, child => child.ref || React.createRef()));
   const ifRef = () => !submenu && { ref };
   const actualFocusedItemIndex = useRef();
@@ -58,40 +61,41 @@ const MenuItem = React.forwardRef(({
     submenuItemsRefs.current[actualFocusedItemIndex.current].current.focus();
   }, [submenuItemsRefs]);
 
+  const onCloseSubmenu = useCallback(() => {
+    setIsOpenSubmenu(null);
+    setOpenByMouseEnter(false);
+    setOpenByArrowUp(false);
+  }, [setIsOpenSubmenu]);
+
   const detectClickOutside = useCallback((e) => {
     if (!Events.composedPath(e).includes(submenuWrapperRef.current)) {
-      setIsOpen(false);
+      onCloseSubmenu();
       document.removeEventListener('click', detectClickOutside);
     }
-  }, []);
+  }, [onCloseSubmenu]);
 
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('click', detectClickOutside);
     }
     if (submenu && isOpen) {
-      if (!didOpenByArrowUp) {
+      if (!didOpenByArrowUp && !didOpenByMouseEnter) {
         submenuItemsRefs.current[0].current.focus();
-      } else {
+      } else if (didOpenByArrowUp && !didOpenByMouseEnter) {
         submenuItemsRefs.current[submenuItemsRefs.current.length - 1].current.focus();
       }
     }
-  }, [isOpen, didOpenByArrowUp, submenu, submenuItemsRefs, detectClickOutside]);
-
-  const onCloseSubmenu = () => {
-    setIsOpen(false);
-    setOpenByArrowUp(false);
-  };
+  }, [didOpenByArrowUp, submenu, submenuItemsRefs, detectClickOutside, isOpen, didOpenByMouseEnter]);
 
   const onKeyDownSubmenu = useCallback((ev, index) => {
     ev.preventDefault();
     if (!isOpen) {
       if (Events.isEnterKey(ev) || Events.isSpaceKey(ev) || Events.isDownKey(ev)) {
-        setIsOpen(true);
+        setIsOpenSubmenu(menuItemIndex);
       }
       if (Events.isUpKey(ev)) {
         setOpenByArrowUp(true);
-        setIsOpen(true);
+        setIsOpenSubmenu(menuItemIndex);
       }
     }
 
@@ -144,13 +148,27 @@ const MenuItem = React.forwardRef(({
         }
       }
     }
-  }, [actualFocusedItemIndex, children, isOpen, ref, setFocusToSubmenuElement, submenuItemsRefs]);
+  // eslint-disable-next-line max-len
+  }, [children, isOpen, menuItemIndex, onCloseSubmenu, ref, setFocusToSubmenuElement, setIsOpenSubmenu, submenuItemsRefs]);
+
+  const handleMouseOver = useCallback(() => {
+    setOpenByMouseEnter(true);
+    setIsOpenSubmenu(menuItemIndex);
+  }, [menuItemIndex, setIsOpenSubmenu]);
+
+  const handleMouseLeave = useCallback(() => {
+    onCloseSubmenu();
+  }, [onCloseSubmenu]);
 
   const content = () => {
     if (!submenu) return children;
 
     return (
-      <div ref={ submenuWrapperRef }>
+      <div
+        ref={ submenuWrapperRef }
+        onMouseEnter={ handleMouseOver }
+        onMouseLeave={ handleMouseLeave }
+      >
         <StyledSubmenuTitle>
           <StyledMenuItemWrapper
             href={ href }
@@ -210,7 +228,7 @@ const MenuItem = React.forwardRef(({
   return (
     <StyledMenuItemWrapper
       { ...ifRef() }
-      onKeyDown={ ev => handleKeyDown(ev, isOpen) }
+      onKeyDown={ handleKeyDown }
       as={ submenu ? 'div' : Link }
       data-component='menu-item'
       { ...elementProps }
@@ -263,7 +281,22 @@ MenuItem.propTypes = {
    * @private
    * @ignore
   */
-  handleKeyDown: PropTypes.func
+  handleKeyDown: PropTypes.func,
+  /**
+   * @private
+   * @ignore
+  */
+  isOpen: PropTypes.bool,
+  /**
+   * @private
+   * @ignore
+  */
+  setIsOpenSubmenu: PropTypes.func,
+  /**
+   * @private
+   * @ignore
+  */
+  menuItemIndex: PropTypes.number
 };
 
 export default MenuItem;

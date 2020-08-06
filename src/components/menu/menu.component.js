@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyledMenuWrapper, StyledMenuItemsWrapper, StyledMenuItem } from './menu.style';
 import Events from '../../utils/helpers/events';
@@ -6,6 +6,7 @@ import Events from '../../utils/helpers/events';
 const Menu = ({ menuType = 'light', children }) => {
   const menuItemsRefs = useRef(React.Children.map(children, child => child.ref || React.createRef()));
   const actualFocusedItemIndex = useRef();
+  const [isOpenSubmenu, setIsOpenSubmenu] = useState(null);
   const setFocusToElement = useCallback((event, index) => {
     if (event) {
       event.preventDefault();
@@ -23,7 +24,7 @@ const Menu = ({ menuType = 'light', children }) => {
     menuItemsRefs.current[actualFocusedItemIndex.current].current.focus();
   }, []);
 
-  const handleKeyDown = useCallback((event, index, isOpen) => {
+  const handleKeyDown = useCallback((event, index) => {
     event.preventDefault();
     if (Events.isRightKey(event)) {
       setFocusToElement(event, index + 1);
@@ -33,7 +34,7 @@ const Menu = ({ menuType = 'light', children }) => {
       setFocusToElement(event, index - 1);
     }
 
-    if (!isOpen) {
+    if (!isOpenSubmenu) {
       if (Events.isHomeKey(event)) {
         menuItemsRefs.current[0].current.focus();
       } else if (Events.isEndKey(event)) {
@@ -69,7 +70,7 @@ const Menu = ({ menuType = 'light', children }) => {
         }
       }
     }
-  }, [actualFocusedItemIndex, children, setFocusToElement]);
+  }, [children, isOpenSubmenu, setFocusToElement]);
 
   return (
     <StyledMenuWrapper
@@ -92,7 +93,10 @@ const Menu = ({ menuType = 'light', children }) => {
                       menuType,
                       ref: menuItemsRefs.current[index],
                       isFirstElement,
-                      handleKeyDown: (ev, isOpen) => handleKeyDown(ev, index, isOpen)
+                      menuItemIndex: index,
+                      isOpen: isOpenSubmenu === index,
+                      setIsOpenSubmenu,
+                      handleKeyDown: ev => handleKeyDown(ev, index)
                     },
                   )
                 }

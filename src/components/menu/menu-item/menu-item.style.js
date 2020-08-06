@@ -81,6 +81,10 @@ const StyledMenuItemWrapper = styled.a`
 
           a, button, [data-component="icon"] {
             color: ${theme.colors.black};
+          }
+
+          a:focus, button:focus {
+            color: ${theme.colors.white};
           }    
         }
 
