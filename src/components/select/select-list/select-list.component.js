@@ -5,7 +5,10 @@ import React, {
   useRef
 } from 'react';
 import PropTypes from 'prop-types';
-import StyledSelectList from './select-list.style';
+import StyledSelectList, {
+  StyledSelectListTable, StyledSelectListTableContainer, StyledSelectListTableHeader
+} from './select-list.style';
+import OptionRow from '../option-row/option-row.component';
 import updateListScrollTop from './update-list-scroll';
 import getNextChildByText from '../utils/get-next-child-by-text';
 import Portal from '../../portal/portal';
@@ -156,7 +159,29 @@ const SelectList = React.forwardRef(({
 
   return (
     <Portal onReposition={ repositionList }>
-      <StyledSelectList
+      <StyledSelectListTableContainer id={ id } ref={ listRef }>
+        <StyledSelectListTable>
+          <StyledSelectListTableHeader>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                City
+              </th>
+              <th>
+                Postal Code
+              </th>
+            </tr>
+          </StyledSelectListTableHeader>
+          <tbody>
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
+              <OptionRow value='value' columnsText={ ['Jon Snow', 'Berlin', '66-12312312312312312312312666'] } />
+            ))
+            }
+          </tbody>
+        </StyledSelectListTable>
+        {/* <StyledSelectList
         id={ id }
         aria-labelledby={ labelId }
         data-element='select-list'
@@ -166,7 +191,10 @@ const SelectList = React.forwardRef(({
         { ...listProps }
       >
         { getChildrenWithListProps() }
-      </StyledSelectList>
+      </StyledSelectList> */}
+      </StyledSelectListTableContainer>
+
+
     </Portal>
   );
 });
