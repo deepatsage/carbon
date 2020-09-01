@@ -22,7 +22,7 @@ export default {
   }
 };
 
-export const Basic = () => {
+export const Basic = (args) => {
   return (
     <Accordion
       iconType={ select('iconType', ['chevron_down', 'dropdown']) }
@@ -35,9 +35,9 @@ export const Basic = () => {
       size={ select('size', ['large', 'small']) }
       customPadding={ number('customPadding', 0) }
       scheme={ select('scheme', ['white', 'transparent']) }
-      title={ text('title', 'Title') }
       subTitle={ text('subTitle', 'Sub Title') }
       width={ text('width', '100%') }
+      { ...args }
       onChange={ action('expansionToggled') }
     >
       <div>Content</div>
@@ -47,10 +47,20 @@ export const Basic = () => {
   );
 };
 
-export const Grouped = () => (
+Basic.parameters = {
+  chromatic: {
+    disable: false
+  }
+};
+
+Basic.args = {
+  title: 'Title'
+};
+
+export const Grouped = args => (
   <AccordionGroup>
     <Accordion
-      title='First Accordion'
+      { ...args }
       onChange={ action('expansionToggled') }
     >
       <Textbox label='Textbox in an Accordion' />
@@ -72,18 +82,12 @@ export const Grouped = () => (
   </AccordionGroup>
 );
 
-Basic.story = {
-  parameters: {
-    chromatic: {
-      disable: false
-    }
+Grouped.parameters = {
+  chromatic: {
+    disable: false
   }
 };
 
-Grouped.story = {
-  parameters: {
-    chromatic: {
-      disable: false
-    }
-  }
+Grouped.args = {
+  title: 'Title'
 };
