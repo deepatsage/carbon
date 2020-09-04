@@ -26,6 +26,8 @@ const SelectList = React.forwardRef(({
   ...listProps
 }, listRef) => {
   const [currentOptionsListIndex, setCurrentOptionsListIndex] = useState(-1);
+  const [currentTop, setCurrentTop] = useState(null);
+  const [currentLeft, setCurrentLeft] = useState(null);
   const lastFilter = useRef('');
 
   const getIndexOfMatch = useCallback((valueToMatch) => {
@@ -81,9 +83,19 @@ const SelectList = React.forwardRef(({
       const width = `${inputBoundingRect.width + 2 * overhang}px`;
       const left = `${window.pageXOffset + inputBoundingRect.left - overhang}px`;
 
+      if (currentTop !== null && currentLeft !== null) {
+        if (currentTop !== top || currentLeft !== left) {
+          onSelectListClose();
+          return;
+        }
+      }
+
+      setCurrentTop(top);
+      setCurrentLeft(left);
+
       listRef.current.setAttribute('style', `top: ${top}; width: ${width}; left: ${left}`);
     }
-  }, [anchorElement, listRef]);
+  }, [anchorElement, currentLeft, currentTop, listRef, onSelectListClose]);
 
   useEffect(() => {
     const keyboardEvent = 'keydown';

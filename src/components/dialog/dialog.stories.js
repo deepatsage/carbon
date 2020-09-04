@@ -12,7 +12,7 @@ import Textbox from '../../__experimental__/components/textbox';
 import Button from '../button';
 import DateInput from '../../__experimental__/components/date';
 import { Checkbox } from '../../__experimental__/components/checkbox';
-import { Select, Option } from '../../__experimental__/components/select';
+import { Select, Option } from '../select';
 import getDocGenInfo from '../../utils/helpers/docgen-info';
 
 Dialog.__docgenInfo = getDocGenInfo(
@@ -198,6 +198,15 @@ function makeButtonStory(name, themeSelector, stickyFooter, disableChromatic = f
               saveButton={ <Button buttonType='primary' type='submit'>Save</Button> }
             >
               <Textbox label='First Name' />
+              <Select label='Color'>
+                {selectOptions.map(option => (
+                  <Option
+                    key={ option.name }
+                    value={ option }
+                    text={ option.name }
+                  />
+                ))}
+              </Select>
               <Textbox label='Middle Name' />
               <Textbox label='Surname' />
               <Textbox label='Birth Place' />
