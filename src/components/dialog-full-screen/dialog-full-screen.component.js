@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../modal';
 import Heading from '../heading';
-import AppWrapper from '../app-wrapper';
 import FullScreenHeading from './full-screen-heading';
 import StyledDialogFullScreen from './dialog-full-screen.style';
 import StyledContent from './content.style';
@@ -62,9 +61,7 @@ class DialogFullScreen extends Modal {
           headingHeight={ this.state.headingHeight }
           data-element='content'
         >
-          <AppWrapper>
-            { this.props.children }
-          </AppWrapper>
+          { this.props.children }
         </StyledContent>
       </StyledDialogFullScreen>
     );

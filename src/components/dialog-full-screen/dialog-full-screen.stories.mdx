@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 
 import DialogFullScreen from '.';
+import AppWrapper from '../app-wrapper';
 import Button from '../button';
 import Form from '../form';
 import Textbox from '../../__experimental__/components/textbox';
@@ -73,6 +74,45 @@ const MyComponent = ({ isOpen, handleClose }) => (
               <Textbox label='Favourite Colour' />
               <Textbox label='Address' />
             </Form>
+          </DialogFullScreen>
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### With AppWrapper
+
+<Preview>
+  <Story name="with app wrapper" parameters={{ chromatic: { disable: true }}}>
+    {() => {
+      const [isOpen, setIsOpen] = useState(true);
+      return (
+        <>
+          <Button onClick={ () => setIsOpen(!isOpen) }>
+            Open DialogFullScreen
+          </Button>
+          <DialogFullScreen
+            open={ isOpen }
+            onCancel={ () => setIsOpen(false) }
+            title="Title"
+            subtitle="Subtitle"
+          >
+            <AppWrapper>
+              <Form
+                stickyFooter={ true }
+                leftSideButtons={ <Button onClick={ () => setIsOpen(false) }>Cancel</Button> }
+                saveButton={ <Button buttonType='primary' type='submit'>Save</Button> }
+              >
+                <div>This is an example of a full screen Dialog with a Form as content</div>
+                <Textbox label='First Name' />
+                <Textbox label='Middle Name' />
+                <Textbox label='Surname' />
+                <Textbox label='Birth Place' />
+                <Textbox label='Favourite Colour' />
+                <Textbox label='Address' />
+              </Form>
+            </AppWrapper>
           </DialogFullScreen>
         </>
       )
