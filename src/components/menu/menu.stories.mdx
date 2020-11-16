@@ -36,8 +36,7 @@ import {Menu, MenuItem, SubmenuBlock, MenuDivider} from "carbon-react/lib/compon
             Item Submenu Two
           </MenuItem>
           <MenuDivider />
-          <MenuItem icon="settings" href="#">
-            Item Submenu Three
+          <MenuItem icon="settings" href="#" ariaLabel="settings" keyboardOverride="s">
           </MenuItem>
           <MenuItem href="#">
             Item Submenu Four
@@ -102,7 +101,7 @@ import {Menu, MenuItem, SubmenuBlock, MenuDivider} from "carbon-react/lib/compon
             Item Submenu Two
           </MenuItem>
           <MenuItem href="#">
-            Item Submenu Three
+            Item Submenu Three 
           </MenuItem>
         </MenuItem>
       </Menu>
@@ -110,6 +109,42 @@ import {Menu, MenuItem, SubmenuBlock, MenuDivider} from "carbon-react/lib/compon
   </Story>
 </Preview>
 
+## Default icon
+
+Menu's with icons only must have a supplied keyboard shortcut. For the top menu it is 1,2,3 and 4, for the first submenu it is a, b and c for use with keyboard navigation, if no shortcut is supplied the menu item text is navigable by the first letter of each item. 
+The menu must have focus for this to work
+
+<Preview>
+  <Story name="default icon">
+    <div style={{minHeight: '150px'}}>
+      <Menu>
+        <MenuItem icon="home" href="#" keyboardOverride="1" ariaLabel="Home"/> 
+        <MenuItem icon="person" href="#" keyboardOverride="2" ariaLabel="Account"/>
+        <MenuItem icon="settings" submenu keyboardOverride="3" ariaLabel="Settings">
+          <MenuItem href="#" keyboardOverride="a">
+            Item Submenu One
+          </MenuItem>
+          <MenuItem href="#" keyboardOverride="b">
+            Item Submenu Two
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem icon="settings" href="#" ariaLabel="settings" keyboardOverride="c"/>
+          <MenuItem href="#">
+            Item Submenu Four
+          </MenuItem>
+        </MenuItem>
+        <MenuItem icon="arrow" submenu keyboardOverride="4" ariaLabel="Actions">
+          <MenuItem href="#">
+            Item Submenu One
+          </MenuItem>
+          <MenuItem href="#">
+            Item Submenu Two
+          </MenuItem>
+        </MenuItem>
+      </Menu>
+    </div>
+  </Story>
+</Preview>
 
 ## Dark theme
 

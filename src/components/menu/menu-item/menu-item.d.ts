@@ -11,6 +11,7 @@ export interface MenuItemProps {
   href?: string;
   to?: string;
   routerLink?: React.ReactNode;
+  keyboardOverride?: string;
 }
 
 declare const MenuItem: React.ComponentType<MenuItemProps>;

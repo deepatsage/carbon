@@ -7,6 +7,7 @@ import StyledMenuItemWrapper from './menu-item.style';
 import { StyledSubmenu, StyledSubmenuItem, StyledSubmenuTitle } from '../submenu-block/submenu.style';
 import OptionHelper from '../../../utils/helpers/options-helper';
 import Link from '../../link';
+import Icon from '../../icon';
 import Events from '../../../utils/helpers/events';
 
 const MenuItem = React.forwardRef(({
@@ -29,7 +30,10 @@ const MenuItem = React.forwardRef(({
   onKeyDown,
   isOpenByArrowLeftOrRight,
   setOpenByArrowLeftOrRight,
-  setFocusToElement
+  setFocusToElement,
+  // eslint-disable-next-line no-unused-vars
+  keyboardOverride,
+  ariaLabel
 }, ref) => {
   const initialState = {
     didOpenByArrowUp: false,
@@ -191,7 +195,7 @@ const MenuItem = React.forwardRef(({
         } else if (Events.isEscKey(ev)) {
           onCloseSubmenu();
           ref.current.focus();
-        } else if (Events.isAlphabetKey(ev)) {
+        } else if (Events.isAlphabetKey(ev) || Events.isNumberKey(ev)) {
         // A-Za-z: focus the next item on the list that starts with the pressed key
         // selection should wrap to the start of the list
           ev.stopPropagation();
@@ -199,7 +203,8 @@ const MenuItem = React.forwardRef(({
           let nextMatch;
 
           React.Children.forEach(children, ({ props }, i) => {
-            if (props.children && props.children.toString().toLowerCase().startsWith(ev.key.toLowerCase())) {
+            const navValue = props.keyboardOverride || props.children;
+            if (navValue && navValue.toLowerCase().startsWith(ev.key.toLowerCase())) {
               if (firstMatch === undefined) {
                 firstMatch = i;
               }
@@ -250,7 +255,20 @@ const MenuItem = React.forwardRef(({
   }, [handleKeyDown, onKeyDown, ref, submenu]);
 
   const content = () => {
+    let iconContent = '';
     if (!submenu) return children;
+    const ariaHidden = typeof submenu === 'string';
+    if (icon) {
+      iconContent = (
+        <Icon
+          type={ icon }
+          bgTheme='none'
+          iconColor='business-color'
+          ariaLabel={ ariaLabel }
+          ariaHidden={ ariaHidden }
+        />
+      );
+    }
 
     return (
       <div
@@ -267,7 +285,9 @@ const MenuItem = React.forwardRef(({
             tabIndex={ -1 }
             onKeyDown={ onKeyDownSubmenu }
             onClick={ handleClick }
+            icon={ icon }
           >
+            { iconContent }
             { submenu }
           </StyledMenuItemWrapper>
         </StyledSubmenuTitle>
@@ -313,6 +333,8 @@ const MenuItem = React.forwardRef(({
 
   if (!submenu) {
     elementProps.routerLink = routerLink;
+    elementProps.ariaLabel = ariaLabel;
+    elementProps.ariaHidden = children !== undefined;
   }
 
   return (
@@ -331,19 +353,44 @@ const MenuItem = React.forwardRef(({
 
 MenuItem.propTypes = {
   /** Children elements */
-  children: PropTypes.node.isRequired,
+  children: (props, propName, ...rest) => {
+    if (props.icon === undefined && props.children === undefined) {
+      return new Error(
+        'Either prop `icon` must be defined or this node must have children.'
+      );
+    }
+    return PropTypes.node(
+      props,
+      propName,
+      ...rest
+    );
+  },
   /** Custom className */
   className: PropTypes.string,
   /** onClick handler */
   onClick: PropTypes.func,
   /** Adds an icon to the menu item. */
-  icon: PropTypes.oneOf(OptionHelper.icons),
+  icon: (props, propName, ...rest) => {
+    if (props.icon === undefined && props.children === undefined) {
+      return new Error(
+        'Either prop `icon` must be defined or this node must have children.'
+      );
+    }
+    return PropTypes.oneOfType([
+      PropTypes.oneOf(OptionHelper.icons),
+      PropTypes.node])(
+      props,
+      propName,
+      ...rest
+    );
+  },
   /** Defines which direction the submenu will hang eg. left/right */
   submenuDirection: PropTypes.string,
   /** Is the menu item the currently selected item. */
   selected: PropTypes.bool,
   /** A title for the menu item that has a submenu. */
   submenu: PropTypes.oneOfType([
+    PropTypes.bool,
     PropTypes.string,
     PropTypes.object
   ]),
@@ -357,6 +404,31 @@ MenuItem.propTypes = {
   onKeyDown: PropTypes.func,
   /** The target to use for the menu item. */
   target: PropTypes.string,
+  /** Character to navigate to this item. */
+  keyboardOverride: (props, propName, ...rest) => {
+    if (props.icon !== undefined && props.children === undefined && props.keyboardOverride === undefined) {
+      return new Error(
+        'Either a keyboard override or child text must be provided to facilitate keyboard navigation.'
+      );
+    }
+    return PropTypes.string(
+      props,
+      propName,
+      ...rest
+    );
+  },
+  /** Aria label for accessibility purposes */
+  ariaLabel: (props, ...rest) => {
+    if (props.children === undefined && typeof props.submenu !== 'string' && props.ariaLabel === undefined) {
+      return new Error(
+        'If no text is provided an ariaLabel should be given to facilitate accessibility.'
+      );
+    }
+    return PropTypes.string(
+      props,
+      ...rest
+    );
+  },
   /**
    * menu color scheme provided by <Menu />
    * @private

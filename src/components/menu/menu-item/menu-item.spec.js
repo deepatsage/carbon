@@ -6,6 +6,8 @@ import { assertStyleMatch } from '../../../__spec_helper__/test-utils';
 import { baseTheme } from '../../../style/themes';
 import StyledMenuItemWrapper from './menu-item.style';
 import { StyledSubmenuTitle, StyledSubmenu } from '../submenu-block/submenu.style';
+import StyledIcon from '../../icon/icon.style';
+import Icon from '../../icon/icon.component';
 
 describe('MenuItem', () => {
   let wrapper;
@@ -206,6 +208,84 @@ describe('MenuItem', () => {
           backgroundColor: `${baseTheme.menu.dark.submenuBackground}`,
           color: `${baseTheme.colors.white}`
         }, wrapper, { modifier: `& ${StyledMenuItemWrapper}` });
+      });
+    });
+
+    describe('icon only menus and submenus', () => {
+      it('should render an icon into the menu item', () => {
+        wrapper = mount(
+          <MenuItem
+            icon='settings'
+            ariaLabel='Settings'
+            keyboardOverride='s'
+          />
+        );
+
+        expect(wrapper.find(StyledIcon).first().exists()).toBe(true);
+      });
+
+      it('should render an icon into the submenu item', () => {
+        wrapper = mount(
+          <MenuItem
+            icon='settings'
+            submenu
+            ariaLabel='Settings'
+            keyboardOverride='s'
+          />
+        );
+
+        expect(wrapper.find(StyledIcon).first().exists()).toBe(true);
+      });
+
+      it('should render an icon into the submenu item with text', () => {
+        wrapper = mount(
+          <MenuItem
+            icon='settings'
+            submenu='Settings'
+            ariaLabel='Settings'
+            keyboardOverride='s'
+          />
+        );
+
+        expect(wrapper.find(StyledIcon).first().exists()).toBe(true);
+      });
+
+      it('add aria-label when it is set', () => {
+        wrapper = mount(
+          <MenuItem
+            icon='settings' ariaLabel='Settings'
+            keyboardOverride='s'
+          />
+        );
+
+        expect(wrapper.find(Icon).props().ariaLabel).toBe('Settings');
+      });
+
+      it('give error when aria-label is not set and menu item has no child text', () => {
+        jest.spyOn(global.console, 'error').mockImplementation(() => {});
+        wrapper = mount(
+          <MenuItem
+            icon='settings'
+            keyboardOverride='s'
+          />
+        );
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledWith('Warning: Failed prop type: If no text is provided an ariaLabel'
+        + ' should be given to facilitate accessibility.\n    in ForwardRef');
+        global.console.error.mockReset();
+      });
+
+      it('give error when aria-label is not set and menu item has no child text', () => {
+        jest.spyOn(global.console, 'error').mockImplementation(() => {});
+        wrapper = mount(
+          <MenuItem
+            icon='settings'
+          />
+        );
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledWith('Warning: Failed prop type: Either a keyboard override or child'
+        + ' text must be provided to facilitate keyboard navigation.\n    in ForwardRef');
+        global.console.error.mockReset();
       });
     });
   });

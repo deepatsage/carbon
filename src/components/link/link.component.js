@@ -41,6 +41,8 @@ class InternalLink extends React.Component {
         bgTheme='none'
         iconColor='business-color'
         disabled={ this.props.disabled }
+        ariaLabel={ this.props.ariaLabel }
+        ariaHidden={ this.props.ariaHidden }
       />
     );
   }
@@ -162,7 +164,11 @@ InternalLink.propTypes = {
    * @ignore
    * @private
   */
-  innerRef: PropTypes.object
+  innerRef: PropTypes.object,
+  /** Aria label for accessibility purposes */
+  ariaLabel: PropTypes.string,
+  /** Aria hidden for accessibility purposes */
+  ariaHidden: PropTypes.bool
 };
 
 InternalLink.defaultProps = {

@@ -54,6 +54,8 @@ class Icon extends React.Component {
         data-element={ this.type }
         mr={ this.props.mr }
         ml={ this.props.ml }
+        aria-label={ this.props.ariaLabel }
+        aria-hidden={ this.props.ariaHidden }
       />,
       this.tooltipHTML
     ];
@@ -107,7 +109,11 @@ Icon.propTypes = {
   /** Margin right, given number will be multiplied by base spacing unit (8) */
   mr: PropTypes.number,
   /** Margin left, given number will be multiplied by base spacing unit (8) */
-  ml: PropTypes.number
+  ml: PropTypes.number,
+  /** Aria label for accessibility purposes */
+  ariaLabel: PropTypes.string,
+  /** Aria hidden for accessibility purposes */
+  ariaHidden: PropTypes.bool
 };
 
 Icon.defaultProps = {

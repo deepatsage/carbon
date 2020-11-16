@@ -1,4 +1,6 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, {
+  useEffect, useContext, useRef, useMemo
+} from 'react';
 import PropTypes from 'prop-types';
 import StyledInput from './input.style';
 import { InputContext, InputGroupContext } from '../../../__internal__/input-behaviour';

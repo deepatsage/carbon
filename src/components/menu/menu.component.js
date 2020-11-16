@@ -45,13 +45,17 @@ const Menu = ({ menuType = 'light', children }) => {
     } else if (Events.isEndKey(event)) {
       event.preventDefault();
       setFocusToElement(event, menuItemsRefs.current.length - 1);
-    } else if (Events.isAlphabetKey(event)) {
+    } else if (Events.isAlphabetKey(event) || Events.isNumberKey(event)) {
       // A-Za-z: focus the next item on the list that starts with the pressed key
       // selection should wrap to the start of the list
       event.stopPropagation();
       let firstMatch;
       let nextMatch;
       const getMenuText = (element) => {
+        if (element.keyboardOverride) {
+          return element.keyboardOverride;
+        }
+
         if (element.submenu) {
           return element.submenu;
         }
@@ -59,7 +63,8 @@ const Menu = ({ menuType = 'light', children }) => {
         return element.children;
       };
       filteredChildren.forEach(({ props }, i) => {
-        if (props.children && getMenuText(props).toString().toLowerCase().startsWith(event.key.toLowerCase())) {
+        const navValue = getMenuText(props);
+        if (navValue && navValue.toString().toLowerCase().startsWith(event.key.toLowerCase())) {
           if (firstMatch === undefined) {
             firstMatch = i;
           }

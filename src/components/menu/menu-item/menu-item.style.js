@@ -74,6 +74,12 @@ const StyledMenuItemWrapper = styled.a`
       }
     }
 
+    ${StyledIcon}{
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
+    }
+
     ${hasSubmenu && css`
       :hover &, :hover{
         background-color: ${theme.colors.white};
@@ -257,12 +263,6 @@ const StyledMenuItemWrapper = styled.a`
         line-height: 40px;
         white-space: nowrap;
         cursor: pointer;
-
-        ${StyledIcon}{
-          width: 16px;
-          height: 16px;
-          margin-right: 5px;
-        }
       }
     }
 
