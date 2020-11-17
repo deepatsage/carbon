@@ -21,7 +21,9 @@ module.exports = {
   
     config.resolve = {
       alias: {
-        helpers: path.resolve(__dirname, '__helpers__/')
+        helpers: path.resolve(__dirname, '__helpers__/'),
+        'react-dom$': 'react-dom/profiling',
+        'scheduler/tracing': 'scheduler/tracing-profiling',
       },
       extensions: ['.js']
     };
