@@ -11,6 +11,9 @@ const StyledSelectListContainer = styled.div`
   top: 100%;
   width: calc(100% + ${2 * overhang}px);
   left: -${overhang}px;
+  transition: height 0.3s ease-in;
+  height: ${({ height }) => height};
+  overflow: hidden;
 `;
 
 StyledSelectListContainer.defaultProps = {
