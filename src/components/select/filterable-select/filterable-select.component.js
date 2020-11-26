@@ -28,6 +28,7 @@ const FilterableSelect = React.forwardRef(
       onListAction,
       isLoading,
       readOnly,
+      onListScrollBottom,
       ...textboxProps
     },
     inputRef
@@ -385,6 +386,7 @@ const FilterableSelect = React.forwardRef(
         onListAction={handleOnListAction}
         isLoading={isLoading}
         readOnly={readOnly}
+        onListScrollBottom={onListScrollBottom}
       >
         {children}
       </FilterableSelectList>
@@ -430,6 +432,8 @@ FilterableSelect.propTypes = {
   onListAction: PropTypes.func,
   /** If true the loader animation is displayed in the option list */
   isLoading: PropTypes.bool,
+  /** A callback that is triggered when a user scrolls to the bottom of the list */
+  onListScrollBottom: PropTypes.func,
 };
 
 export default FilterableSelect;
