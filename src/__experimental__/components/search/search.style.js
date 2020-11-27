@@ -1,17 +1,31 @@
 import styled, { css } from "styled-components";
 import StyledInputPresentation from "../input/input-presentation.style";
+import StyledInput from "../input/input.style";
 import StyledIcon from "../../../components/icon/icon.style";
 import StyledButton from "../../../components/button/button.style";
 import { baseTheme } from "../../../style/themes";
 import StyledFormField from "../form-field/form-field.style";
 
 const StyledSearch = styled.div`
-  ${({ isFocused, searchWidth, searchIsActive, searchHasValue, theme }) => {
+  ${({
+    isFocused,
+    searchWidth,
+    searchIsActive,
+    searchHasValue,
+    searchButton,
+    theme,
+    variant,
+  }) => {
+    const darkTheme = variant === "dark";
     return css`
       width: ${searchWidth ? `${searchWidth}` : "100%"};
       padding-bottom: 2px;
       background-color: transparent;
-      border-bottom: 2px solid ${theme.search.passive};
+      border-bottom: 2px solid ${
+        darkTheme
+          ? `${theme.search.darkThemeBorder}`
+          : `${theme.search.passive}`
+      };
       display: inline-flex;
       font-size: 14px;
       font-weight: 700;
@@ -19,16 +33,6 @@ const StyledSearch = styled.div`
       :hover {
         border-bottom-color: ${theme.search.active};
         cursor: pointer;
-      }
-      ${
-        !isFocused &&
-        !searchHasValue &&
-        css`
-          ${StyledInputPresentation} {
-            border: 1px solid transparent;
-            color: ${theme.icon.default};
-          }
-        `
       }
       ${
         (isFocused || searchHasValue) &&
@@ -45,10 +49,43 @@ const StyledSearch = styled.div`
         isFocused &&
         !searchIsActive &&
         css`
+          border-color: transparent;
           color: ${theme.icon.defaultHover};
         `
       }
-      
+      ${
+        !isFocused &&
+        searchHasValue &&
+        !searchButton &&
+        css`
+          border-bottom: 2px solid
+            ${darkTheme
+              ? `${theme.search.darkThemeBorder}`
+              : `${theme.search.passive}`};
+          :hover {
+            border-bottom-color: ${theme.search.active};
+            cursor: pointer;
+          }
+        `
+      }
+
+      ${StyledInput} {
+        ${
+          darkTheme &&
+          css`
+            ::placeholder {
+              color: ${theme.search.darkThemePlaceholder};
+            }
+            ${!isFocused &&
+            searchHasValue &&
+            !searchButton &&
+            css`
+              color: ${theme.search.DarkThemeText};
+            `}
+          `
+        }
+      }
+
       ${StyledInputPresentation} {
         background-color: ${
           searchHasValue || isFocused ? `${theme.colors.white}` : "transparent"
@@ -59,7 +96,27 @@ const StyledSearch = styled.div`
         padding-bottom: 2px;
         padding-top: 1px; 
         cursor: pointer;
-      }
+          ${
+            !isFocused &&
+            !searchHasValue &&
+            css`
+              border: 1px solid transparent;
+              color: ${theme.icon.default};
+            `
+          }
+          ${
+            !isFocused &&
+            searchHasValue &&
+            !searchButton &&
+            css`
+              border: 1px solid transparent;
+              background-color: ${darkTheme
+                ? "transparent"
+                : `${theme.colors.white}`};
+            `
+          }
+        }
+
       ${StyledFormField} {
         flex: 1;
         z-index: ${theme.zIndex.overlay};
@@ -75,7 +132,11 @@ const StyledSearch = styled.div`
         height: 20px;
         cursor: pointer;
         :hover {
-          color: ${theme.icon.default};
+          color: ${
+            darkTheme
+              ? `${theme.search.iconDarkThemeHover}`
+              : `${theme.icon.default}`
+          };
         };
       }
     `;
@@ -97,6 +158,7 @@ export const StyledSearchButton = styled.div`
         border-color: ${theme.colors.secondary};
       }
     `}
+
     width: 40px;
     margin: 0px 0px;
     padding-bottom: 3px;

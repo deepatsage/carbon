@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { boolean, text, number, withKnobs } from "@storybook/addon-knobs";
+import {
+  boolean,
+  text,
+  number,
+  select,
+  withKnobs,
+} from "@storybook/addon-knobs";
 
 import { action } from "@storybook/addon-actions";
 import Search from ".";
@@ -45,6 +51,7 @@ export const Basic = () => {
       onBlur={handleBlur}
       onClick={handleClick}
       value={value}
+      variant={select("variant", ["light", "dark"])}
       name="search_name"
       id="search_id"
     />

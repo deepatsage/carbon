@@ -28,6 +28,17 @@ describe("Search", () => {
       );
     });
 
+    it("matches the expected styles when the variant is dark", () => {
+      wrapper = renderWrapper({ value: "Foo", variant: "dark" }, mount);
+      assertStyleMatch(
+        {
+          borderBottom: "2px solid #668592",
+          color: "rgba(0,0,0,0.90)",
+        },
+        wrapper
+      );
+    });
+
     it("applies the default width when the user does not specify a width", () => {
       assertStyleMatch(
         {
@@ -61,6 +72,28 @@ describe("Search", () => {
       assertStyleMatch(
         {
           borderBottom: "2px solid #CCD6DB",
+        },
+        wrapper
+      );
+    });
+
+    it("matches the expected styles when variant is dark, the input is not focused and has a value", () => {
+      wrapper = renderWrapper({ value: "search", variant: "dark" }, mount);
+      assertStyleMatch(
+        {
+          borderBottom: "2px solid #668592",
+          backgroundColor: "transparent",
+        },
+        wrapper
+      );
+    });
+
+    it("matches the expected styles when the input is not focused, has a value and search has button", () => {
+      wrapper = renderWrapper({ value: "search", searchButton: true }, mount);
+      assertStyleMatch(
+        {
+          borderBottom: "2px solid #CCD6DB",
+          backgroundColor: "transparent",
         },
         wrapper
       );

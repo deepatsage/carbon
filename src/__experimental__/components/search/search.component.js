@@ -20,6 +20,7 @@ const Search = ({
   searchWidth,
   searchButton,
   placeholder,
+  variant = "light",
   ...rest
 }) => {
   const isControlled = value !== undefined;
@@ -117,6 +118,7 @@ const Search = ({
   return (
     <StyledSearch
       searchWidth={searchWidth}
+      searchButton={searchButton}
       onFocus={handleOnFocus}
       onClick={handleOnFocus}
       onBlur={handleBlur}
@@ -126,6 +128,7 @@ const Search = ({
       id={id}
       data-component="search"
       name={name}
+      variant={variant}
       searchHasValue={
         !isControlled
           ? searchValue && searchValue.length
@@ -193,8 +196,10 @@ Search.propTypes = {
   },
   /** Prop for a placeholder */
   placeholder: PropTypes.string,
+  /** Prop for a placeholder */
+  variant: PropTypes.oneOf(["light", "dark"]),
 };
 
-Search.defaultProps = { threshold: 3 };
+Search.defaultProps = { threshold: 3, searchButton: false };
 
 export default Search;
