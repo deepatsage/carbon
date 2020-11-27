@@ -1,23 +1,9 @@
 import styled, { css } from "styled-components";
-import {
-  StyledSubmenu,
-  StyledSubmenuTitle,
-  StyledSubmenuBlock,
-} from "../submenu-block/submenu.style";
 import { baseTheme } from "../../../style/themes";
-import StyledIcon from "../../icon/icon.style";
 import LinkStyle from "../../link/link.style";
 
 const StyledMenuItemWrapper = styled.a`
-  ${({
-    menuType,
-    theme,
-    selected,
-    hasSubmenu,
-    isOpen,
-    variant,
-    showDropdownArrow,
-  }) => css`
+  ${({ menuType, theme, selected, hasSubmenu, isOpen, variant }) => css`
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -92,41 +78,6 @@ const StyledMenuItemWrapper = styled.a`
         color: ${theme.colors.white};
       }
     }
-
-    ${hasSubmenu &&
-    menuType === "light" &&
-    css`
-      :hover &,
-      :hover {
-        background-color: ${theme.colors.white};
-        color: ${theme.colors.black};
-
-        a,
-        button:not(:hover),
-        [data-component="icon"] {
-          color: ${theme.colors.black};
-        }
-
-        a:focus,
-        button:focus {
-          color: ${theme.colors.white};
-        }
-      }
-
-      ${isOpen &&
-      css`
-        & & {
-          background-color: ${theme.colors.white};
-          color: ${theme.colors.black};
-
-          a,
-          button,
-          [data-component="icon"] {
-            color: ${theme.colors.black};
-          }
-        }
-      `}
-    `}
 
     ${variant === "alternate" &&
     css`
@@ -210,137 +161,47 @@ const StyledMenuItemWrapper = styled.a`
 
     ${hasSubmenu &&
     css`
-      padding: 0;
+      :hover &,
+      :hover {
+        background-color: ${theme.colors.white};
+        color: ${theme.colors.black};
 
-      ${showDropdownArrow &&
-      css`
-        ${StyledSubmenuTitle} {
-          ${StyledMenuItemWrapper} {
-            padding-right: 32px;
-
-            &::before {
-              display: block;
-              margin-top: -2px;
-              pointer-events: none;
-              position: absolute;
-              right: 16px;
-              top: 50%;
-              z-index: 2;
-              content: "";
-              width: 0;
-              height: 0;
-              border-top: 5px solid
-                ${menuType !== "dark" ? theme.colors.slate : theme.colors.white};
-              border-right: 4px solid transparent;
-              border-bottom: 4px solid transparent;
-              border-left: 4px solid transparent;
-            }
-
-            &:focus::before {
-              border-top-color: ${theme.colors.white};
-            }
-          }
-        }
-      `}
-
-      &:hover {
-        ${StyledSubmenu} {
-          display: block;
-        }
-      }
-
-      ${isOpen &&
-      css`
-        ${StyledSubmenu} {
-          display: block;
-        }
-      `}
-    `}
-
-    ${StyledSubmenu} {
-      background-color: ${theme.colors.white};
-
-      a,
-      button,
-      ${LinkStyle} a,
-      ${LinkStyle} button {
-        width: 100%;
-      }
-
-      ${StyledMenuItemWrapper}:after, ${StyledMenuItemWrapper}:hover:after {
-        display: none;
-      }
-
-      .carbon-menu-item--has-link:hover {
-        background: ${theme.colors.primary};
-        cursor: pointer;
-        color: white;
-        text-decoration: none;
-
+        a,
+        button,
         [data-component="icon"] {
-          color: white;
+          color: ${theme.colors.black};
         }
-      }
 
-      ${StyledMenuItemWrapper} {
-        &:hover,
-        &:hover a,
-        a &:hover {
+        a:focus,
+        button:focus {
           color: ${theme.colors.white};
         }
+      }
 
-        a {
-          text-decoration: none;
+      > button {
+        padding-right: 32px;
+        &:focus::before {
+          border-top-color: ${theme.colors.white};
         }
       }
 
-      ${selected &&
-      css`
-        color: #38c72a;
-      `}
-
-      ${menuType === "dark" &&
-      css`
-        background: ${variant === "default"
-          ? theme.menu.dark.submenuBackground
-          : theme.colors.slate};
-
-        .carbon-menu-item--has-link:hover {
-          background-color: ${theme.colors.primary};
-          text-decoration: none;
-
-          [data-component="icon"] {
-            color: ${theme.colors.white};
-          }
-        }
-      `}
-
-      ${StyledMenuItemWrapper} {
-        display: flex;
-        align-items: center;
-        height: 40px;
-        line-height: 40px;
-        white-space: nowrap;
-        cursor: pointer;
-
-        ${StyledIcon} {
-          width: 16px;
-          height: 16px;
-          margin-right: 5px;
-        }
-      }
-    }
-
-    ${menuType === "dark" &&
-    css`
-      ${StyledSubmenuBlock} {
-        background-color: ${theme.menu.dark.submenuBackground};
-
-        ${StyledMenuItemWrapper} {
-          background-color: ${variant === "default"
-            ? "transparent"
-            : theme.menu.dark.alternate};
-        }
+      a::before,
+      button::before {
+        display: block;
+        margin-top: -2px;
+        pointer-events: none;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        z-index: 2;
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 5px solid
+          ${menuType !== "dark" ? theme.colors.slate : theme.colors.white};
+        border-right: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 4px solid transparent;
       }
     `}
   `}

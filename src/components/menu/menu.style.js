@@ -3,6 +3,7 @@ import {
   StyledVerticalWrapper,
   StyledDivider,
 } from "../vertical-divider/vertical-divider.style";
+import { StyledSubmenu } from "./submenu-block/submenu.style";
 import { baseTheme } from "../../style/themes";
 
 const StyledMenuWrapper = styled.nav`
@@ -17,6 +18,12 @@ const StyledMenuItemsWrapper = styled.ul`
 
 const StyledMenuItem = styled.li`
   display: inline-block;
+
+  &:hover {
+    ${StyledSubmenu} {
+      display: block;
+    }
+  }
 
   ${StyledVerticalWrapper} {
     ${({ menuType, theme }) => css`

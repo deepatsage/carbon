@@ -1,5 +1,8 @@
 import styled, { css } from "styled-components";
 import { baseTheme } from "../../../style/themes";
+import LinkStyle from "../../link/link.style";
+import StyledMenuItemWrapper from "../menu-item/menu-item.style";
+import StyledIcon from "../../icon/icon.style";
 
 const StyledSubmenuItem = styled.li`
   margin: 0;
@@ -8,19 +11,104 @@ const StyledSubmenuItem = styled.li`
 
 const StyledSubmenuTitle = styled("div")``;
 
-const StyledSubmenuBlock = styled.div``;
+const StyledSubmenuBlock = styled.div`
+  ${({ menuType, theme, variant }) => css`
+    ${menuType === "dark" &&
+    css`
+      background-color: ${theme.menu.dark.submenuBackground};
+
+      ${StyledMenuItemWrapper} {
+        background-color: ${variant === "default"
+          ? "transparent"
+          : theme.menu.dark.alternate};
+      }
+    `}
+  `}
+`;
 
 const StyledSubmenu = styled.ul`
-  ${({ menuType, theme, submenuDirection }) => css`
+  ${({ menuType, theme, submenuDirection, variant }) => css`
     box-shadow: 0 5px 5px 0 rgba(0, 20, 29, 0.2),
       0 10px 10px 0 rgba(0, 20, 29, 0.1);
-    display: none;
+    display: block;
     list-style: none;
     margin: 0;
-    min-width: 100%;
     padding: 0;
     position: absolute;
     z-index: 10;
+    background-color: ${theme.colors.white};
+
+    a,
+    button,
+    ${LinkStyle} a,
+    ${LinkStyle} button {
+      width: 100%;
+    }
+
+    ${StyledMenuItemWrapper}:after, ${StyledMenuItemWrapper}:hover:after {
+      display: none;
+    }
+
+    .carbon-menu-item--has-link:hover {
+      background: ${theme.colors.primary};
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+
+      [data-component="icon"] {
+        color: white;
+      }
+    }
+
+    ${StyledMenuItemWrapper} {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      line-height: 40px;
+      white-space: nowrap;
+      cursor: pointer;
+
+      background-color: ${theme.colors.white};
+      color: ${theme.colors.black};
+
+      a,
+      button,
+      [data-component="icon"] {
+        color: ${theme.colors.black};
+      }
+
+      &:hover,
+      &:hover a,
+      a &:hover {
+        color: ${theme.colors.white};
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      ${StyledIcon} {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+      }
+    }
+
+    ${menuType === "dark" &&
+    css`
+      background: ${variant === "default"
+        ? theme.menu.dark.submenuBackground
+        : theme.colors.slate};
+
+      .carbon-menu-item--has-link:hover {
+        background-color: ${theme.colors.primary};
+        text-decoration: none;
+
+        [data-component="icon"] {
+          color: ${theme.colors.white};
+        }
+      }
+    `}
 
     [data-component="icon"] {
       line-height: 16px;
@@ -73,6 +161,10 @@ const StyledSubmenu = styled.ul`
 `;
 
 StyledSubmenu.defaultProps = {
+  theme: baseTheme,
+};
+
+StyledSubmenuBlock.defaultProps = {
   theme: baseTheme,
 };
 
