@@ -12,20 +12,21 @@ const StyledSearch = styled.div`
     searchWidth,
     searchIsActive,
     searchHasValue,
-    searchButton,
+    showSearchButton,
     theme,
     variant,
   }) => {
-    const darkTheme = variant === "dark";
+    const darkVariant = variant === "dark";
+    const variantColor = darkVariant
+      ? `${theme.search.darkVariantBorder}`
+      : `${theme.search.passive}`;
+    const notFocusedHasValueAndNoSearchButton =
+      !isFocused && searchHasValue && !showSearchButton;
     return css`
       width: ${searchWidth ? `${searchWidth}` : "100%"};
       padding-bottom: 2px;
       background-color: transparent;
-      border-bottom: 2px solid ${
-        darkTheme
-          ? `${theme.search.darkThemeBorder}`
-          : `${theme.search.passive}`
-      };
+      border-bottom: 2px solid ${variantColor};
       display: inline-flex;
       font-size: 14px;
       font-weight: 700;
@@ -54,14 +55,9 @@ const StyledSearch = styled.div`
         `
       }
       ${
-        !isFocused &&
-        searchHasValue &&
-        !searchButton &&
+        notFocusedHasValueAndNoSearchButton &&
         css`
-          border-bottom: 2px solid
-            ${darkTheme
-              ? `${theme.search.darkThemeBorder}`
-              : `${theme.search.passive}`};
+          border-bottom: 2px solid ${variantColor};
           :hover {
             border-bottom-color: ${theme.search.active};
             cursor: pointer;
@@ -71,16 +67,14 @@ const StyledSearch = styled.div`
 
       ${StyledInput} {
         ${
-          darkTheme &&
+          darkVariant &&
           css`
             ::placeholder {
-              color: ${theme.search.darkThemePlaceholder};
+              color: ${theme.search.darkVariantPlaceholder};
             }
-            ${!isFocused &&
-            searchHasValue &&
-            !searchButton &&
+            ${notFocusedHasValueAndNoSearchButton &&
             css`
-              color: ${theme.search.DarkThemeText};
+              color: ${theme.search.darkVariantText};
             `}
           `
         }
@@ -105,12 +99,10 @@ const StyledSearch = styled.div`
             `
           }
           ${
-            !isFocused &&
-            searchHasValue &&
-            !searchButton &&
+            notFocusedHasValueAndNoSearchButton &&
             css`
               border: 1px solid transparent;
-              background-color: ${darkTheme
+              background-color: ${darkVariant
                 ? "transparent"
                 : `${theme.colors.white}`};
             `
@@ -133,8 +125,8 @@ const StyledSearch = styled.div`
         cursor: pointer;
         :hover {
           color: ${
-            darkTheme
-              ? `${theme.search.iconDarkThemeHover}`
+            darkVariant
+              ? `${theme.search.iconDarkVariantHover}`
               : `${theme.icon.default}`
           };
         };

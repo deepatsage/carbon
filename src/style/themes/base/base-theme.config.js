@@ -277,10 +277,10 @@ export default (palette) => {
       button: "#255BC7",
       passive: palette.slateTint(80),
       searchActive: "#668592",
-      darkThemePlaceholder: palette.slateTint(55),
-      darkThemeBorder: palette.slateTint(40),
-      DarkThemeText: "#FFFFFF",
-      iconDarkThemeHover: palette.slateTint(60),
+      darkVariantPlaceholder: palette.slateTint(55),
+      darkVariantBorder: palette.slateTint(40),
+      darkVariantText: "#FFFFFF",
+      iconDarkVariantHover: palette.slateTint(60),
     },
 
     select: {

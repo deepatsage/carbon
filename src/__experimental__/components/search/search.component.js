@@ -118,7 +118,7 @@ const Search = ({
   return (
     <StyledSearch
       searchWidth={searchWidth}
-      searchButton={searchButton}
+      showSearchButton={searchButton}
       onFocus={handleOnFocus}
       onClick={handleOnFocus}
       onBlur={handleBlur}
