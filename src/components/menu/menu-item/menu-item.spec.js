@@ -399,6 +399,16 @@ describe("MenuItem", () => {
         );
         global.console.error.mockReset();
       });
+
+      it("give error when no children or icon is given", () => {
+        jest.spyOn(global.console, "error").mockImplementation(() => {});
+        wrapper = mount(<MenuItem />);
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledWith(
+          "Warning: Failed prop type: Either prop `icon` must be defined or this node must have children.\n    in ForwardRef"
+        );
+        global.console.error.mockReset();
+      });
     });
   });
 });
