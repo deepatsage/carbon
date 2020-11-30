@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TooltipDecorator from '../../utils/decorators/tooltip-decorator';
-import { validProps } from '../../utils/ether';
-import tagComponent from '../../utils/helpers/tags';
-import StyledIcon from './icon.style';
+import React from "react";
+import PropTypes from "prop-types";
+import TooltipDecorator from "../../utils/decorators/tooltip-decorator";
+import { validProps } from "../../utils/ether";
+import tagComponent from "../../utils/helpers/tags";
+import StyledIcon from "./icon.style";
 
 class Icon extends React.Component {
   /** Return component props */
@@ -15,17 +15,17 @@ class Icon extends React.Component {
   get type() {
     // switch tweaks icon names for actual icons in the set
     switch (this.props.type) {
-      case 'help':
-        return 'question';
-      case 'maintenance':
-        return 'settings';
-      case 'new':
-        return 'gift';
-      case 'success':
-        return 'tick';
-      case 'messages':
-      case 'email':
-        return 'message';
+      case "help":
+        return "question";
+      case "maintenance":
+        return "settings";
+      case "new":
+        return "gift";
+      case "success":
+        return "tick";
+      case "messages":
+      case "email":
+        return "message";
       default:
         return this.props.type;
     }
@@ -35,29 +35,29 @@ class Icon extends React.Component {
   render() {
     return [
       <StyledIcon
-        bgSize={ this.props.bgSize }
-        bgShape={ this.props.bgShape }
-        bgTheme={ this.props.bgTheme }
-        fontSize={ this.props.fontSize }
-        iconColor={ this.props.iconColor }
-        disabled={ this.props.disabled }
-        color={ this.props.color }
-        bg={ this.props.bg }
-        type={ this.type }
-        key='icon'
-        className={ this.props.className || null }
-        { ...this.componentProps }
-        { ...tagComponent('icon', this.props) }
-        ref={ (comp) => {
+        bgSize={this.props.bgSize}
+        bgShape={this.props.bgShape}
+        bgTheme={this.props.bgTheme}
+        fontSize={this.props.fontSize}
+        iconColor={this.props.iconColor}
+        disabled={this.props.disabled}
+        color={this.props.color}
+        bg={this.props.bg}
+        type={this.type}
+        key="icon"
+        className={this.props.className || null}
+        {...this.componentProps}
+        {...tagComponent("icon", this.props)}
+        ref={(comp) => {
           this._target = comp;
-        } }
-        data-element={ this.type }
-        mr={ this.props.mr }
-        ml={ this.props.ml }
-        aria-label={ this.props.ariaLabel }
-        aria-hidden={ this.props.ariaHidden }
+        }}
+        data-element={this.type}
+        mr={this.props.mr}
+        ml={this.props.ml}
+        aria-label={this.props.ariaLabel}
+        aria-hidden={this.props.ariaHidden}
       />,
-      this.tooltipHTML
+      this.tooltipHTML,
     ];
   }
 }
@@ -68,37 +68,26 @@ Icon.propTypes = {
   /** Icon type */
   type: PropTypes.string.isRequired,
   /** Background size */
-  bgSize: PropTypes.oneOf([
-    'small',
-    'medium',
-    'large'
-  ]),
+  bgSize: PropTypes.oneOf(["small", "medium", "large"]),
   /** Background shape */
-  bgShape: PropTypes.oneOf([
-    'circle',
-    'rounded-rect',
-    'square'
-  ]),
+  bgShape: PropTypes.oneOf(["circle", "rounded-rect", "square"]),
   /** Background color theme */
   bgTheme: PropTypes.oneOf([
-    'info',
-    'error',
-    'success',
-    'warning',
-    'business',
-    'none'
+    "info",
+    "error",
+    "success",
+    "warning",
+    "business",
+    "none",
   ]),
   /** Icon font size */
-  fontSize: PropTypes.oneOf([
-    'small',
-    'large'
-  ]),
+  fontSize: PropTypes.oneOf(["small", "large"]),
   /** Icon color */
   iconColor: PropTypes.oneOf([
-    'default',
-    'on-light-background',
-    'on-dark-background',
-    'business-color'
+    "default",
+    "on-light-background",
+    "on-dark-background",
+    "business-color",
   ]),
   /** Override iconColor, provide any color from palette or any valid css color value. */
   color: PropTypes.string,
@@ -113,13 +102,13 @@ Icon.propTypes = {
   /** Aria label for accessibility purposes */
   ariaLabel: PropTypes.string,
   /** Aria hidden for accessibility purposes */
-  ariaHidden: PropTypes.bool
+  ariaHidden: PropTypes.bool,
 };
 
 Icon.defaultProps = {
-  bgSize: 'small',
-  fontSize: 'small',
-  disabled: false
+  bgSize: "small",
+  fontSize: "small",
+  disabled: false,
 };
 
 export default TooltipDecorator(Icon);

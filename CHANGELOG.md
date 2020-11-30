@@ -1,3 +1,216 @@
+## [50.3.0](https://github.com/Sage/carbon/compare/v50.2.0...v50.3.0) (2020-11-26)
+
+
+### Features
+
+* **tile:** add new `TileFooter` component ([9897490](https://github.com/Sage/carbon/commit/9897490648fd2d16355ed070fce37003ba184b72))
+
+## [50.2.0](https://github.com/Sage/carbon/compare/v50.1.0...v50.2.0) (2020-11-26)
+
+
+### Features
+
+* **filterable-select:** add loader for async ([2953ae0](https://github.com/Sage/carbon/commit/2953ae0aba29525f10f48556b79d1eaa141b9d9f))
+* **select:** add loader for async ([889a9a6](https://github.com/Sage/carbon/commit/889a9a6a69db9431682f2dd5aa6dbce9b218a03b))
+
+
+### Bug Fixes
+
+* **filterable-select:** when readonly pressing a key opens the list ([38fd162](https://github.com/Sage/carbon/commit/38fd162304bc418f0d2e944b7dc91a5dd18071df))
+* **multi-select:** when readonly pressing a key opens the list ([1f2e9c3](https://github.com/Sage/carbon/commit/1f2e9c32eb10657710efe0c03eeb7ede511fbedd))
+* **select:** proptype warning when option has object in value ([2001474](https://github.com/Sage/carbon/commit/20014742bc57b15d76767663aa69d419c6bb9087)), closes [#3327](https://github.com/Sage/carbon/issues/3327)
+* **select:** typescript definitions not exported ([53e7a33](https://github.com/Sage/carbon/commit/53e7a3376d7329166530b7522c1f3ca88d7352e0))
+* **select:** when readonly pressing a key opens the list ([9c5862f](https://github.com/Sage/carbon/commit/9c5862f001bd5bd810a19a548da8a8faa917e12a))
+
+## [50.1.0](https://github.com/Sage/carbon/compare/v50.0.0...v50.1.0) (2020-11-25)
+
+
+### Features
+
+* **textbox:** add space props ([334852f](https://github.com/Sage/carbon/commit/334852ff5a667d37e15762b599c4bf91e65b85a4))
+
+## [50.0.0](https://github.com/Sage/carbon/compare/v49.4.0...v50.0.0) (2020-11-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **row:** Row and Column components no loger support classic theme, also `.carbon-row` and `.carbon-column` classNames no longer exist, adjust your code accordingly before updating if your code relies on these classes.
+* **table-ajax:** classic theme support has been removed
+* **settings-row:** SettingsRow no longer support classic theme
+* **table:** classic theme support has been removed
+* **message:** Message component no logger support classic theme. Also `<Message as="info" roundedCorners border={false}>My Message</Message>` has been
+removed in favour of `<Message variant="info">My Message</Message>`.
+
+There is a codemod available to assist with this upgrade `npx carbon-codemod message-remove-classic-theme <target>`.
+
+See https://github.com/Sage/carbon-codemod for more information
+* **flash:** Flash component has been removed please use Toast component instead.
+To help with migration please use our codemod `npx carbon-codemod replace-flash-with-toast <target>`
+* **draggable-context:** draggable context components no longer supports classic theme
+
+### Features
+
+* **toast:** add timeout functionality ([8ea5018](https://github.com/Sage/carbon/commit/8ea5018e15b8a6b9c17365d74eaa742630e75326))
+
+
+### Bug Fixes
+
+* **message:** change incorrect type of title prop ([cbccfb6](https://github.com/Sage/carbon/commit/cbccfb60a776b4d157ab471a59cac05433b461f0))
+* **toast:** correct toast propTypes descriptions ([9f07af1](https://github.com/Sage/carbon/commit/9f07af141ac03fcd11b7f9eedc1a2b58d275068f))
+
+
+### Miscellaneous Chores
+
+* **draggable-context:** remove classic theme support ([de92007](https://github.com/Sage/carbon/commit/de92007b514754b21e151255258b5fd4c656ed4b))
+* **flash:** remove flash component ([658af77](https://github.com/Sage/carbon/commit/658af778d78e03123734a81aadfaf348134f7a35))
+* **message:** remove classic theme support ([9d355b2](https://github.com/Sage/carbon/commit/9d355b26ba3762feec82e23a8266a1f8f202ea7d))
+* **row:** remove classic theme support ([280a8b5](https://github.com/Sage/carbon/commit/280a8b5b5be63a0fa9c2957147733c2f908db172))
+* **settings-row:** remove classic theme support ([d8bd20d](https://github.com/Sage/carbon/commit/d8bd20dd456542e6939a60cfb6c9ec65602a635e))
+* **table:** remove classic theme support ([bdd3e07](https://github.com/Sage/carbon/commit/bdd3e07b0f3b7445f1fa7f75f1467c4d86a0e480))
+* **table-ajax:** remove classic theme support ([df425a9](https://github.com/Sage/carbon/commit/df425a907f850646556f6ff2c482a03e771c39b9))
+
+## [49.4.0](https://github.com/Sage/carbon/compare/v49.3.0...v49.4.0) (2020-11-20)
+
+
+### Features
+
+* **menu-item:** add prop to hide dropdown arrow for items with submenu ([ef9bc4d](https://github.com/Sage/carbon/commit/ef9bc4d5c449fcdeeb7abbc9616c3b9a1006141a))
+
+## [49.3.0](https://github.com/Sage/carbon/compare/v49.2.0...v49.3.0) (2020-11-19)
+
+
+### Features
+
+* **action-popover:** add support to place menu above button ([929a438](https://github.com/Sage/carbon/commit/929a438f314de6bd43ba1899495e8cc10d3f7871))
+
+## [49.2.0](https://github.com/Sage/carbon/compare/v49.1.0...v49.2.0) (2020-11-18)
+
+
+### Features
+
+* **select:** add option group headers ([83aa90a](https://github.com/Sage/carbon/commit/83aa90a740e20cc9eae30fadfd84dcb62c38e123))
+
+## [49.1.0](https://github.com/Sage/carbon/compare/v49.0.2...v49.1.0) (2020-11-18)
+
+
+### Features
+
+* **definition-list:** add support for spacing props ([744812b](https://github.com/Sage/carbon/commit/744812b7f28e056055618858e66a9d3f533fa7ce)), closes [#3387](https://github.com/Sage/carbon/issues/3387)
+
+### [49.0.2](https://github.com/Sage/carbon/compare/v49.0.1...v49.0.2) (2020-11-17)
+
+
+### Bug Fixes
+
+* **textarea:** align label with input text ([ca0c871](https://github.com/Sage/carbon/commit/ca0c8719cb7065da4396f5a8c4f6b11494d6a5dd)), closes [#3224](https://github.com/Sage/carbon/issues/3224)
+
+### [49.0.1](https://github.com/Sage/carbon/compare/v49.0.0...v49.0.1) (2020-11-17)
+
+
+### Bug Fixes
+
+* **accordion:** update headings grid to allow subtitle to span columns ([3b2fa89](https://github.com/Sage/carbon/commit/3b2fa89b78b09fce540e6708649e36a8dc8a5e62))
+
+## [49.0.0](https://github.com/Sage/carbon/compare/v48.7.1...v49.0.0) (2020-11-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **pages:** Removal of classic theme from the Pages component. Component no longer supports
+classic theme.
+
+fixes FE-3117
+* **mount-in-app:** Removal of classic theme from the mount in app component. Component no longer
+supports classic theme.
+
+fixes FE-3116
+* **menu-list:** Classic theme has been removed from the MenuList component. This component no
+longer supports the classic theme.
+
+fixes FE-3114
+* **link:** Classic styling has been removed from the link the component. The link component no
+longer supports the classic theme.
+
+fixes FE-3113
+* **menu-list:** Classic theme has been removed from the MenuList component. This component no
+longer supports the classic theme.
+
+fixes FE-3114
+* **link:** Classic styling has been removed from the link the component. The link component no
+longer supports the classic theme.
+
+fixes FE-3113
+
+### Miscellaneous Chores
+
+* **link:** remove classic theme ([4a030e3](https://github.com/Sage/carbon/commit/4a030e37adeb945d367bc48c4d6667a2a3c552b7))
+* **link:** remove classic theme ([0ebf9cc](https://github.com/Sage/carbon/commit/0ebf9cc970eda74b66166972ea01c231da04bf5b))
+* **menu-list:** remove classic theme ([51167c6](https://github.com/Sage/carbon/commit/51167c669fd7b4fc01ca7a0163938a070034fc0e))
+* **menu-list:** remove classic theme ([85786d8](https://github.com/Sage/carbon/commit/85786d89554d76beda8f06ea8c0eed421e6f5f0b))
+* **mount-in-app:** remove classic theme ([9446069](https://github.com/Sage/carbon/commit/94460691c6f8bb3b16fafe6e240270a44ea404c6))
+* **pages:** remove classic theme ([610841f](https://github.com/Sage/carbon/commit/610841f8ae006e2b862bbb4c43a887c552cdbbd8))
+
+### [48.7.1](https://github.com/Sage/carbon/compare/v48.7.0...v48.7.1) (2020-11-13)
+
+
+### Bug Fixes
+
+* **flat-table:** fix incorrect type definitions ([d8a8597](https://github.com/Sage/carbon/commit/d8a8597accdd91f2e33052fc04c4255997214fc6))
+
+## [48.7.0](https://github.com/Sage/carbon/compare/v48.6.3...v48.7.0) (2020-11-12)
+
+
+### Features
+
+* **flat-table:** add support for rendering table footer ([aa5ef93](https://github.com/Sage/carbon/commit/aa5ef93785e7fec2beb877742a4ec8c48d1c35a0))
+
+### [48.6.3](https://github.com/Sage/carbon/compare/v48.6.2...v48.6.3) (2020-11-12)
+
+
+### Bug Fixes
+
+* **radio-button:** align legend with first radio-button ([c08ae52](https://github.com/Sage/carbon/commit/c08ae5252f55956bb2d1a0fb8d9af26e84b67d39)), closes [#3269](https://github.com/Sage/carbon/issues/3269)
+
+### [48.6.2](https://github.com/Sage/carbon/compare/v48.6.1...v48.6.2) (2020-11-11)
+
+
+### Bug Fixes
+
+* **menu-divider:** add default cursor to passive submenu elements ([c449531](https://github.com/Sage/carbon/commit/c4495315a7fe909d43360d9ca0439c613fb1a670))
+
+### [48.6.1](https://github.com/Sage/carbon/compare/v48.6.0...v48.6.1) (2020-11-09)
+
+
+### Bug Fixes
+
+* **menu-item:** add height when onclick passed and button renders ([cec05f3](https://github.com/Sage/carbon/commit/cec05f3580a5f5bf9fceb9953349d8a08a72f0f9)), closes [#3308](https://github.com/Sage/carbon/issues/3308)
+
+## [48.6.0](https://github.com/Sage/carbon/compare/v48.5.0...v48.6.0) (2020-11-06)
+
+
+### Features
+
+* **menu-item:** add support for alternate background color variant ([bd14b40](https://github.com/Sage/carbon/commit/bd14b4015eba45a64e2e946ca5facf2ec184ec94))
+
+## [48.5.0](https://github.com/Sage/carbon/compare/v48.4.0...v48.5.0) (2020-11-06)
+
+
+### Features
+
+* **dialog-full-screen:** add prop `disableContentPadding` ([95d2717](https://github.com/Sage/carbon/commit/95d2717da44720d620eec149b7d646f5799bc092))
+
+## [48.4.0](https://github.com/Sage/carbon/compare/v48.3.1...v48.4.0) (2020-11-06)
+
+
+### Features
+
+* **navigation-bar:** add support for custom spacing props ([242d26e](https://github.com/Sage/carbon/commit/242d26e7261135bfc7cf8ac7dd4cde7e2ee46a56))
+
+
+### Bug Fixes
+
+* **radio-button:** warning when react node passed in label prop ([edbfb8f](https://github.com/Sage/carbon/commit/edbfb8fa023b5a2dcd16eb92037a72bfa61bb758))
+
 ### [48.3.1](https://github.com/Sage/carbon/compare/v48.3.0...v48.3.1) (2020-11-02)
 
 

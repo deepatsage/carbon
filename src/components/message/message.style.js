@@ -1,8 +1,7 @@
-import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
-import BaseTheme from '../../style/themes/base';
-import messageClassicStyling from './message-classic.style';
-import StyledIconButton from '../icon-button/icon-button.style';
+import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
+import BaseTheme from "../../style/themes/base";
+import StyledIconButton from "../icon-button/icon-button.style";
 
 const MessageStyle = styled.div`
   position: relative;
@@ -13,10 +12,12 @@ const MessageStyle = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   min-height: 38px;
 
-  ${({ transparent }) => transparent && css`
-    border: none;
-    background: transparent;
-  `}
+  ${({ transparent }) =>
+    transparent &&
+    css`
+      border: none;
+      background: transparent;
+    `}
 
   ${StyledIconButton} {
     position: absolute;
@@ -24,23 +25,17 @@ const MessageStyle = styled.div`
     top: 50%;
     transform: translateY(-50%);
   }
-
-  ${messageClassicStyling}
 `;
 
 MessageStyle.defaultProps = {
-  border: true,
-  variant: 'info',
-  roundedCorners: true,
+  variant: "info",
   theme: BaseTheme,
-  transparent: false
+  transparent: false,
 };
 
 MessageStyle.propTypes = {
   variant: PropTypes.string,
-  border: PropTypes.bool,
-  roundedCorners: PropTypes.bool,
-  transparent: PropTypes.bool
+  transparent: PropTypes.bool,
 };
 
 export default MessageStyle;

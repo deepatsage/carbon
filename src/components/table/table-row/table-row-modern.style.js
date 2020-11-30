@@ -1,7 +1,7 @@
-import { css } from 'styled-components';
-import StyledTableCell from '../table-cell/table-cell.style';
+import { css } from "styled-components";
+import StyledTableCell from "../table-cell/table-cell.style";
 
-function applyModernRowStyling(isPassive, { colors, table }) {
+function applyModernRowStyling({ theme: { colors, table }, isPassive }) {
   return css`
     ${StyledTableCell} {
       background-color: ${colors.white};
@@ -17,7 +17,8 @@ function applyModernRowStyling(isPassive, { colors, table }) {
       }
     }
 
-    ${!isPassive && css`
+    ${!isPassive &&
+    css`
       &:hover {
         ${StyledTableCell} {
           background-color: ${table.primary};
@@ -35,7 +36,7 @@ function applyModernSelectedStyling({ table }) {
 }
 
 function applyModernDropTargetStyling() {
-  const border = '1px solid transparent';
+  const border = "1px solid transparent";
 
   return css`
     border-top: ${border};
@@ -53,5 +54,5 @@ function applyModernDropTargetStyling() {
 export {
   applyModernRowStyling,
   applyModernSelectedStyling,
-  applyModernDropTargetStyling
+  applyModernDropTargetStyling,
 };

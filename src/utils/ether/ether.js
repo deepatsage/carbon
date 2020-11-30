@@ -1,4 +1,4 @@
-import { omit, difference, includes } from 'lodash';
+import { omit, difference, includes } from "lodash";
 
 /**
  * Ether
@@ -16,10 +16,10 @@ import { omit, difference, includes } from 'lodash';
  * @return {String}
  */
 function acronymize(str) {
-  if (!str) return '';
+  if (!str) return "";
   const matches = str.match(/\b\w/g);
-  if (!matches) return '';
-  return matches.join('');
+  if (!matches) return "";
+  return matches.join("");
 }
 
 /**
@@ -52,18 +52,23 @@ function styleElement(element, attribute, value) {
 }
 
 /**
- * Returns the props of the given instance filtered by
- * the static safeProps or the optional safeProps argument
+ * Returns the props that were passed to a component but excludes the props listed in propTypes
+ *
+ * Optionally includes the safeProps which can be defined as a static property on a Class or passed as the second
+ * argument.
  *
  * @method validProps
  * @param {Object} instance
- * @param {Array?} _safeProps
+ * @param {Array?} safeProps
  * @return {Object} props
  */
-function validProps(input, safeProps) {
-  const klass = input.isReactComponent ? input.constructor : input;
-  const unsafeProps = difference(Object.keys(klass.propTypes), safeProps || klass.safeProps || []);
-  return omit(input.props, unsafeProps);
+function validProps(instance, safeProps) {
+  const component = instance.isReactComponent ? instance.constructor : instance;
+  const unsafeProps = difference(
+    Object.keys(component.propTypes),
+    safeProps || component.safeProps || []
+  );
+  return omit(instance.props, unsafeProps);
 }
 
 /**
@@ -77,7 +82,7 @@ function validProps(input, safeProps) {
  * @return {String} result - formatted
  */
 function insertAt(value, options) {
-  const separator = options.separator || '-';
+  const separator = options.separator || "-";
   let result = value;
 
   for (let i = 0; i < result.length; i++) {
@@ -89,6 +94,4 @@ function insertAt(value, options) {
   return result;
 }
 
-export {
-  acronymize, append, insertAt, styleElement, validProps
-};
+export { acronymize, append, insertAt, styleElement, validProps };

@@ -1,8 +1,8 @@
-import styled, { css } from 'styled-components';
-import { space } from 'styled-system';
-import { baseTheme } from '../../style/themes';
-import StyledButton from '../button/button.style';
-import LinkStyle from '../link/link.style';
+import styled, { css } from "styled-components";
+import { space } from "styled-system";
+import { baseTheme } from "../../style/themes";
+import StyledButton from "../button/button.style";
+import LinkStyle from "../link/link.style";
 
 export const StyledDl = styled.dl`
   ${space}
@@ -12,7 +12,7 @@ export const StyledDl = styled.dl`
   background-color: transparent;
   overflow: hidden;
   grid-template-rows: auto;
-  grid-template-columns: ${({ w }) => `${w}% auto;`}
+  grid-template-columns: ${({ w }) => `${w}% auto;`};
 `;
 
 export const StyledDtDiv = styled.div`
@@ -38,11 +38,10 @@ export const StyledDt = styled.dt`
 `;
 
 StyledDt.defaultProps = {
-  theme: baseTheme
+  theme: baseTheme,
 };
 
 export const StyledDd = styled.dd`
-  ${space}
   ${({ theme }) => css`
     font-size: 14px
     font-weight: 700;
@@ -61,8 +60,9 @@ export const StyledDd = styled.dd`
       }
     }
   `}
+  ${space}
 `;
 
 StyledDd.defaultProps = {
-  theme: baseTheme
+  theme: baseTheme,
 };

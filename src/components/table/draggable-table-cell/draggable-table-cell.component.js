@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ThemeContext } from 'styled-components';
-import WithDrag from '../../drag-and-drop/with-drag';
-import Icon from '../../icon';
-import { isClassic } from '../../../utils/helpers/style-helper';
-import StyledDraggableTableCell from './draggable-table-cell.style';
+import React from "react";
+import PropTypes from "prop-types";
+
+import WithDrag from "../../drag-and-drop/with-drag";
+import Icon from "../../icon";
+import StyledDraggableTableCell from "./draggable-table-cell.style";
 
 /**
  * Creates a draggable table cell using WithDrag.
@@ -12,7 +11,6 @@ import StyledDraggableTableCell from './draggable-table-cell.style';
  */
 const DraggableTableCell = (props) => {
   const canDrag = props.canDrag !== false;
-  const theme = React.useContext(ThemeContext) || props.theme;
 
   /**
    * Note: the <div> wrapper is required, otherwise ReactDnD throws an error:
@@ -20,33 +18,30 @@ const DraggableTableCell = (props) => {
    */
   const icon = (
     <div>
-      <Icon
-        type={ isClassic(theme) ? 'drag_vertical' : 'drag' }
-      />
+      <Icon type="drag" />
     </div>
   );
 
   const iconWithDrag = (
     <WithDrag
-      identifier={ props.identifier }
-      draggableNode={ props.draggableNode }
-      canDrag={ () => { return canDrag; } }
+      identifier={props.identifier}
+      draggableNode={props.draggableNode}
+      canDrag={() => {
+        return canDrag;
+      }}
     >
       {canDrag ? icon : <span />}
     </WithDrag>
   );
 
   return (
-    <StyledDraggableTableCell className='draggable-table-cell'>
+    <StyledDraggableTableCell className="draggable-table-cell">
       {iconWithDrag}
     </StyledDraggableTableCell>
   );
 };
 
 DraggableTableCell.propTypes = {
-  /** Theme to use when rendering the DraggableTableCell */
-  theme: PropTypes.object,
-
   /** used to associate WithDrags and WithDrops */
   identifier: PropTypes.string,
 
@@ -54,7 +49,7 @@ DraggableTableCell.propTypes = {
   draggableNode: PropTypes.func,
 
   /** used to specify whether the dragging is currently allowed */
-  canDrag: PropTypes.bool
+  canDrag: PropTypes.bool,
 };
 
 export default DraggableTableCell;

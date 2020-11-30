@@ -65,7 +65,7 @@ exports[`ActionPopover styles renders correctly for the "classic" theme 2`] = `
 
 .c0:focus {
   outline: none;
-  box-shadow: inset 0px 0px 0px 1px #255BC7;
+  box-shadow: inset 0px 0px 0px 1px #255bc7;
 }
 
 <div
@@ -96,12 +96,12 @@ exports[`ActionPopover styles renders correctly for the "classic" theme 3`] = `
 }
 
 .c0:focus {
-  outline: 1px solid #255BC7;
+  outline: 1px solid #255bc7;
 }
 
 .c0:hover > span,
 .c0:focus > span {
-  color: #255BC7;
+  color: #255bc7;
 }
 
 <div
@@ -115,6 +115,7 @@ exports[`ActionPopover submenu left aligned closes the submenu on mouseleave eve
   position: relative;
   color: inherit;
   background-color: transparent;
+  vertical-align: middle;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -283,6 +284,7 @@ exports[`ActionPopover submenu left aligned opens the submenu on mouseenter 1`] 
   position: relative;
   color: inherit;
   background-color: transparent;
+  vertical-align: middle;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;

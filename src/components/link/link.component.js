@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from '../icon';
-import Event from '../../utils/helpers/events';
-import LinkStyle from './link.style';
-import OptionsHelper from '../../utils/helpers/options-helper';
-import tagComponent from '../../utils/helpers/tags';
+import React from "react";
+import PropTypes from "prop-types";
+import Icon from "../icon";
+import Event from "../../utils/helpers/events";
+import LinkStyle from "./link.style";
+import OptionsHelper from "../../utils/helpers/options-helper";
+import tagComponent from "../../utils/helpers/tags";
 
 class InternalLink extends React.Component {
-  static safeProps = ['onClick'];
+  static safeProps = ["onClick"];
 
   onKeyDown = (ev) => {
     if (this.props.onKeyDown) {
@@ -23,32 +23,33 @@ class InternalLink extends React.Component {
     if (this.props.onClick) {
       this.props.onClick(ev);
     }
-  }
+  };
 
-  renderLinkIcon = (currentAlignment = 'left') => {
-    const hasProperAlignment = this.props.icon && (this.props.iconAlign === currentAlignment);
+  renderLinkIcon = (currentAlignment = "left") => {
+    const hasProperAlignment =
+      this.props.icon && this.props.iconAlign === currentAlignment;
 
     return hasProperAlignment ? this.icon : null;
-  }
+  };
 
   get icon() {
     return (
       <Icon
-        type={ this.props.icon }
-        tooltipMessage={ this.props.tooltipMessage }
-        tooltipAlign={ this.props.tooltipAlign }
-        tooltipPosition={ this.props.tooltipPosition }
-        bgTheme='none'
-        iconColor='business-color'
-        disabled={ this.props.disabled }
-        ariaLabel={ this.props.ariaLabel }
-        ariaHidden={ this.props.ariaHidden }
+        type={this.props.icon}
+        tooltipMessage={this.props.tooltipMessage}
+        tooltipAlign={this.props.tooltipAlign}
+        tooltipPosition={this.props.tooltipPosition}
+        bgTheme="none"
+        iconColor="business-color"
+        disabled={this.props.disabled}
+        ariaLabel={this.props.ariaLabel}
+        ariaHidden={this.props.ariaHidden}
       />
     );
   }
 
   get tabIndex() {
-    return this.props.tabbable && !this.props.disabled ? '0' : '-1';
+    return this.props.tabbable && !this.props.disabled ? "0" : "-1";
   }
 
   get componentProps() {
@@ -59,7 +60,7 @@ class InternalLink extends React.Component {
       onClick: this.handleClick,
       tabIndex: this.tabIndex,
       target: this.props.target,
-      ref: this.props.innerRef
+      ref: this.props.innerRef,
     };
 
     if (this.props.to) {
@@ -85,21 +86,21 @@ class InternalLink extends React.Component {
 
   linkContent = () => (
     <>
-      { this.renderLinkIcon() }
+      {this.renderLinkIcon()}
 
-      <span className='carbon-link__content'>{this.props.children}</span>
+      <span className="carbon-link__content">{this.props.children}</span>
 
-      { this.renderLinkIcon('right') }
+      {this.renderLinkIcon("right")}
     </>
-  )
+  );
 
   createLinkBasedOnType = () => {
-    let type = 'a';
+    let type = "a";
 
     if (this.props.to && this.props.routerLink) {
       type = this.props.routerLink;
     } else if (this.props.onClick) {
-      type = 'button';
+      type = "button";
     }
 
     return React.createElement(
@@ -107,19 +108,17 @@ class InternalLink extends React.Component {
       { ...this.componentProps },
       this.linkContent()
     );
-  }
+  };
 
   render() {
-    const {
-      disabled, className, iconAlign
-    } = this.props;
+    const { disabled, className, iconAlign } = this.props;
 
     return (
       <LinkStyle
-        disabled={ disabled }
-        className={ className }
-        iconAlign={ iconAlign }
-        { ...tagComponent('link', this.props) }
+        disabled={disabled}
+        className={className}
+        iconAlign={iconAlign}
+        {...tagComponent("link", this.props)}
       >
         {this.createLinkBasedOnType()}
       </LinkStyle>
@@ -163,24 +162,26 @@ InternalLink.propTypes = {
   /** Ref to be forwarded
    * @ignore
    * @private
-  */
+   */
   innerRef: PropTypes.object,
   /** Aria label for accessibility purposes */
   ariaLabel: PropTypes.string,
   /** Aria hidden for accessibility purposes */
-  ariaHidden: PropTypes.bool
+  ariaHidden: PropTypes.bool,
 };
 
 InternalLink.defaultProps = {
-  iconAlign: 'left',
-  tabbable: true
+  iconAlign: "left",
+  tabbable: true,
 };
 
-const Link = React.forwardRef((props, ref) => (<InternalLink innerRef={ ref } { ...props } />));
+const Link = React.forwardRef((props, ref) => (
+  <InternalLink innerRef={ref} {...props} />
+));
 
 Link.defaultProps = InternalLink.defaultProps;
 Link.propTypes = InternalLink.propTypes;
-Link.displayName = 'Link';
+Link.displayName = "Link";
 
 export { InternalLink };
 export default Link;
