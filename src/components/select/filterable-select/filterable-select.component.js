@@ -218,6 +218,7 @@ const FilterableSelect = React.forwardRef(
 
         return newValue;
       });
+
       setHighlightedValue(newValue);
     }, [value, defaultValue, onChange]);
 
@@ -298,6 +299,7 @@ const FilterableSelect = React.forwardRef(
 
         if (!isControlled.current) {
           setSelectedValue(newValue);
+          setHighlightedValue(newValue);
         }
 
         setTextValue(text);
@@ -305,8 +307,6 @@ const FilterableSelect = React.forwardRef(
         if (onChange) {
           onChange(createCustomEvent(newValue));
         }
-
-        setHighlightedValue(newValue);
 
         if (selectionType !== "navigationKey") {
           setOpen(false);
