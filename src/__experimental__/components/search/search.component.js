@@ -16,7 +16,7 @@ const Search = ({
   value,
   id,
   name,
-  threshold,
+  threshold = 3,
   searchWidth,
   searchButton,
   placeholder,
@@ -199,7 +199,5 @@ Search.propTypes = {
   /** Prop for a placeholder */
   variant: PropTypes.oneOf(["light", "dark"]),
 };
-
-Search.defaultProps = { threshold: 3, searchButton: false };
 
 export default Search;

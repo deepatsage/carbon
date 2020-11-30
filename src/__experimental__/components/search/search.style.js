@@ -20,8 +20,6 @@ const StyledSearch = styled.div`
     const variantColor = darkVariant
       ? `${theme.search.darkVariantBorder}`
       : `${theme.search.passive}`;
-    const notFocusedHasValueAndNoSearchButton =
-      !isFocused && searchHasValue && !showSearchButton;
     return css`
       width: ${searchWidth ? `${searchWidth}` : "100%"};
       padding-bottom: 2px;
@@ -55,7 +53,9 @@ const StyledSearch = styled.div`
         `
       }
       ${
-        notFocusedHasValueAndNoSearchButton &&
+        !isFocused &&
+        searchHasValue &&
+        !showSearchButton &&
         css`
           border-bottom: 2px solid ${variantColor};
           :hover {
@@ -72,7 +72,9 @@ const StyledSearch = styled.div`
             ::placeholder {
               color: ${theme.search.darkVariantPlaceholder};
             }
-            ${notFocusedHasValueAndNoSearchButton &&
+            ${!isFocused &&
+            searchHasValue &&
+            !showSearchButton &&
             css`
               color: ${theme.search.darkVariantText};
             `}
@@ -99,7 +101,9 @@ const StyledSearch = styled.div`
             `
           }
           ${
-            notFocusedHasValueAndNoSearchButton &&
+            !isFocused &&
+            searchHasValue &&
+            !showSearchButton &&
             css`
               border: 1px solid transparent;
               background-color: ${darkVariant
