@@ -15,13 +15,13 @@ import { MenuContext } from "../menu.component";
 import Submenu, {
   SubmenuContext,
 } from "../__internal__/submenu/submenu.component";
+import SubmenuBlock from "../submenu-block/submenu-block.component";
 
 const MenuItem = ({
   submenu,
   children,
   href,
   to,
-  menuType,
   onClick,
   target,
   submenuDirection = "right",
@@ -30,12 +30,25 @@ const MenuItem = ({
   routerLink,
   onKeyDown,
   variant = "default",
+  showDropdownArrow = true,
 }) => {
   const menuContext = useContext(MenuContext);
   const submenuContext = useContext(SubmenuContext);
   const ref = useRef(null);
   const focusFromMenu = menuContext.isFocused;
   const focusFromSubmenu = submenuContext.isFocused;
+
+  const childrenItems = React.Children.map(children, (child) => {
+    if (child.type === SubmenuBlock) {
+      const childArray = Array.isArray(child.props.children)
+        ? child.props.children
+        : [child.props.children];
+
+      return [...childArray.map((innerChild) => innerChild)];
+    }
+
+    return child;
+  });
 
   useEffect(() => {
     if (focusFromSubmenu === undefined && focusFromMenu) {
@@ -86,7 +99,7 @@ const MenuItem = ({
     onClick,
     icon,
     selected,
-    menuType,
+    menuType: menuContext.menuType,
     tabbable: menuContext.isFirstElement,
   };
 
@@ -97,7 +110,7 @@ const MenuItem = ({
   if (submenu) {
     return (
       <Submenu
-        menuType={menuType}
+        menuType={menuContext.menuType}
         ref={ref}
         tabIndex={-1}
         variant={variant}
@@ -107,8 +120,9 @@ const MenuItem = ({
         tabbable={menuContext.isFirstElement}
         onKeyDown={handleKeyDown}
         className={classes}
+        showDropdownArrow={showDropdownArrow}
       >
-        {children}
+        {childrenItems}
       </Submenu>
     );
   }
@@ -155,13 +169,6 @@ MenuItem.propTypes = {
   target: PropTypes.string,
   /** Flag to display the dropdown arrow when an item has a submenu */
   showDropdownArrow: PropTypes.bool,
-  /**
-   * menu color scheme provided by <Menu />
-   * @private
-   * @ignore
-   *
-   */
-  menuType: PropTypes.oneOf(["light", "dark"]),
   /** set the colour variant for a menuType */
   variant: PropTypes.oneOf(["default", "alternate"]),
 };

@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { StyledSubmenuBlock } from "./submenu.style";
+import { MenuContext } from "../menu.component";
 
-const SubmenuBlock = ({ children, menuType, variant }) => {
+const SubmenuBlock = ({ children, variant }) => {
+  const menuContext = useContext(MenuContext);
+
   return (
     <StyledSubmenuBlock
       data-component="submenu-block"
-      menuType={menuType}
+      menuType={menuContext.menuType}
       variant={variant}
     >
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, { ...child.props, menuType })
-      )}
+      {children}
     </StyledSubmenuBlock>
   );
 };
@@ -19,13 +20,6 @@ const SubmenuBlock = ({ children, menuType, variant }) => {
 SubmenuBlock.propTypes = {
   /** Children elements */
   children: PropTypes.node.isRequired,
-  /**
-   * menu color scheme provided by <Menu />
-   * @private
-   * @ignore
-   *
-   */
-  menuType: PropTypes.oneOf(["light", "dark"]),
   /** set the colour variant for a menuType */
   variant: PropTypes.oneOf(["default", "alternate"]),
 };

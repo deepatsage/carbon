@@ -29,13 +29,13 @@ const Submenu = React.forwardRef(
       children,
       className,
       title,
-      menuType,
       onClick,
       icon,
       submenuDirection = "right",
       onKeyDown,
       variant = "default",
       tabbable,
+      showDropdownArrow = true,
     },
     ref
   ) => {
@@ -91,6 +91,7 @@ const Submenu = React.forwardRef(
           let nextIndex = index;
 
           if (Events.isDownKey(event)) {
+            event.preventDefault();
             if (index < numberOfChildren - 1) {
               nextIndex = index + 1;
             } else {
@@ -99,6 +100,7 @@ const Submenu = React.forwardRef(
           }
 
           if (Events.isUpKey(event)) {
+            event.preventDefault();
             if (!index) {
               nextIndex = numberOfChildren - 1;
             } else {
@@ -119,6 +121,7 @@ const Submenu = React.forwardRef(
           }
 
           if (Events.isHomeKey(event)) {
+            event.preventDefault();
             nextIndex = 0;
           }
 
@@ -167,16 +170,6 @@ const Submenu = React.forwardRef(
       [closeSubmenu, menuContext]
     );
 
-    const handleMouseOut = useCallback(
-      (event) => {
-        // If the mouse moves into the submenu, keep it open
-        if (!(event.relatedTarget === submenuRef.current)) {
-          closeSubmenu();
-        }
-      },
-      [closeSubmenu]
-    );
-
     useEffect(() => {
       if (menuContext.openSubmenu) {
         setSubmenuOpen(true);
@@ -192,36 +185,36 @@ const Submenu = React.forwardRef(
     }, [menuContext, onClickOutside, submenuOpen]);
 
     return (
-      <>
-        <div
-          onMouseOver={() => setSubmenuOpen(true)}
-          onMouseOut={handleMouseOut}
+      <div
+        onMouseOver={() => setSubmenuOpen(true)}
+        onMouseLeave={() => closeSubmenu()}
+      >
+        <StyledMenuItemWrapper
+          data-component="menu-item"
+          role="menuitem"
+          className={className}
+          menuType={menuContext.menuType}
+          ref={ref}
+          icon={icon}
+          tabIndex={-1}
+          variant={variant}
+          isOpen={submenuOpen}
+          as={Link}
+          hasSubmenu
+          tabbable={tabbable}
+          showDropdownArrow={showDropdownArrow}
+          onKeyDown={handleKeyDown}
+          onClick={handleClick}
         >
-          <StyledMenuItemWrapper
-            data-component="menu-item"
-            role="menuitem"
-            className={className}
-            menuType={menuType}
-            ref={ref}
-            icon={icon}
-            tabIndex={-1}
-            variant={variant}
-            isOpen={submenuOpen}
-            as={Link}
-            hasSubmenu
-            tabbable={tabbable}
-            onKeyDown={handleKeyDown}
-            onClick={handleClick}
-          >
-            {title}
-          </StyledMenuItemWrapper>
-        </div>
+          {title}
+        </StyledMenuItemWrapper>
 
         {submenuOpen && (
           <StyledSubmenu
             ref={submenuRef}
             submenuDirection={submenuDirection}
             variant={variant}
+            menuType={menuContext.menuType}
             onMouseLeave={() => closeSubmenu()}
           >
             {React.Children.map(children, (child, index) => (
@@ -232,15 +225,13 @@ const Submenu = React.forwardRef(
                 }}
               >
                 <StyledSubmenuItem key={child.props.key || index}>
-                  {React.cloneElement(child, {
-                    menuType,
-                  })}
+                  {child}
                 </StyledSubmenuItem>
               </SubmenuContext.Provider>
             ))}
           </StyledSubmenu>
         )}
-      </>
+      </div>
     );
   }
 );
@@ -260,13 +251,6 @@ Submenu.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   /** onKeyDown handler */
   onKeyDown: PropTypes.func,
-  /**
-   * menu color scheme provided by <Menu />
-   * @private
-   * @ignore
-   *
-   */
-  menuType: PropTypes.oneOf(["light", "dark"]),
   /** set the colour variant for a menuType */
   variant: PropTypes.oneOf(["default", "alternate"]),
   /**
@@ -275,6 +259,8 @@ Submenu.propTypes = {
    *
    */
   tabbable: PropTypes.bool,
+  /** Flag to display the dropdown arrow when an item has a submenu */
+  showDropdownArrow: PropTypes.bool,
 };
 
 export { SubmenuContext };

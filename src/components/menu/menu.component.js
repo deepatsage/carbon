@@ -63,6 +63,7 @@ const Menu = ({ menuType = "light", children }) => {
           return (
             <MenuContext.Provider
               value={{
+                menuType,
                 isFirstElement,
                 handleKeyDown: (ev, submenuOpen) =>
                   handleKeyDown(ev, index, submenuOpen),
@@ -72,9 +73,7 @@ const Menu = ({ menuType = "light", children }) => {
               }}
             >
               <StyledMenuItem role="presentation" menuType={menuType}>
-                {React.cloneElement(child, {
-                  menuType,
-                })}
+                {child}
               </StyledMenuItem>
             </MenuContext.Provider>
           );

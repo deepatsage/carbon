@@ -37,6 +37,7 @@ const StyledSubmenu = styled.ul`
     position: absolute;
     z-index: 10;
     background-color: ${theme.colors.white};
+    min-width: inherit;
 
     a,
     button,
@@ -68,8 +69,11 @@ const StyledSubmenu = styled.ul`
       white-space: nowrap;
       cursor: pointer;
 
-      background-color: ${theme.colors.white};
-      color: ${theme.colors.black};
+      ${menuType === "light" &&
+      css`
+        background-color: ${theme.colors.white};
+        color: ${theme.colors.black};
+      `}
 
       a,
       button,
@@ -100,6 +104,21 @@ const StyledSubmenu = styled.ul`
         ? theme.menu.dark.submenuBackground
         : theme.colors.slate};
 
+      ${StyledMenuItemWrapper} {
+        background-color: ${theme.menu.dark.submenuBackground};
+        color: ${theme.colors.white};
+
+        a,
+        button,
+        [data-component="icon"] {
+          color: ${theme.colors.white};
+        }
+
+        .carbon-menu-item--has-link button {
+          color: ${theme.colors.white};
+        }
+      }
+
       .carbon-menu-item--has-link:hover {
         background-color: ${theme.colors.primary};
         text-decoration: none;
@@ -127,11 +146,6 @@ const StyledSubmenu = styled.ul`
         }
       }
     }
-
-    ${menuType === "dark" &&
-    css`
-      background-color: ${theme.menu.dark.submenuBackground};
-    `}
 
     &:before {
       background-color: transparent;

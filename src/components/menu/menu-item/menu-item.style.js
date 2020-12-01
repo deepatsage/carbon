@@ -3,7 +3,15 @@ import { baseTheme } from "../../../style/themes";
 import LinkStyle from "../../link/link.style";
 
 const StyledMenuItemWrapper = styled.a`
-  ${({ menuType, theme, selected, hasSubmenu, isOpen, variant }) => css`
+  ${({
+    menuType,
+    theme,
+    selected,
+    hasSubmenu,
+    isOpen,
+    variant,
+    showDropdownArrow,
+  }) => css`
     display: inline-block;
     font-size: 14px;
     font-weight: 700;
@@ -134,20 +142,8 @@ const StyledMenuItemWrapper = styled.a`
 
         ${isOpen &&
         css`
-          & & {
-            background-color: ${theme.menu.dark.submenuBackground};
-            color: ${theme.colors.white};
-
-            a,
-            button,
-            [data-component="icon"] {
-              color: ${theme.colors.white};
-            }
-          }
-
-          .carbon-menu-item--has-link button {
-            color: ${theme.colors.white};
-          }
+          background-color: ${theme.menu.dark.submenuBackground};
+          color: ${theme.colors.white};
         `}
       `}
 
@@ -161,48 +157,59 @@ const StyledMenuItemWrapper = styled.a`
 
     ${hasSubmenu &&
     css`
-      :hover &,
-      :hover {
-        background-color: ${theme.colors.white};
-        color: ${theme.colors.black};
-
-        a,
-        button,
-        [data-component="icon"] {
+      ${menuType === "light" &&
+      css`
+        :hover &,
+        :hover {
+          background-color: ${theme.colors.white};
           color: ${theme.colors.black};
+
+          a,
+          button,
+          [data-component="icon"] {
+            color: ${theme.colors.black};
+          }
+
+          a:focus,
+          button:focus {
+            color: ${theme.colors.white};
+          }
         }
 
-        a:focus,
-        button:focus {
-          color: ${theme.colors.white};
-        }
-      }
+        ${isOpen &&
+        css`
+          background-color: ${theme.colors.white};
+          color: ${theme.colors.black};
+        `}
+      `}
 
-      > button {
-        padding-right: 32px;
-        &:focus::before {
-          border-top-color: ${theme.colors.white};
+      ${showDropdownArrow &&
+      css`
+        > button {
+          padding-right: 32px;
+          &:focus::before {
+            border-top-color: ${theme.colors.white};
+          }
         }
-      }
-
-      a::before,
-      button::before {
-        display: block;
-        margin-top: -2px;
-        pointer-events: none;
-        position: absolute;
-        right: 16px;
-        top: 50%;
-        z-index: 2;
-        content: "";
-        width: 0;
-        height: 0;
-        border-top: 5px solid
-          ${menuType !== "dark" ? theme.colors.slate : theme.colors.white};
-        border-right: 4px solid transparent;
-        border-bottom: 4px solid transparent;
-        border-left: 4px solid transparent;
-      }
+        a::before,
+        button::before {
+          display: block;
+          margin-top: -2px;
+          pointer-events: none;
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          z-index: 2;
+          content: "";
+          width: 0;
+          height: 0;
+          border-top: 5px solid
+            ${menuType !== "dark" ? theme.colors.slate : theme.colors.white};
+          border-right: 4px solid transparent;
+          border-bottom: 4px solid transparent;
+          border-left: 4px solid transparent;
+        }
+      `}
     `}
   `}
 `;
